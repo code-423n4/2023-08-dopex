@@ -1,0 +1,19 @@
+[profile.default]
+src = 'contracts'
+out = 'out'
+libs = [
+    'lib',
+    'node_modules',
+]
+test = 'tests/'
+cache_path = 'forge-cache'
+remappings = [
+    '@openzeppelin-upgradeable/=lib/openzeppelin-contracts-upgradeable/',
+    '@openzeppelin/=lib/openzeppelin-contracts/',
+    'ds-test/=lib/forge-std/lib/ds-test/src/',
+    'forge-std/=lib/forge-std/src/',
+    'solmate/=lib/solmate/',
+    '@uniswap/v3-core/=lib/v3-core/',
+]
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config
