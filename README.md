@@ -1,6 +1,6 @@
 # Dopex audit details
 
-- Total Prize Pool: $104,500 USDC 
+- Total Prize Pool: $125,000 USDC 
   - HM awards: $86,212.50 USDC
   - Analysis awards: $5,225 USDC
   - QA awards: $2,612.50 USDC
