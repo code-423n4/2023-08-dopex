@@ -33,17 +33,17 @@ Full product spec: https://dopex.notion.site/rDPX-V2-RI-b45b5b402af54bcab758d62f
 
 # Scope
 
-| Contract                                                                          | SLOC | Purpose                                                        | Libraries used                                                                 |
+| Contract                                                                          | Lines | Purpose                                                        | Libraries used                                                                 |
 | --------------------------------------------------------------------------------- | ---- | -------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [UniV2LiquidityAmo.sol](contracts/amo/UniV2LiquidityAmo.sol)                      | 422  | This contract encompasses all functions for the Uniswap V2 AMO | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), Uniswap V2 libraries |
-| [UniV3LiquidityAmo.sol](contracts/amo/UniV3LiquidityAmo.sol)                      | 380  | This contract encompasses all functions for the Uniswap V3 AMO | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), Uniswap V3 libraries |
-| [RdpxV2Core.sol](contracts/core/RdpxV2Core.sol)                                   | 1278 | This is the core contract of rDPX V2                           | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [RdpxV2Bond.sol](contracts/core/RdpxV2Bond.sol)                                   | 67   | ERC721 contract for minting NFT bonds via the core contract    | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [RdpxDecayingBonds.sol](contracts/decaying-bonds/RdpxDecayingBonds.sol)           | 183  | Contract responsible to mint rDPX decaying bonds               | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [DpxEthToken.sol](contracts/dpxETH/DpxEthToken.sol)                               | 63   | ERC20 dpxETH token contract                                    | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [PerpetualAtlanticVault.sol](contracts/perp-vault/PerpetualAtlanticVault.sol)     | 664  | Contract for the Perpetual Atlantic Vault (ERC721)             | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [PerpetualAtlanticVaultLP.sol](contracts/perp-vault/PerpetualAtlanticVaultLP.sol) | 302  | Contract for the Perpetual Atlantic Vault LP (ERC4626)         | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), solmate              |
-| [ReLPContract.sol](contracts/contracts/reLP/ReLPContract.sol)                     | 297  | Contract to perform the reLP process on the Uniswap V2 AMO     | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/amo/UniV2LiquidityAmo.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol)                      | 422  | This contract encompasses all functions for the Uniswap V2 AMO | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), Uniswap V2 libraries |
+| [contracts/amo/UniV3LiquidityAmo.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol)                      | 380  | This contract encompasses all functions for the Uniswap V3 AMO | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), Uniswap V3 libraries |
+| [contracts/core/RdpxV2Core.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol)                                   | 1278 | This is the core contract of rDPX V2                           | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/core/RdpxV2Bond.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Bond.sol)                                   | 67   | ERC721 contract for minting NFT bonds via the core contract    | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/decaying-bonds/RdpxDecayingBonds.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol)           | 183  | Contract responsible to mint rDPX decaying bonds               | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/dpxETH/DpxEthToken.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol)                               | 63   | ERC20 dpxETH token contract                                    | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/perp-vault/PerpetualAtlanticVault.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol)     | 664  | Contract for the Perpetual Atlantic Vault (ERC721)             | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/perp-vault/PerpetualAtlanticVaultLP.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol) | 302  | Contract for the Perpetual Atlantic Vault LP (ERC4626)         | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), solmate              |
+| [contracts/reLP/ReLPContract.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol)                     | 297  | Contract to perform the reLP process on the Uniswap V2 AMO     | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
 
 ## Out of scope
 
@@ -70,7 +70,14 @@ RdpxV2ReceiptToken contracts, staking contracts, reserve contracts, dpxETH/ETH o
 - Describe any specific areas you would like addressed: Please try to break the DpxEth-Eth peg
 ```
 
-# Tests
+## Setup
+
+```bash
+# Cloning
+git clone --recurse https://github.com/code-423n4/2023-08-dopex.git
+# Updating with submodule if the repo was cloned without `--recurse-submodules`
+git submodule update --init --recursive
+```
 
 Having foundry installed: https://book.getfoundry.sh/getting-started/installation
 

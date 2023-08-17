@@ -1,0 +1,866 @@
+INFO:Detectors:
+UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256) (contracts/amo/UniV2LiquidityAMO.sol#189-251) uses arbitrary from in transferFrom: IERC20WithBurn(addresses.tokenA).safeTransferFrom(addresses.rdpxV2Core,address(this),tokenAAmount) (contracts/amo/UniV2LiquidityAMO.sol#210-214)
+UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256) (contracts/amo/UniV2LiquidityAMO.sol#189-251) uses arbitrary from in transferFrom: IERC20WithBurn(addresses.tokenB).safeTransferFrom(addresses.rdpxV2Core,address(this),tokenBAmount) (contracts/amo/UniV2LiquidityAMO.sol#215-219)
+UniV2LiquidityAMO.swap(uint256,uint256,bool) (contracts/amo/UniV2LiquidityAMO.sol#308-359) uses arbitrary from in transferFrom: IERC20WithBurn(token1).safeTransferFrom(addresses.rdpxV2Core,address(this),token1Amount) (contracts/amo/UniV2LiquidityAMO.sol#325-329)
+UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256) (contracts/amo/UniV2LiquidityAmo.sol#189-251) uses arbitrary from in transferFrom: IERC20WithBurn(addresses.tokenA).safeTransferFrom(addresses.rdpxV2Core,address(this),tokenAAmount) (contracts/amo/UniV2LiquidityAmo.sol#210-214)
+UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256) (contracts/amo/UniV2LiquidityAmo.sol#189-251) uses arbitrary from in transferFrom: IERC20WithBurn(addresses.tokenB).safeTransferFrom(addresses.rdpxV2Core,address(this),tokenBAmount) (contracts/amo/UniV2LiquidityAmo.sol#215-219)
+UniV2LiquidityAMO.swap(uint256,uint256,bool) (contracts/amo/UniV2LiquidityAmo.sol#308-359) uses arbitrary from in transferFrom: IERC20WithBurn(token1).safeTransferFrom(addresses.rdpxV2Core,address(this),token1Amount) (contracts/amo/UniV2LiquidityAmo.sol#325-329)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212) uses arbitrary from in transferFrom: IERC20WithBurn(params._tokenA).transferFrom(rdpxV2Core,address(this),params._amount0Desired) (contracts/amo/UniV3LiquidityAMO.sol#159-163)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212) uses arbitrary from in transferFrom: IERC20WithBurn(params._tokenB).transferFrom(rdpxV2Core,address(this),params._amount1Desired) (contracts/amo/UniV3LiquidityAMO.sol#164-168)
+UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160) (contracts/amo/UniV3LiquidityAMO.sol#275-309) uses arbitrary from in transferFrom: IERC20WithBurn(_tokenA).transferFrom(rdpxV2Core,address(this),_amountAtoB) (contracts/amo/UniV3LiquidityAMO.sol#284-288)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212) uses arbitrary from in transferFrom: IERC20WithBurn(params._tokenA).transferFrom(rdpxV2Core,address(this),params._amount0Desired) (contracts/amo/UniV3LiquidityAmo.sol#159-163)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212) uses arbitrary from in transferFrom: IERC20WithBurn(params._tokenB).transferFrom(rdpxV2Core,address(this),params._amount1Desired) (contracts/amo/UniV3LiquidityAmo.sol#164-168)
+UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160) (contracts/amo/UniV3LiquidityAmo.sol#275-309) uses arbitrary from in transferFrom: IERC20WithBurn(_tokenA).transferFrom(rdpxV2Core,address(this),_amountAtoB) (contracts/amo/UniV3LiquidityAmo.sol#284-288)
+PerpetualAtlanticVault.settle(uint256[]) (contracts/perp-vault/PerpetualAtlanticVault.sol#318-371) uses arbitrary from in transferFrom: collateralToken.safeTransferFrom(addresses.perpetualAtlanticVaultLP,addresses.rdpxV2Core,ethAmount) (contracts/perp-vault/PerpetualAtlanticVault.sol#350-354)
+PerpetualAtlanticVault.settle(uint256[]) (contracts/perp-vault/PerpetualAtlanticVault.sol#318-371) uses arbitrary from in transferFrom: IERC20WithBurn(addresses.rdpx).safeTransferFrom(addresses.rdpxV2Core,addresses.perpetualAtlanticVaultLP,rdpxAmount) (contracts/perp-vault/PerpetualAtlanticVault.sol#356-360)
+PerpetualAtlanticVault.payFunding() (contracts/perp-vault/PerpetualAtlanticVault.sol#374-398) uses arbitrary from in transferFrom: collateralToken.safeTransferFrom(addresses.rdpxV2Core,address(this),totalFundingForEpoch[latestFundingPaymentPointer]) (contracts/perp-vault/PerpetualAtlanticVault.sol#384-388)
+ReLPContract.reLP(uint256) (contracts/reLP/ReLPContract.sol#193-291) uses arbitrary from in transferFrom: IERC20WithBurn(addresses.pair).transferFrom(addresses.amo,address(this),lpToRemove) (contracts/reLP/ReLPContract.sol#227-231)
+ReLPContract.reLP(uint256) (contracts/relp/ReLPContract.sol#193-291) uses arbitrary from in transferFrom: IERC20WithBurn(addresses.pair).transferFrom(addresses.amo,address(this),lpToRemove) (contracts/relp/ReLPContract.sol#227-231)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#arbitrary-from-in-transferfrom
+INFO:Detectors:
+UniV3LiquidityAMO.execute(address,uint256,bytes) (contracts/amo/UniV3LiquidityAMO.sol#340-347) sends eth to arbitrary user
+	Dangerous calls:
+	- (success,result) = _to.call{value: _value}(_data) (contracts/amo/UniV3LiquidityAMO.sol#345)
+UniV3LiquidityAMO.execute(address,uint256,bytes) (contracts/amo/UniV3LiquidityAmo.sol#340-347) sends eth to arbitrary user
+	Dangerous calls:
+	- (success,result) = _to.call{value: _value}(_data) (contracts/amo/UniV3LiquidityAmo.sol#345)
+RdpxDecayingBonds.emergencyWithdraw(address[],bool,address,uint256,uint256) (contracts/decaying-bonds/RdpxDecayingBonds.sol#89-107) sends eth to arbitrary user
+	Dangerous calls:
+	- (success) = to.call{gas: gas,value: amount}() (contracts/decaying-bonds/RdpxDecayingBonds.sol#98)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations
+INFO:Detectors:
+UniV3LiquidityAMO is re-used:
+	- UniV3LiquidityAMO (contracts/amo/UniV3LiquidityAMO.sol#28-381)
+	- UniV3LiquidityAMO (contracts/amo/UniV3LiquidityAmo.sol#28-381)
+OracleLike is re-used:
+	- OracleLike (contracts/amo/UniV3LiquidityAMO.sol#22-26)
+	- OracleLike (contracts/amo/UniV3LiquidityAmo.sol#22-26)
+UniV2LiquidityAMO is re-used:
+	- UniV2LiquidityAMO (contracts/amo/UniV2LiquidityAMO.sol#22-428)
+	- UniV2LiquidityAMO (contracts/amo/UniV2LiquidityAmo.sol#22-428)
+ReLPContract is re-used:
+	- ReLPContract (contracts/reLP/ReLPContract.sol#25-296)
+	- ReLPContract (contracts/relp/ReLPContract.sol#25-296)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#name-reused
+INFO:Detectors:
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212) ignores return value by IERC20WithBurn(params._tokenA).transferFrom(rdpxV2Core,address(this),params._amount0Desired) (contracts/amo/UniV3LiquidityAMO.sol#159-163)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212) ignores return value by IERC20WithBurn(params._tokenB).transferFrom(rdpxV2Core,address(this),params._amount1Desired) (contracts/amo/UniV3LiquidityAMO.sol#164-168)
+UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160) (contracts/amo/UniV3LiquidityAMO.sol#275-309) ignores return value by IERC20WithBurn(_tokenA).transferFrom(rdpxV2Core,address(this),_amountAtoB) (contracts/amo/UniV3LiquidityAMO.sol#284-288)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212) ignores return value by IERC20WithBurn(params._tokenA).transferFrom(rdpxV2Core,address(this),params._amount0Desired) (contracts/amo/UniV3LiquidityAmo.sol#159-163)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212) ignores return value by IERC20WithBurn(params._tokenB).transferFrom(rdpxV2Core,address(this),params._amount1Desired) (contracts/amo/UniV3LiquidityAmo.sol#164-168)
+UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160) (contracts/amo/UniV3LiquidityAmo.sol#275-309) ignores return value by IERC20WithBurn(_tokenA).transferFrom(rdpxV2Core,address(this),_amountAtoB) (contracts/amo/UniV3LiquidityAmo.sol#284-288)
+PerpetualAtlanticVaultLP.deposit(uint256,address) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#120-137) ignores return value by collateral.transferFrom(msg.sender,address(this),assets) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#130)
+PerpetualAtlanticVaultLP.redeem(uint256,address,address) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#147-177) ignores return value by collateral.transfer(receiver,assets) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#172)
+ReLPContract.reLP(uint256) (contracts/reLP/ReLPContract.sol#193-291) ignores return value by IERC20WithBurn(addresses.pair).transferFrom(addresses.amo,address(this),lpToRemove) (contracts/reLP/ReLPContract.sol#227-231)
+ReLPContract.reLP(uint256) (contracts/relp/ReLPContract.sol#193-291) ignores return value by IERC20WithBurn(addresses.pair).transferFrom(addresses.amo,address(this),lpToRemove) (contracts/relp/ReLPContract.sol#227-231)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unchecked-transfer
+INFO:Detectors:
+RdpxV2Core._calculateAmounts(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#608-625) performs a multiplication on the result of a division:
+	- rdpxRequiredInWeth = (_rdpxRequired * getRdpxPrice()) / 1e8 (contracts/core/RdpxV2Core.sol#615)
+	- amount1 = ((rdpxRequiredInWeth * _amount) / (rdpxRequiredInWeth + _wethRequired)) (contracts/core/RdpxV2Core.sol#618-619)
+RdpxV2Core._calculateAmounts(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#608-625) performs a multiplication on the result of a division:
+	- amount1 = ((rdpxRequiredInWeth * _amount) / (rdpxRequiredInWeth + _wethRequired)) (contracts/core/RdpxV2Core.sol#618-619)
+	- amount1 = (amount1 * (100e8 - _delegateFee)) / 1e10 (contracts/core/RdpxV2Core.sol#622)
+ReLPContract.reLP(uint256) (contracts/reLP/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- baseReLpRatio = (reLPFactor * Math.sqrt(tokenAReserves) * 1e2) / (Math.sqrt(1e18)) (contracts/reLP/ReLPContract.sol#215-216)
+	- tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) * tokenALpReserve * baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2) (contracts/reLP/ReLPContract.sol#218-220)
+ReLPContract.reLP(uint256) (contracts/reLP/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) * tokenALpReserve * baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2) (contracts/reLP/ReLPContract.sol#218-220)
+	- lpToRemove = (tokenAToRemove * totalLpSupply) / tokenALpReserve (contracts/reLP/ReLPContract.sol#224)
+ReLPContract.reLP(uint256) (contracts/reLP/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) * tokenALpReserve * baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2) (contracts/reLP/ReLPContract.sol#218-220)
+	- mintokenAAmount = tokenAToRemove - ((tokenAToRemove * liquiditySlippageTolerance) / 1e8) (contracts/reLP/ReLPContract.sol#234-235)
+ReLPContract.reLP(uint256) (contracts/reLP/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) * tokenALpReserve * baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2) (contracts/reLP/ReLPContract.sol#218-220)
+	- mintokenBAmount = ((tokenAToRemove * tokenAPrice) / 1e8) - ((tokenAToRemove * tokenAPrice) * liquiditySlippageTolerance) / 1e16 (contracts/reLP/ReLPContract.sol#236-238)
+ReLPContract.reLP(uint256) (contracts/reLP/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- mintokenAAmount = (((amountB / 2) * tokenAPrice) / 1e8) - (((amountB / 2) * tokenAPrice * slippageTolerance) / 1e16) (contracts/reLP/ReLPContract.sol#257-259)
+ReLPContract.reLP(uint256) (contracts/relp/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- baseReLpRatio = (reLPFactor * Math.sqrt(tokenAReserves) * 1e2) / (Math.sqrt(1e18)) (contracts/relp/ReLPContract.sol#215-216)
+	- tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) * tokenALpReserve * baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2) (contracts/relp/ReLPContract.sol#218-220)
+ReLPContract.reLP(uint256) (contracts/relp/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) * tokenALpReserve * baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2) (contracts/relp/ReLPContract.sol#218-220)
+	- lpToRemove = (tokenAToRemove * totalLpSupply) / tokenALpReserve (contracts/relp/ReLPContract.sol#224)
+ReLPContract.reLP(uint256) (contracts/relp/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) * tokenALpReserve * baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2) (contracts/relp/ReLPContract.sol#218-220)
+	- mintokenAAmount = tokenAToRemove - ((tokenAToRemove * liquiditySlippageTolerance) / 1e8) (contracts/relp/ReLPContract.sol#234-235)
+ReLPContract.reLP(uint256) (contracts/relp/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) * tokenALpReserve * baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2) (contracts/relp/ReLPContract.sol#218-220)
+	- mintokenBAmount = ((tokenAToRemove * tokenAPrice) / 1e8) - ((tokenAToRemove * tokenAPrice) * liquiditySlippageTolerance) / 1e16 (contracts/relp/ReLPContract.sol#236-238)
+ReLPContract.reLP(uint256) (contracts/relp/ReLPContract.sol#193-291) performs a multiplication on the result of a division:
+	- mintokenAAmount = (((amountB / 2) * tokenAPrice) / 1e8) - (((amountB / 2) * tokenAPrice * slippageTolerance) / 1e16) (contracts/relp/ReLPContract.sol#257-259)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#divide-before-multiply
+INFO:Detectors:
+PerpetualAtlanticVault._updateFundingRate(uint256) (contracts/perp-vault/PerpetualAtlanticVault.sol#604-626) uses a dangerous strict equality:
+	- fundingRates[latestFundingPaymentPointer] == 0 (contracts/perp-vault/PerpetualAtlanticVault.sol#605)
+PerpetualAtlanticVault._updateFundingRate(uint256) (contracts/perp-vault/PerpetualAtlanticVault.sol#604-626) uses a dangerous strict equality:
+	- endTime_scope_1 == startTime_scope_0 (contracts/perp-vault/PerpetualAtlanticVault.sol#621)
+PerpetualAtlanticVault.updateFunding() (contracts/perp-vault/PerpetualAtlanticVault.sol#508-531) uses a dangerous strict equality:
+	- lastUpdateTime == 0 (contracts/perp-vault/PerpetualAtlanticVault.sol#511-513)
+PerpetualAtlanticVaultLP.subtractLoss(uint256) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#201-207) uses a dangerous strict equality:
+	- require(bool,string)(collateral.balanceOf(address(this)) == _totalCollateral - loss,Not enough collateral was sent out) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#202-205)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities
+INFO:Detectors:
+Reentrancy in RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695):
+	External calls:
+	- IERC20WithBurn(reserveAsset[reservesIndex[RDPX]].tokenAddress).safeTransferFrom(msg.sender,address(this),_rdpxAmount) (contracts/core/RdpxV2Core.sol#664-665)
+	- IERC20WithBurn(reserveAsset[reservesIndex[RDPX]].tokenAddress).burn((_rdpxAmount * rdpxBurnPercentage) / 1e10) (contracts/core/RdpxV2Core.sol#668-669)
+	- IERC20WithBurn(reserveAsset[reservesIndex[RDPX]].tokenAddress).safeTransfer(addresses.feeDistributor,(_rdpxAmount * rdpxFeePercentage) / 1e10) (contracts/core/RdpxV2Core.sol#672-676)
+	- IRdpxReserve(addresses.rdpxReserve).withdraw(_rdpxAmount + extraRdpxToWithdraw) (contracts/core/RdpxV2Core.sol#687-689)
+	State variables written after the call(s):
+	- reserveAsset[reservesIndex[RDPX]].tokenBalance += _rdpxAmount + extraRdpxToWithdraw (contracts/core/RdpxV2Core.sol#691-693)
+	RdpxV2Core.reserveAsset (contracts/core/RdpxV2Core.sol#61) can be used in cross function reentrancies:
+	- RdpxV2Core._bondWithDelegate(uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#709-757)
+	- RdpxV2Core._purchaseOptions(uint256) (contracts/core/RdpxV2Core.sol#481-497)
+	- RdpxV2Core._stake(address,uint256) (contracts/core/RdpxV2Core.sol#576-593)
+	- RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695)
+	- RdpxV2Core.addAssetTotokenReserves(address,string) (contracts/core/RdpxV2Core.sol#242-266)
+	- RdpxV2Core.bond(uint256,uint256,address) (contracts/core/RdpxV2Core.sol#914-953)
+	- RdpxV2Core.constructor(address) (contracts/core/RdpxV2Core.sol#124-136)
+	- RdpxV2Core.getReserveTokenInfo(string) (contracts/core/RdpxV2Core.sol#1124-1136)
+	- RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#1069-1113)
+	- RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823)
+	- RdpxV2Core.removeAssetFromtokenReserves(string) (contracts/core/RdpxV2Core.sol#272-292)
+	- RdpxV2Core.reserveAsset (contracts/core/RdpxV2Core.sol#61)
+	- RdpxV2Core.settle(uint256[]) (contracts/core/RdpxV2Core.sol#777-796)
+	- RdpxV2Core.sync() (contracts/core/RdpxV2Core.sol#1019-1031)
+	- RdpxV2Core.upperDepeg(uint256,uint256) (contracts/core/RdpxV2Core.sol#1040-1059)
+Reentrancy in RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#1069-1113):
+	External calls:
+	- amountOfWethOut = IUniswapV2Router(addresses.dopexAMMRouter).swapExactTokensForTokens(_rdpxAmount,minamountOfWeth,path,address(this),block.timestamp + 10)[path.length - 1] (contracts/core/RdpxV2Core.sol#1086-1093)
+	State variables written after the call(s):
+	- reserveAsset[reservesIndex[RDPX]].tokenBalance -= _rdpxAmount (contracts/core/RdpxV2Core.sol#1095)
+	RdpxV2Core.reserveAsset (contracts/core/RdpxV2Core.sol#61) can be used in cross function reentrancies:
+	- RdpxV2Core._bondWithDelegate(uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#709-757)
+	- RdpxV2Core._purchaseOptions(uint256) (contracts/core/RdpxV2Core.sol#481-497)
+	- RdpxV2Core._stake(address,uint256) (contracts/core/RdpxV2Core.sol#576-593)
+	- RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695)
+	- RdpxV2Core.addAssetTotokenReserves(address,string) (contracts/core/RdpxV2Core.sol#242-266)
+	- RdpxV2Core.bond(uint256,uint256,address) (contracts/core/RdpxV2Core.sol#914-953)
+	- RdpxV2Core.constructor(address) (contracts/core/RdpxV2Core.sol#124-136)
+	- RdpxV2Core.getReserveTokenInfo(string) (contracts/core/RdpxV2Core.sol#1124-1136)
+	- RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#1069-1113)
+	- RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823)
+	- RdpxV2Core.removeAssetFromtokenReserves(string) (contracts/core/RdpxV2Core.sol#272-292)
+	- RdpxV2Core.reserveAsset (contracts/core/RdpxV2Core.sol#61)
+	- RdpxV2Core.settle(uint256[]) (contracts/core/RdpxV2Core.sol#777-796)
+	- RdpxV2Core.sync() (contracts/core/RdpxV2Core.sol#1019-1031)
+	- RdpxV2Core.upperDepeg(uint256,uint256) (contracts/core/RdpxV2Core.sol#1040-1059)
+	- reserveAsset[reservesIndex[WETH]].tokenBalance -= _wethAmount (contracts/core/RdpxV2Core.sol#1099)
+	RdpxV2Core.reserveAsset (contracts/core/RdpxV2Core.sol#61) can be used in cross function reentrancies:
+	- RdpxV2Core._bondWithDelegate(uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#709-757)
+	- RdpxV2Core._purchaseOptions(uint256) (contracts/core/RdpxV2Core.sol#481-497)
+	- RdpxV2Core._stake(address,uint256) (contracts/core/RdpxV2Core.sol#576-593)
+	- RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695)
+	- RdpxV2Core.addAssetTotokenReserves(address,string) (contracts/core/RdpxV2Core.sol#242-266)
+	- RdpxV2Core.bond(uint256,uint256,address) (contracts/core/RdpxV2Core.sol#914-953)
+	- RdpxV2Core.constructor(address) (contracts/core/RdpxV2Core.sol#124-136)
+	- RdpxV2Core.getReserveTokenInfo(string) (contracts/core/RdpxV2Core.sol#1124-1136)
+	- RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#1069-1113)
+	- RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823)
+	- RdpxV2Core.removeAssetFromtokenReserves(string) (contracts/core/RdpxV2Core.sol#272-292)
+	- RdpxV2Core.reserveAsset (contracts/core/RdpxV2Core.sol#61)
+	- RdpxV2Core.settle(uint256[]) (contracts/core/RdpxV2Core.sol#777-796)
+	- RdpxV2Core.sync() (contracts/core/RdpxV2Core.sol#1019-1031)
+	- RdpxV2Core.upperDepeg(uint256,uint256) (contracts/core/RdpxV2Core.sol#1040-1059)
+Reentrancy in RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823):
+	External calls:
+	- fundingAmount = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).payFunding() (contracts/core/RdpxV2Core.sol#814-816)
+	State variables written after the call(s):
+	- fundingPaidFor[pointer] = true (contracts/core/RdpxV2Core.sol#820)
+	RdpxV2Core.fundingPaidFor (contracts/core/RdpxV2Core.sol#82) can be used in cross function reentrancies:
+	- RdpxV2Core.fundingPaidFor (contracts/core/RdpxV2Core.sol#82)
+	- RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823)
+Reentrancy in UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAMO.sol#214-271):
+	External calls:
+	- univ3_positions.decreaseLiquidity(decreaseLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#254)
+	- univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAMO.sol#256)
+	- univ3_positions.burn(pos.token_id) (contracts/amo/UniV3LiquidityAMO.sol#258)
+	State variables written after the call(s):
+	- positions_array[positionIndex] = positions_array[positions_array.length - 1] (contracts/amo/UniV3LiquidityAMO.sol#260-262)
+	UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAMO.sol#63) can be used in cross function reentrancies:
+	- UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212)
+	- UniV3LiquidityAMO.collectFees() (contracts/amo/UniV3LiquidityAMO.sol#119-134)
+	- UniV3LiquidityAMO.numPositions() (contracts/amo/UniV3LiquidityAMO.sol#112-114)
+	- UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAMO.sol#63)
+	- UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAMO.sol#214-271)
+	- positions_array.pop() (contracts/amo/UniV3LiquidityAMO.sol#263)
+	UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAMO.sol#63) can be used in cross function reentrancies:
+	- UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212)
+	- UniV3LiquidityAMO.collectFees() (contracts/amo/UniV3LiquidityAMO.sol#119-134)
+	- UniV3LiquidityAMO.numPositions() (contracts/amo/UniV3LiquidityAMO.sol#112-114)
+	- UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAMO.sol#63)
+	- UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAMO.sol#214-271)
+Reentrancy in UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAmo.sol#214-271):
+	External calls:
+	- univ3_positions.decreaseLiquidity(decreaseLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#254)
+	- univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAmo.sol#256)
+	- univ3_positions.burn(pos.token_id) (contracts/amo/UniV3LiquidityAmo.sol#258)
+	State variables written after the call(s):
+	- positions_array[positionIndex] = positions_array[positions_array.length - 1] (contracts/amo/UniV3LiquidityAmo.sol#260-262)
+	UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAmo.sol#63) can be used in cross function reentrancies:
+	- UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212)
+	- UniV3LiquidityAMO.collectFees() (contracts/amo/UniV3LiquidityAmo.sol#119-134)
+	- UniV3LiquidityAMO.numPositions() (contracts/amo/UniV3LiquidityAmo.sol#112-114)
+	- UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAmo.sol#63)
+	- UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAmo.sol#214-271)
+	- positions_array.pop() (contracts/amo/UniV3LiquidityAmo.sol#263)
+	UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAmo.sol#63) can be used in cross function reentrancies:
+	- UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212)
+	- UniV3LiquidityAMO.collectFees() (contracts/amo/UniV3LiquidityAmo.sol#119-134)
+	- UniV3LiquidityAMO.numPositions() (contracts/amo/UniV3LiquidityAmo.sol#112-114)
+	- UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAmo.sol#63)
+	- UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAmo.sol#214-271)
+Reentrancy in PerpetualAtlanticVault.updateFundingPaymentPointer() (contracts/perp-vault/PerpetualAtlanticVault.sol#466-502):
+	External calls:
+	- collateralToken.safeTransfer(addresses.perpetualAtlanticVaultLP,(currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) / 1e18) (contracts/perp-vault/PerpetualAtlanticVault.sol#479-483)
+	- IPerpetualAtlanticVaultLP(addresses.perpetualAtlanticVaultLP).addProceeds((currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) / 1e18) (contracts/perp-vault/PerpetualAtlanticVault.sol#485-489)
+	State variables written after the call(s):
+	- lastUpdateTime = nextFundingPaymentTimestamp() (contracts/perp-vault/PerpetualAtlanticVault.sol#477)
+	PerpetualAtlanticVault.lastUpdateTime (contracts/perp-vault/PerpetualAtlanticVault.sol#98) can be used in cross function reentrancies:
+	- PerpetualAtlanticVault._updateFundingRate(uint256) (contracts/perp-vault/PerpetualAtlanticVault.sol#604-626)
+	- PerpetualAtlanticVault.lastUpdateTime (contracts/perp-vault/PerpetualAtlanticVault.sol#98)
+	- PerpetualAtlanticVault.updateFunding() (contracts/perp-vault/PerpetualAtlanticVault.sol#508-531)
+	- PerpetualAtlanticVault.updateFundingPaymentPointer() (contracts/perp-vault/PerpetualAtlanticVault.sol#466-502)
+	- latestFundingPaymentPointer += 1 (contracts/perp-vault/PerpetualAtlanticVault.sol#499)
+	PerpetualAtlanticVault.latestFundingPaymentPointer (contracts/perp-vault/PerpetualAtlanticVault.sol#89) can be used in cross function reentrancies:
+	- PerpetualAtlanticVault._updateFundingRate(uint256) (contracts/perp-vault/PerpetualAtlanticVault.sol#604-626)
+	- PerpetualAtlanticVault.latestFundingPaymentPointer (contracts/perp-vault/PerpetualAtlanticVault.sol#89)
+	- PerpetualAtlanticVault.nextFundingPaymentTimestamp() (contracts/perp-vault/PerpetualAtlanticVault.sol#573-579)
+	- PerpetualAtlanticVault.payFunding() (contracts/perp-vault/PerpetualAtlanticVault.sol#374-398)
+	- PerpetualAtlanticVault.updateFunding() (contracts/perp-vault/PerpetualAtlanticVault.sol#508-531)
+	- PerpetualAtlanticVault.updateFundingPaymentPointer() (contracts/perp-vault/PerpetualAtlanticVault.sol#466-502)
+Reentrancy in RdpxV2Core.upperDepeg(uint256,uint256) (contracts/core/RdpxV2Core.sol#1040-1059):
+	External calls:
+	- IDpxEthToken(reserveAsset[reservesIndex[DPXETH]].tokenAddress).mint(address(this),_amount) (contracts/core/RdpxV2Core.sol#1048-1051)
+	- wethReceived = _curveSwap(_amount,false,true,minOut) (contracts/core/RdpxV2Core.sol#1054)
+		- amountOut = dpxEthCurvePool.exchange(int128(int256(a)),int128(int256(b)),_amount,minAmount) (contracts/core/RdpxV2Core.sol#562-567)
+		- amountOut = dpxEthCurvePool.exchange(int128(int256(b)),int128(int256(a)),_amount,minOut) (contracts/core/RdpxV2Core.sol#562-567)
+	State variables written after the call(s):
+	- reserveAsset[reservesIndex[WETH]].tokenBalance += wethReceived (contracts/core/RdpxV2Core.sol#1056)
+	RdpxV2Core.reserveAsset (contracts/core/RdpxV2Core.sol#61) can be used in cross function reentrancies:
+	- RdpxV2Core._bondWithDelegate(uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#709-757)
+	- RdpxV2Core._purchaseOptions(uint256) (contracts/core/RdpxV2Core.sol#481-497)
+	- RdpxV2Core._stake(address,uint256) (contracts/core/RdpxV2Core.sol#576-593)
+	- RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695)
+	- RdpxV2Core.addAssetTotokenReserves(address,string) (contracts/core/RdpxV2Core.sol#242-266)
+	- RdpxV2Core.bond(uint256,uint256,address) (contracts/core/RdpxV2Core.sol#914-953)
+	- RdpxV2Core.constructor(address) (contracts/core/RdpxV2Core.sol#124-136)
+	- RdpxV2Core.getReserveTokenInfo(string) (contracts/core/RdpxV2Core.sol#1124-1136)
+	- RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#1069-1113)
+	- RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823)
+	- RdpxV2Core.removeAssetFromtokenReserves(string) (contracts/core/RdpxV2Core.sol#272-292)
+	- RdpxV2Core.reserveAsset (contracts/core/RdpxV2Core.sol#61)
+	- RdpxV2Core.settle(uint256[]) (contracts/core/RdpxV2Core.sol#777-796)
+	- RdpxV2Core.sync() (contracts/core/RdpxV2Core.sol#1019-1031)
+	- RdpxV2Core.upperDepeg(uint256,uint256) (contracts/core/RdpxV2Core.sol#1040-1059)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1
+INFO:Detectors:
+RdpxDecayingBonds.getBondsOwned(address).i (contracts/decaying-bonds/RdpxDecayingBonds.sol#156) is a local variable never initialized
+RdpxV2Core.bondWithDelegate(address,uint256[],uint256[],uint256).premium (contracts/core/RdpxV2Core.sol#875) is a local variable never initialized
+RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256).amountOfWethOut (contracts/core/RdpxV2Core.sol#1078) is a local variable never initialized
+RdpxV2Core.bond(uint256,uint256,address).premium (contracts/core/RdpxV2Core.sol#939) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+INFO:Detectors:
+UniV2LiquidityAMO.approveContractToSpend(address,address,uint256) (contracts/amo/UniV2LiquidityAMO.sol#126-135) ignores return value by IERC20WithBurn(_token).approve(_spender,_amount) (contracts/amo/UniV2LiquidityAMO.sol#134)
+UniV2LiquidityAMO.approveContractToSpend(address,address,uint256) (contracts/amo/UniV2LiquidityAmo.sol#126-135) ignores return value by IERC20WithBurn(_token).approve(_spender,_amount) (contracts/amo/UniV2LiquidityAmo.sol#134)
+UniV3LiquidityAMO.collectFees() (contracts/amo/UniV3LiquidityAMO.sol#119-134) ignores return value by univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAMO.sol#132)
+UniV3LiquidityAMO.approveTarget(address,address,uint256,bool) (contracts/amo/UniV3LiquidityAMO.sol#140-153) ignores return value by IERC20WithBurn(_token).approve(_target,_amount) (contracts/amo/UniV3LiquidityAMO.sol#151)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212) ignores return value by IERC20WithBurn(params._tokenA).approve(address(univ3_positions),params._amount0Desired) (contracts/amo/UniV3LiquidityAMO.sol#170-173)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212) ignores return value by IERC20WithBurn(params._tokenB).approve(address(univ3_positions),params._amount1Desired) (contracts/amo/UniV3LiquidityAMO.sol#174-177)
+UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAMO.sol#214-271) ignores return value by univ3_positions.decreaseLiquidity(decreaseLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#254)
+UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAMO.sol#214-271) ignores return value by univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAMO.sol#256)
+UniV3LiquidityAMO.collectFees() (contracts/amo/UniV3LiquidityAmo.sol#119-134) ignores return value by univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAmo.sol#132)
+UniV3LiquidityAMO.approveTarget(address,address,uint256,bool) (contracts/amo/UniV3LiquidityAmo.sol#140-153) ignores return value by IERC20WithBurn(_token).approve(_target,_amount) (contracts/amo/UniV3LiquidityAmo.sol#151)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212) ignores return value by IERC20WithBurn(params._tokenA).approve(address(univ3_positions),params._amount0Desired) (contracts/amo/UniV3LiquidityAmo.sol#170-173)
+UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212) ignores return value by IERC20WithBurn(params._tokenB).approve(address(univ3_positions),params._amount1Desired) (contracts/amo/UniV3LiquidityAmo.sol#174-177)
+UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAmo.sol#214-271) ignores return value by univ3_positions.decreaseLiquidity(decreaseLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#254)
+UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAmo.sol#214-271) ignores return value by univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAmo.sol#256)
+RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address) (contracts/core/RdpxV2Core.sol#306-358) ignores return value by IERC20WithBurn(weth).approve(addresses.perpetualAtlanticVault,type()(uint256).max) (contracts/core/RdpxV2Core.sol#341-344)
+RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address) (contracts/core/RdpxV2Core.sol#306-358) ignores return value by IERC20WithBurn(weth).approve(addresses.dopexAMMRouter,type()(uint256).max) (contracts/core/RdpxV2Core.sol#345-348)
+RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address) (contracts/core/RdpxV2Core.sol#306-358) ignores return value by IERC20WithBurn(weth).approve(addresses.dpxEthCurvePool,type()(uint256).max) (contracts/core/RdpxV2Core.sol#349-352)
+RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address) (contracts/core/RdpxV2Core.sol#306-358) ignores return value by IERC20WithBurn(weth).approve(addresses.rdpxV2ReceiptToken,type()(uint256).max) (contracts/core/RdpxV2Core.sol#353-356)
+RdpxV2Core.approveContractToSpend(address,address,uint256) (contracts/core/RdpxV2Core.sol#413-422) ignores return value by IERC20WithBurn(_token).approve(_spender,_amount) (contracts/core/RdpxV2Core.sol#421)
+PerpetualAtlanticVault.setLpAllowance(bool) (contracts/perp-vault/PerpetualAtlanticVault.sol#243-252) ignores return value by collateralToken.approve(addresses.perpetualAtlanticVaultLP,type()(uint256).max) (contracts/perp-vault/PerpetualAtlanticVault.sol#246-251)
+PerpetualAtlanticVault.setLpAllowance(bool) (contracts/perp-vault/PerpetualAtlanticVault.sol#243-252) ignores return value by collateralToken.approve(addresses.perpetualAtlanticVaultLP,0) (contracts/perp-vault/PerpetualAtlanticVault.sol#246-251)
+PerpetualAtlanticVaultLP.constructor(address,address,address,address,string) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#81-110) ignores return value by collateral.approve(_perpetualAtlanticVault,type()(uint256).max) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#108)
+PerpetualAtlanticVaultLP.constructor(address,address,address,address,string) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#81-110) ignores return value by ERC20(rdpx).approve(_perpetualAtlanticVault,type()(uint256).max) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#109)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+INFO:Detectors:
+PerpetualAtlanticVaultLP.lockCollateral(uint256) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#182-184) should emit an event for: 
+	- _activeCollateral += amount (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#183) 
+PerpetualAtlanticVaultLP.unlockLiquidity(uint256) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#187-189) should emit an event for: 
+	- _activeCollateral -= amount (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#188) 
+PerpetualAtlanticVaultLP.addProceeds(uint256) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#192-198) should emit an event for: 
+	- _totalCollateral += proceeds (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#197) 
+PerpetualAtlanticVaultLP.subtractLoss(uint256) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#201-207) should emit an event for: 
+	- _totalCollateral -= loss (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#206) 
+PerpetualAtlanticVaultLP.addRdpx(uint256) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#210-217) should emit an event for: 
+	- _rdpxCollateral += amount (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#216) 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-events-arithmetic
+INFO:Detectors:
+UniV3LiquidityAMO.constructor(address,address)._rdpx (contracts/amo/UniV3LiquidityAMO.sol#76) lacks a zero-check on :
+		- rdpx = _rdpx (contracts/amo/UniV3LiquidityAMO.sol#77)
+UniV3LiquidityAMO.constructor(address,address)._rdpxV2Core (contracts/amo/UniV3LiquidityAMO.sol#76) lacks a zero-check on :
+		- rdpxV2Core = _rdpxV2Core (contracts/amo/UniV3LiquidityAMO.sol#78)
+UniV3LiquidityAMO.execute(address,uint256,bytes)._to (contracts/amo/UniV3LiquidityAMO.sol#341) lacks a zero-check on :
+		- (success,result) = _to.call{value: _value}(_data) (contracts/amo/UniV3LiquidityAMO.sol#345)
+UniV3LiquidityAMO.constructor(address,address)._rdpx (contracts/amo/UniV3LiquidityAmo.sol#76) lacks a zero-check on :
+		- rdpx = _rdpx (contracts/amo/UniV3LiquidityAmo.sol#77)
+UniV3LiquidityAMO.constructor(address,address)._rdpxV2Core (contracts/amo/UniV3LiquidityAmo.sol#76) lacks a zero-check on :
+		- rdpxV2Core = _rdpxV2Core (contracts/amo/UniV3LiquidityAmo.sol#78)
+UniV3LiquidityAMO.execute(address,uint256,bytes)._to (contracts/amo/UniV3LiquidityAmo.sol#341) lacks a zero-check on :
+		- (success,result) = _to.call{value: _value}(_data) (contracts/amo/UniV3LiquidityAmo.sol#345)
+RdpxV2Core.constructor(address)._weth (contracts/core/RdpxV2Core.sol#124) lacks a zero-check on :
+		- weth = _weth (contracts/core/RdpxV2Core.sol#126)
+RdpxDecayingBonds.emergencyWithdraw(address[],bool,address,uint256,uint256).to (contracts/decaying-bonds/RdpxDecayingBonds.sol#92) lacks a zero-check on :
+		- (success) = to.call{gas: gas,value: amount}() (contracts/decaying-bonds/RdpxDecayingBonds.sol#98)
+PerpetualAtlanticVaultLP.constructor(address,address,address,address,string)._rdpxRdpxV2Core (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#83) lacks a zero-check on :
+		- rdpxRdpxV2Core = _rdpxRdpxV2Core (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#101)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+INFO:Detectors:
+UniV2LiquidityAMO.emergencyWithdraw(address[]) (contracts/amo/UniV2LiquidityAMO.sol#142-153) has external calls inside a loop: token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/amo/UniV2LiquidityAMO.sol#149)
+UniV2LiquidityAMO.emergencyWithdraw(address[]) (contracts/amo/UniV2LiquidityAmo.sol#142-153) has external calls inside a loop: token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/amo/UniV2LiquidityAmo.sol#149)
+UniV3LiquidityAMO.collectFees() (contracts/amo/UniV3LiquidityAMO.sol#119-134) has external calls inside a loop: univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAMO.sol#132)
+UniV3LiquidityAMO.collectFees() (contracts/amo/UniV3LiquidityAmo.sol#119-134) has external calls inside a loop: univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAmo.sol#132)
+RdpxV2Core.emergencyWithdraw(address[]) (contracts/core/RdpxV2Core.sol#161-173) has external calls inside a loop: token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/core/RdpxV2Core.sol#169)
+RdpxV2Core.getRdpxPrice() (contracts/core/RdpxV2Core.sol#1230-1234) has external calls inside a loop: IRdpxEthOracle(pricingOracleAddresses.rdpxPriceOracle).getRdpxPriceInEth() (contracts/core/RdpxV2Core.sol#1231-1233)
+RdpxV2Core.calculateBondCost(uint256,uint256) (contracts/core/RdpxV2Core.sol#1145-1190) has external calls inside a loop: bondDiscount = (bondDiscountFactor * Math.sqrt(IRdpxReserve(addresses.rdpxReserve).rdpxReserve()) * 1e2) / (Math.sqrt(1e18)) (contracts/core/RdpxV2Core.sol#1152-1154)
+RdpxV2Core.calculateBondCost(uint256,uint256) (contracts/core/RdpxV2Core.sol#1145-1190) has external calls inside a loop: strike = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).roundUp(rdpxPrice - (rdpxPrice / 4)) (contracts/core/RdpxV2Core.sol#1178-1180)
+RdpxV2Core.calculateBondCost(uint256,uint256) (contracts/core/RdpxV2Core.sol#1145-1190) has external calls inside a loop: timeToExpiry = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).nextFundingPaymentTimestamp() - block.timestamp (contracts/core/RdpxV2Core.sol#1182-1184)
+RdpxV2Core.calculateBondCost(uint256,uint256) (contracts/core/RdpxV2Core.sol#1145-1190) has external calls inside a loop: wethRequired += IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).calculatePremium(strike,rdpxRequired,timeToExpiry,0) (contracts/core/RdpxV2Core.sol#1186-1188)
+RdpxV2Core._stake(address,uint256) (contracts/core/RdpxV2Core.sol#576-593) has external calls inside a loop: IDpxEthToken(reserveAsset[reservesIndex[DPXETH]].tokenAddress).mint(address(this),_amount / 2) (contracts/core/RdpxV2Core.sol#582-585)
+RdpxV2Core._stake(address,uint256) (contracts/core/RdpxV2Core.sol#576-593) has external calls inside a loop: receiptTokenAmount = IRdpxV2ReceiptToken(addresses.rdpxV2ReceiptToken).deposit(_amount / 2) (contracts/core/RdpxV2Core.sol#588-589)
+RdpxV2Core._issueBond(address,uint256) (contracts/core/RdpxV2Core.sol#505-515) has external calls inside a loop: bondId = RdpxV2Bond(addresses.receiptTokenBonds).mint(_to) (contracts/core/RdpxV2Core.sol#509)
+RdpxV2Core._purchaseOptions(uint256) (contracts/core/RdpxV2Core.sol#481-497) has external calls inside a loop: (premium,optionId) = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).purchase(_amount,address(this)) (contracts/core/RdpxV2Core.sol#491-493)
+RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695) has external calls inside a loop: (expiry,amount) = IRdpxDecayingBonds(addresses.rdpxDecayingBonds).bonds(_bondId) (contracts/core/RdpxV2Core.sol#641-643)
+RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695) has external calls inside a loop: _validate(IRdpxDecayingBonds(addresses.rdpxDecayingBonds).ownerOf(_bondId) == msg.sender,9) (contracts/core/RdpxV2Core.sol#647-652)
+RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695) has external calls inside a loop: IRdpxDecayingBonds(addresses.rdpxDecayingBonds).decreaseAmount(_bondId,amount - _rdpxAmount) (contracts/core/RdpxV2Core.sol#654-657)
+RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695) has external calls inside a loop: IRdpxReserve(addresses.rdpxReserve).withdraw(_rdpxAmount) (contracts/core/RdpxV2Core.sol#659)
+RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695) has external calls inside a loop: IERC20WithBurn(reserveAsset[reservesIndex[RDPX]].tokenAddress).burn((_rdpxAmount * rdpxBurnPercentage) / 1e10) (contracts/core/RdpxV2Core.sol#668-669)
+RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695) has external calls inside a loop: IRdpxReserve(addresses.rdpxReserve).withdraw(_rdpxAmount + extraRdpxToWithdraw) (contracts/core/RdpxV2Core.sol#687-689)
+RdpxV2Core.sync() (contracts/core/RdpxV2Core.sol#1019-1031) has external calls inside a loop: balance = IERC20WithBurn(reserveAsset[i].tokenAddress).balanceOf(address(this)) (contracts/core/RdpxV2Core.sol#1021-1022)
+RdpxDecayingBonds.emergencyWithdraw(address[],bool,address,uint256,uint256) (contracts/decaying-bonds/RdpxDecayingBonds.sol#89-107) has external calls inside a loop: token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/decaying-bonds/RdpxDecayingBonds.sol#105)
+PerpetualAtlanticVault.emergencyWithdraw(address[]) (contracts/perp-vault/PerpetualAtlanticVault.sol#219-231) has external calls inside a loop: token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/perp-vault/PerpetualAtlanticVault.sol#227)
+PerpetualAtlanticVault.getUnderlyingPrice() (contracts/perp-vault/PerpetualAtlanticVault.sol#536-538) has external calls inside a loop: IRdpxEthOracle(addresses.assetPriceOracle).getRdpxPriceInEth() (contracts/perp-vault/PerpetualAtlanticVault.sol#537)
+PerpetualAtlanticVault.getVolatility(uint256) (contracts/perp-vault/PerpetualAtlanticVault.sol#541-546) has external calls inside a loop: IVolatilityOracle(addresses.volatilityOracle).getVolatility(_strike) (contracts/perp-vault/PerpetualAtlanticVault.sol#542-545)
+PerpetualAtlanticVault.calculatePremium(uint256,uint256,uint256,uint256) (contracts/perp-vault/PerpetualAtlanticVault.sol#549-561) has external calls inside a loop: premium = ((IOptionPricing(addresses.optionPricing).getOptionPrice(_strike,_price,getVolatility(_strike),timeToExpiry) * _amount) / 1e8) (contracts/perp-vault/PerpetualAtlanticVault.sol#555-560)
+PerpetualAtlanticVault.calculatePremium(uint256,uint256,uint256,uint256) (contracts/perp-vault/PerpetualAtlanticVault.sol#549-561) has external calls inside a loop: premium = ((IOptionPricing(addresses.optionPricing).getOptionPrice(_strike,getUnderlyingPrice(),getVolatility(_strike),timeToExpiry) * _amount) / 1e8) (contracts/perp-vault/PerpetualAtlanticVault.sol#555-560)
+PerpetualAtlanticVault.updateFundingPaymentPointer() (contracts/perp-vault/PerpetualAtlanticVault.sol#466-502) has external calls inside a loop: IPerpetualAtlanticVaultLP(addresses.perpetualAtlanticVaultLP).addProceeds((currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) / 1e18) (contracts/perp-vault/PerpetualAtlanticVault.sol#485-489)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+INFO:Detectors:
+Reentrancy in RdpxV2Core._issueBond(address,uint256) (contracts/core/RdpxV2Core.sol#505-515):
+	External calls:
+	- bondId = RdpxV2Bond(addresses.receiptTokenBonds).mint(_to) (contracts/core/RdpxV2Core.sol#509)
+	State variables written after the call(s):
+	- bonds[bondId] = Bond(_amount,block.timestamp + bondMaturity,block.timestamp) (contracts/core/RdpxV2Core.sol#510-514)
+Reentrancy in RdpxV2Core._purchaseOptions(uint256) (contracts/core/RdpxV2Core.sol#481-497):
+	External calls:
+	- (premium,optionId) = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).purchase(_amount,address(this)) (contracts/core/RdpxV2Core.sol#491-493)
+	State variables written after the call(s):
+	- optionsOwned[optionId] = true (contracts/core/RdpxV2Core.sol#495)
+	- reserveAsset[reservesIndex[WETH]].tokenBalance -= premium (contracts/core/RdpxV2Core.sol#496)
+Reentrancy in RdpxV2Core._stake(address,uint256) (contracts/core/RdpxV2Core.sol#576-593):
+	External calls:
+	- IDpxEthToken(reserveAsset[reservesIndex[DPXETH]].tokenAddress).mint(address(this),_amount / 2) (contracts/core/RdpxV2Core.sol#582-585)
+	- receiptTokenAmount = IRdpxV2ReceiptToken(addresses.rdpxV2ReceiptToken).deposit(_amount / 2) (contracts/core/RdpxV2Core.sol#588-589)
+	- _issueBond(_to,receiptTokenAmount) (contracts/core/RdpxV2Core.sol#592)
+		- bondId = RdpxV2Bond(addresses.receiptTokenBonds).mint(_to) (contracts/core/RdpxV2Core.sol#509)
+	State variables written after the call(s):
+	- _issueBond(_to,receiptTokenAmount) (contracts/core/RdpxV2Core.sol#592)
+		- bonds[bondId] = Bond(_amount,block.timestamp + bondMaturity,block.timestamp) (contracts/core/RdpxV2Core.sol#510-514)
+Reentrancy in RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695):
+	External calls:
+	- (expiry,amount) = IRdpxDecayingBonds(addresses.rdpxDecayingBonds).bonds(_bondId) (contracts/core/RdpxV2Core.sol#641-643)
+	- IRdpxDecayingBonds(addresses.rdpxDecayingBonds).decreaseAmount(_bondId,amount - _rdpxAmount) (contracts/core/RdpxV2Core.sol#654-657)
+	- IRdpxReserve(addresses.rdpxReserve).withdraw(_rdpxAmount) (contracts/core/RdpxV2Core.sol#659)
+	State variables written after the call(s):
+	- reserveAsset[reservesIndex[RDPX]].tokenBalance += _rdpxAmount (contracts/core/RdpxV2Core.sol#661)
+Reentrancy in UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256) (contracts/amo/UniV2LiquidityAMO.sol#189-251):
+	External calls:
+	- IERC20WithBurn(addresses.tokenA).safeApprove(addresses.ammRouter,tokenAAmount) (contracts/amo/UniV2LiquidityAMO.sol#200-203)
+	- IERC20WithBurn(addresses.tokenB).safeApprove(addresses.ammRouter,tokenBAmount) (contracts/amo/UniV2LiquidityAMO.sol#204-207)
+	- IERC20WithBurn(addresses.tokenA).safeTransferFrom(addresses.rdpxV2Core,address(this),tokenAAmount) (contracts/amo/UniV2LiquidityAMO.sol#210-214)
+	- IERC20WithBurn(addresses.tokenB).safeTransferFrom(addresses.rdpxV2Core,address(this),tokenBAmount) (contracts/amo/UniV2LiquidityAMO.sol#215-219)
+	- (tokenAUsed,tokenBUsed,lpReceived) = IUniswapV2Router(addresses.ammRouter).addLiquidity(addresses.tokenA,addresses.tokenB,tokenAAmount,tokenBAmount,tokenAAmountMin,tokenBAmountMin,address(this),block.timestamp + 1) (contracts/amo/UniV2LiquidityAMO.sol#222-233)
+	State variables written after the call(s):
+	- lpTokenBalance += lpReceived (contracts/amo/UniV2LiquidityAMO.sol#236)
+Reentrancy in UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256) (contracts/amo/UniV2LiquidityAmo.sol#189-251):
+	External calls:
+	- IERC20WithBurn(addresses.tokenA).safeApprove(addresses.ammRouter,tokenAAmount) (contracts/amo/UniV2LiquidityAmo.sol#200-203)
+	- IERC20WithBurn(addresses.tokenB).safeApprove(addresses.ammRouter,tokenBAmount) (contracts/amo/UniV2LiquidityAmo.sol#204-207)
+	- IERC20WithBurn(addresses.tokenA).safeTransferFrom(addresses.rdpxV2Core,address(this),tokenAAmount) (contracts/amo/UniV2LiquidityAmo.sol#210-214)
+	- IERC20WithBurn(addresses.tokenB).safeTransferFrom(addresses.rdpxV2Core,address(this),tokenBAmount) (contracts/amo/UniV2LiquidityAmo.sol#215-219)
+	- (tokenAUsed,tokenBUsed,lpReceived) = IUniswapV2Router(addresses.ammRouter).addLiquidity(addresses.tokenA,addresses.tokenB,tokenAAmount,tokenBAmount,tokenAAmountMin,tokenBAmountMin,address(this),block.timestamp + 1) (contracts/amo/UniV2LiquidityAmo.sol#222-233)
+	State variables written after the call(s):
+	- lpTokenBalance += lpReceived (contracts/amo/UniV2LiquidityAmo.sol#236)
+Reentrancy in UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#156-212):
+	External calls:
+	- IERC20WithBurn(params._tokenA).transferFrom(rdpxV2Core,address(this),params._amount0Desired) (contracts/amo/UniV3LiquidityAMO.sol#159-163)
+	- IERC20WithBurn(params._tokenB).transferFrom(rdpxV2Core,address(this),params._amount1Desired) (contracts/amo/UniV3LiquidityAMO.sol#164-168)
+	- IERC20WithBurn(params._tokenA).approve(address(univ3_positions),params._amount0Desired) (contracts/amo/UniV3LiquidityAMO.sol#170-173)
+	- IERC20WithBurn(params._tokenB).approve(address(univ3_positions),params._amount1Desired) (contracts/amo/UniV3LiquidityAMO.sol#174-177)
+	- (tokenId,amountLiquidity) = univ3_positions.mint(mintParams) (contracts/amo/UniV3LiquidityAMO.sol#194-196)
+	State variables written after the call(s):
+	- positions_array.push(pos) (contracts/amo/UniV3LiquidityAMO.sol#207)
+	- positions_mapping[tokenId] = pos (contracts/amo/UniV3LiquidityAMO.sol#208)
+Reentrancy in UniV3LiquidityAMO.addLiquidity(UniV3LiquidityAMO.AddLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#156-212):
+	External calls:
+	- IERC20WithBurn(params._tokenA).transferFrom(rdpxV2Core,address(this),params._amount0Desired) (contracts/amo/UniV3LiquidityAmo.sol#159-163)
+	- IERC20WithBurn(params._tokenB).transferFrom(rdpxV2Core,address(this),params._amount1Desired) (contracts/amo/UniV3LiquidityAmo.sol#164-168)
+	- IERC20WithBurn(params._tokenA).approve(address(univ3_positions),params._amount0Desired) (contracts/amo/UniV3LiquidityAmo.sol#170-173)
+	- IERC20WithBurn(params._tokenB).approve(address(univ3_positions),params._amount1Desired) (contracts/amo/UniV3LiquidityAmo.sol#174-177)
+	- (tokenId,amountLiquidity) = univ3_positions.mint(mintParams) (contracts/amo/UniV3LiquidityAmo.sol#194-196)
+	State variables written after the call(s):
+	- positions_array.push(pos) (contracts/amo/UniV3LiquidityAmo.sol#207)
+	- positions_mapping[tokenId] = pos (contracts/amo/UniV3LiquidityAmo.sol#208)
+Reentrancy in RdpxV2Core.addToDelegate(uint256,uint256) (contracts/core/RdpxV2Core.sol#961-992):
+	External calls:
+	- IERC20WithBurn(weth).safeTransferFrom(msg.sender,address(this),_amount) (contracts/core/RdpxV2Core.sol#973-977)
+	State variables written after the call(s):
+	- delegates.push(delegatePosition) (contracts/core/RdpxV2Core.sol#985)
+	- totalWethDelegated += _amount (contracts/core/RdpxV2Core.sol#988)
+Reentrancy in RdpxV2Core.bond(uint256,uint256,address) (contracts/core/RdpxV2Core.sol#914-953):
+	External calls:
+	- IERC20WithBurn(weth).safeTransferFrom(msg.sender,address(this),wethRequired) (contracts/core/RdpxV2Core.sol#929-933)
+	State variables written after the call(s):
+	- reserveAsset[reservesIndex[WETH]].tokenBalance += wethRequired (contracts/core/RdpxV2Core.sol#936)
+Reentrancy in RdpxV2Core.bond(uint256,uint256,address) (contracts/core/RdpxV2Core.sol#914-953):
+	External calls:
+	- IERC20WithBurn(weth).safeTransferFrom(msg.sender,address(this),wethRequired) (contracts/core/RdpxV2Core.sol#929-933)
+	- premium = _purchaseOptions(rdpxRequired) (contracts/core/RdpxV2Core.sol#941)
+		- (premium,optionId) = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).purchase(_amount,address(this)) (contracts/core/RdpxV2Core.sol#491-493)
+	State variables written after the call(s):
+	- premium = _purchaseOptions(rdpxRequired) (contracts/core/RdpxV2Core.sol#941)
+		- optionsOwned[optionId] = true (contracts/core/RdpxV2Core.sol#495)
+Reentrancy in PerpetualAtlanticVault.payFunding() (contracts/perp-vault/PerpetualAtlanticVault.sol#374-398):
+	External calls:
+	- collateralToken.safeTransferFrom(addresses.rdpxV2Core,address(this),totalFundingForEpoch[latestFundingPaymentPointer]) (contracts/perp-vault/PerpetualAtlanticVault.sol#384-388)
+	State variables written after the call(s):
+	- _updateFundingRate(totalFundingForEpoch[latestFundingPaymentPointer]) (contracts/perp-vault/PerpetualAtlanticVault.sol#389)
+		- fundingRates[latestFundingPaymentPointer] = (amount * 1e18) / (endTime - startTime) (contracts/perp-vault/PerpetualAtlanticVault.sol#615-617)
+		- fundingRates[latestFundingPaymentPointer] = fundingRates[latestFundingPaymentPointer] + ((amount * 1e18) / (endTime_scope_1 - startTime_scope_0)) (contracts/perp-vault/PerpetualAtlanticVault.sol#622-624)
+Reentrancy in RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823):
+	External calls:
+	- fundingAmount = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).payFunding() (contracts/core/RdpxV2Core.sol#814-816)
+	State variables written after the call(s):
+	- reserveAsset[reservesIndex[WETH]].tokenBalance -= fundingAmount (contracts/core/RdpxV2Core.sol#818)
+Reentrancy in UniV2LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV2LiquidityAMO.sol#259-300):
+	External calls:
+	- IERC20WithBurn(addresses.pair).safeApprove(addresses.ammRouter,lpAmount) (contracts/amo/UniV2LiquidityAMO.sol#269-272)
+	- (tokenAReceived,tokenBReceived) = IUniswapV2Router(addresses.ammRouter).removeLiquidity(addresses.tokenA,addresses.tokenB,lpAmount,tokenAAmountMin,tokenBAmountMin,address(this),block.timestamp + 1) (contracts/amo/UniV2LiquidityAMO.sol#275-284)
+	State variables written after the call(s):
+	- lpTokenBalance -= lpAmount (contracts/amo/UniV2LiquidityAMO.sol#287)
+Reentrancy in UniV2LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV2LiquidityAmo.sol#259-300):
+	External calls:
+	- IERC20WithBurn(addresses.pair).safeApprove(addresses.ammRouter,lpAmount) (contracts/amo/UniV2LiquidityAmo.sol#269-272)
+	- (tokenAReceived,tokenBReceived) = IUniswapV2Router(addresses.ammRouter).removeLiquidity(addresses.tokenA,addresses.tokenB,lpAmount,tokenAAmountMin,tokenBAmountMin,address(this),block.timestamp + 1) (contracts/amo/UniV2LiquidityAmo.sol#275-284)
+	State variables written after the call(s):
+	- lpTokenBalance -= lpAmount (contracts/amo/UniV2LiquidityAmo.sol#287)
+Reentrancy in UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAMO.sol#214-271):
+	External calls:
+	- univ3_positions.decreaseLiquidity(decreaseLiquidityParams) (contracts/amo/UniV3LiquidityAMO.sol#254)
+	- univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAMO.sol#256)
+	- univ3_positions.burn(pos.token_id) (contracts/amo/UniV3LiquidityAMO.sol#258)
+	State variables written after the call(s):
+	- delete positions_mapping[pos.token_id] (contracts/amo/UniV3LiquidityAMO.sol#264)
+Reentrancy in UniV3LiquidityAMO.removeLiquidity(uint256,uint256,uint256) (contracts/amo/UniV3LiquidityAmo.sol#214-271):
+	External calls:
+	- univ3_positions.decreaseLiquidity(decreaseLiquidityParams) (contracts/amo/UniV3LiquidityAmo.sol#254)
+	- univ3_positions.collect(collect_params) (contracts/amo/UniV3LiquidityAmo.sol#256)
+	- univ3_positions.burn(pos.token_id) (contracts/amo/UniV3LiquidityAmo.sol#258)
+	State variables written after the call(s):
+	- delete positions_mapping[pos.token_id] (contracts/amo/UniV3LiquidityAmo.sol#264)
+Reentrancy in RdpxV2Core.settle(uint256[]) (contracts/core/RdpxV2Core.sol#777-796):
+	External calls:
+	- (amountOfWeth,rdpxAmount) = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).settle(optionIds) (contracts/core/RdpxV2Core.sol#785-787)
+	State variables written after the call(s):
+	- optionsOwned[optionIds[i]] = false (contracts/core/RdpxV2Core.sol#789)
+	- reserveAsset[reservesIndex[WETH]].tokenBalance += amountOfWeth (contracts/core/RdpxV2Core.sol#792)
+	- reserveAsset[reservesIndex[RDPX]].tokenBalance -= rdpxAmount (contracts/core/RdpxV2Core.sol#793)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Reentrancy in UniV2LiquidityAMO._sendTokensToRdpxV2Core() (contracts/amo/UniV2LiquidityAMO.sol#160-178):
+	External calls:
+	- IERC20WithBurn(addresses.tokenA).safeTransfer(addresses.rdpxV2Core,tokenABalance) (contracts/amo/UniV2LiquidityAMO.sol#168-171)
+	- IERC20WithBurn(addresses.tokenB).safeTransfer(addresses.rdpxV2Core,tokenBBalance) (contracts/amo/UniV2LiquidityAMO.sol#172-175)
+	Event emitted after the call(s):
+	- LogAssetsTransfered(msg.sender,tokenABalance,tokenBBalance) (contracts/amo/UniV2LiquidityAMO.sol#177)
+Reentrancy in UniV2LiquidityAMO._sendTokensToRdpxV2Core() (contracts/amo/UniV2LiquidityAmo.sol#160-178):
+	External calls:
+	- IERC20WithBurn(addresses.tokenA).safeTransfer(addresses.rdpxV2Core,tokenABalance) (contracts/amo/UniV2LiquidityAmo.sol#168-171)
+	- IERC20WithBurn(addresses.tokenB).safeTransfer(addresses.rdpxV2Core,tokenBBalance) (contracts/amo/UniV2LiquidityAmo.sol#172-175)
+	Event emitted after the call(s):
+	- LogAssetsTransfered(msg.sender,tokenABalance,tokenBBalance) (contracts/amo/UniV2LiquidityAmo.sol#177)
+Reentrancy in UniV3LiquidityAMO._sendTokensToRdpxV2Core(address,address) (contracts/amo/UniV3LiquidityAMO.sol#354-365):
+	External calls:
+	- IERC20WithBurn(tokenA).safeTransfer(rdpxV2Core,tokenABalance) (contracts/amo/UniV3LiquidityAMO.sol#358)
+	- IERC20WithBurn(tokenB).safeTransfer(rdpxV2Core,tokenBBalance) (contracts/amo/UniV3LiquidityAMO.sol#359)
+	- IRdpxV2Core(rdpxV2Core).sync() (contracts/amo/UniV3LiquidityAMO.sol#362)
+	Event emitted after the call(s):
+	- LogAssetsTransfered(tokenABalance,tokenBBalance,tokenA,tokenB) (contracts/amo/UniV3LiquidityAMO.sol#364)
+Reentrancy in UniV3LiquidityAMO._sendTokensToRdpxV2Core(address,address) (contracts/amo/UniV3LiquidityAmo.sol#354-365):
+	External calls:
+	- IERC20WithBurn(tokenA).safeTransfer(rdpxV2Core,tokenABalance) (contracts/amo/UniV3LiquidityAmo.sol#358)
+	- IERC20WithBurn(tokenB).safeTransfer(rdpxV2Core,tokenBBalance) (contracts/amo/UniV3LiquidityAmo.sol#359)
+	- IRdpxV2Core(rdpxV2Core).sync() (contracts/amo/UniV3LiquidityAmo.sol#362)
+	Event emitted after the call(s):
+	- LogAssetsTransfered(tokenABalance,tokenBBalance,tokenA,tokenB) (contracts/amo/UniV3LiquidityAmo.sol#364)
+Reentrancy in RdpxV2Core.addToDelegate(uint256,uint256) (contracts/core/RdpxV2Core.sol#961-992):
+	External calls:
+	- IERC20WithBurn(weth).safeTransferFrom(msg.sender,address(this),_amount) (contracts/core/RdpxV2Core.sol#973-977)
+	Event emitted after the call(s):
+	- LogAddToDelegate(_amount,_fee,delegates.length - 1) (contracts/core/RdpxV2Core.sol#990)
+Reentrancy in UniV2LiquidityAMO.emergencyWithdraw(address[]) (contracts/amo/UniV2LiquidityAMO.sol#142-153):
+	External calls:
+	- token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/amo/UniV2LiquidityAMO.sol#149)
+	Event emitted after the call(s):
+	- LogEmergencyWithdraw(msg.sender,tokens) (contracts/amo/UniV2LiquidityAMO.sol#152)
+Reentrancy in UniV2LiquidityAMO.emergencyWithdraw(address[]) (contracts/amo/UniV2LiquidityAmo.sol#142-153):
+	External calls:
+	- token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/amo/UniV2LiquidityAmo.sol#149)
+	Event emitted after the call(s):
+	- LogEmergencyWithdraw(msg.sender,tokens) (contracts/amo/UniV2LiquidityAmo.sol#152)
+Reentrancy in RdpxV2Core.emergencyWithdraw(address[]) (contracts/core/RdpxV2Core.sol#161-173):
+	External calls:
+	- token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/core/RdpxV2Core.sol#169)
+	Event emitted after the call(s):
+	- LogEmergencyWithdraw(msg.sender,tokens) (contracts/core/RdpxV2Core.sol#172)
+Reentrancy in PerpetualAtlanticVault.emergencyWithdraw(address[]) (contracts/perp-vault/PerpetualAtlanticVault.sol#219-231):
+	External calls:
+	- token.safeTransfer(msg.sender,token.balanceOf(address(this))) (contracts/perp-vault/PerpetualAtlanticVault.sol#227)
+	Event emitted after the call(s):
+	- EmergencyWithdraw(msg.sender,tokens) (contracts/perp-vault/PerpetualAtlanticVault.sol#230)
+Reentrancy in RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#1069-1113):
+	External calls:
+	- amountOfWethOut = IUniswapV2Router(addresses.dopexAMMRouter).swapExactTokensForTokens(_rdpxAmount,minamountOfWeth,path,address(this),block.timestamp + 10)[path.length - 1] (contracts/core/RdpxV2Core.sol#1086-1093)
+	- dpxEthReceived = _curveSwap(_wethAmount + amountOfWethOut,true,true,minOut) (contracts/core/RdpxV2Core.sol#1101-1106)
+		- amountOut = dpxEthCurvePool.exchange(int128(int256(a)),int128(int256(b)),_amount,minAmount) (contracts/core/RdpxV2Core.sol#562-567)
+		- amountOut = dpxEthCurvePool.exchange(int128(int256(b)),int128(int256(a)),_amount,minOut) (contracts/core/RdpxV2Core.sol#562-567)
+	- IDpxEthToken(reserveAsset[reservesIndex[DPXETH]].tokenAddress).burn(dpxEthReceived) (contracts/core/RdpxV2Core.sol#1108-1110)
+	Event emitted after the call(s):
+	- LogLowerDepeg(_rdpxAmount,_wethAmount,dpxEthReceived) (contracts/core/RdpxV2Core.sol#1112)
+Reentrancy in PerpetualAtlanticVault.payFunding() (contracts/perp-vault/PerpetualAtlanticVault.sol#374-398):
+	External calls:
+	- collateralToken.safeTransferFrom(addresses.rdpxV2Core,address(this),totalFundingForEpoch[latestFundingPaymentPointer]) (contracts/perp-vault/PerpetualAtlanticVault.sol#384-388)
+	Event emitted after the call(s):
+	- PayFunding(msg.sender,totalFundingForEpoch[latestFundingPaymentPointer],latestFundingPaymentPointer) (contracts/perp-vault/PerpetualAtlanticVault.sol#391-395)
+Reentrancy in RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823):
+	External calls:
+	- fundingAmount = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).payFunding() (contracts/core/RdpxV2Core.sol#814-816)
+	Event emitted after the call(s):
+	- LogProvideFunding(pointer,fundingAmount) (contracts/core/RdpxV2Core.sol#822)
+Reentrancy in UniV3LiquidityAMO.recoverERC20(address,uint256) (contracts/amo/UniV3LiquidityAMO.sol#314-323):
+	External calls:
+	- TransferHelper.safeTransfer(tokenAddress,rdpxV2Core,tokenAmount) (contracts/amo/UniV3LiquidityAMO.sol#320)
+	Event emitted after the call(s):
+	- RecoveredERC20(tokenAddress,tokenAmount) (contracts/amo/UniV3LiquidityAMO.sol#322)
+Reentrancy in UniV3LiquidityAMO.recoverERC20(address,uint256) (contracts/amo/UniV3LiquidityAmo.sol#314-323):
+	External calls:
+	- TransferHelper.safeTransfer(tokenAddress,rdpxV2Core,tokenAmount) (contracts/amo/UniV3LiquidityAmo.sol#320)
+	Event emitted after the call(s):
+	- RecoveredERC20(tokenAddress,tokenAmount) (contracts/amo/UniV3LiquidityAmo.sol#322)
+Reentrancy in UniV3LiquidityAMO.recoverERC721(address,uint256) (contracts/amo/UniV3LiquidityAMO.sol#325-337):
+	External calls:
+	- INonfungiblePositionManager(tokenAddress).safeTransferFrom(address(this),rdpxV2Core,token_id) (contracts/amo/UniV3LiquidityAMO.sol#331-335)
+	Event emitted after the call(s):
+	- RecoveredERC721(tokenAddress,token_id) (contracts/amo/UniV3LiquidityAMO.sol#336)
+Reentrancy in UniV3LiquidityAMO.recoverERC721(address,uint256) (contracts/amo/UniV3LiquidityAmo.sol#325-337):
+	External calls:
+	- INonfungiblePositionManager(tokenAddress).safeTransferFrom(address(this),rdpxV2Core,token_id) (contracts/amo/UniV3LiquidityAmo.sol#331-335)
+	Event emitted after the call(s):
+	- RecoveredERC721(tokenAddress,token_id) (contracts/amo/UniV3LiquidityAmo.sol#336)
+Reentrancy in PerpetualAtlanticVaultLP.redeem(uint256,address,address) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#147-177):
+	External calls:
+	- perpetualAtlanticVault.updateFunding() (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#152)
+	- collateral.transfer(receiver,assets) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#172)
+	- IERC20WithBurn(rdpx).safeTransfer(receiver,rdpxAmount) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#174)
+	Event emitted after the call(s):
+	- Withdraw(msg.sender,receiver,owner,assets,shares) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#176)
+Reentrancy in RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address) (contracts/core/RdpxV2Core.sol#306-358):
+	External calls:
+	- IERC20WithBurn(weth).approve(addresses.perpetualAtlanticVault,type()(uint256).max) (contracts/core/RdpxV2Core.sol#341-344)
+	- IERC20WithBurn(weth).approve(addresses.dopexAMMRouter,type()(uint256).max) (contracts/core/RdpxV2Core.sol#345-348)
+	- IERC20WithBurn(weth).approve(addresses.dpxEthCurvePool,type()(uint256).max) (contracts/core/RdpxV2Core.sol#349-352)
+	- IERC20WithBurn(weth).approve(addresses.rdpxV2ReceiptToken,type()(uint256).max) (contracts/core/RdpxV2Core.sol#353-356)
+	Event emitted after the call(s):
+	- LogSetAddresses(addresses) (contracts/core/RdpxV2Core.sol#357)
+Reentrancy in PerpetualAtlanticVault.setAddresses(address,address,address,address,address,address,address) (contracts/perp-vault/PerpetualAtlanticVault.sol#181-212):
+	External calls:
+	- collateralToken.safeApprove(addresses.perpetualAtlanticVaultLP,type()(uint256).max) (contracts/perp-vault/PerpetualAtlanticVault.sol#207-210)
+	Event emitted after the call(s):
+	- AddressesSet(addresses) (contracts/perp-vault/PerpetualAtlanticVault.sol#211)
+Reentrancy in RdpxV2Core.settle(uint256[]) (contracts/core/RdpxV2Core.sol#777-796):
+	External calls:
+	- (amountOfWeth,rdpxAmount) = IPerpetualAtlanticVault(addresses.perpetualAtlanticVault).settle(optionIds) (contracts/core/RdpxV2Core.sol#785-787)
+	Event emitted after the call(s):
+	- LogSettle(optionIds) (contracts/core/RdpxV2Core.sol#795)
+Reentrancy in PerpetualAtlanticVault.updateFundingPaymentPointer() (contracts/perp-vault/PerpetualAtlanticVault.sol#466-502):
+	External calls:
+	- collateralToken.safeTransfer(addresses.perpetualAtlanticVaultLP,(currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) / 1e18) (contracts/perp-vault/PerpetualAtlanticVault.sol#479-483)
+	- IPerpetualAtlanticVaultLP(addresses.perpetualAtlanticVaultLP).addProceeds((currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) / 1e18) (contracts/perp-vault/PerpetualAtlanticVault.sol#485-489)
+	Event emitted after the call(s):
+	- FundingPaid(msg.sender,((currentFundingRate * (nextFundingPaymentTimestamp() - startTime)) / 1e18),latestFundingPaymentPointer) (contracts/perp-vault/PerpetualAtlanticVault.sol#491-496)
+	- FundingPaymentPointerUpdated(latestFundingPaymentPointer) (contracts/perp-vault/PerpetualAtlanticVault.sol#500)
+Reentrancy in RdpxV2Core.upperDepeg(uint256,uint256) (contracts/core/RdpxV2Core.sol#1040-1059):
+	External calls:
+	- IDpxEthToken(reserveAsset[reservesIndex[DPXETH]].tokenAddress).mint(address(this),_amount) (contracts/core/RdpxV2Core.sol#1048-1051)
+	- wethReceived = _curveSwap(_amount,false,true,minOut) (contracts/core/RdpxV2Core.sol#1054)
+		- amountOut = dpxEthCurvePool.exchange(int128(int256(a)),int128(int256(b)),_amount,minAmount) (contracts/core/RdpxV2Core.sol#562-567)
+		- amountOut = dpxEthCurvePool.exchange(int128(int256(b)),int128(int256(a)),_amount,minOut) (contracts/core/RdpxV2Core.sol#562-567)
+	Event emitted after the call(s):
+	- LogUpperDepeg(_amount,wethReceived) (contracts/core/RdpxV2Core.sol#1058)
+Reentrancy in RdpxV2Core.withdraw(uint256) (contracts/core/RdpxV2Core.sol#999-1014):
+	External calls:
+	- IERC20WithBurn(weth).safeTransfer(msg.sender,amountWithdrawn) (contracts/core/RdpxV2Core.sol#1011)
+	Event emitted after the call(s):
+	- LogDelegateWithdraw(delegateId,amountWithdrawn) (contracts/core/RdpxV2Core.sol#1013)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-3
+INFO:Detectors:
+RdpxV2Core._curveSwap(uint256,bool,bool,uint256) (contracts/core/RdpxV2Core.sol#525-568) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _validate(ethBalance + _amount <= (ethBalance + dpxEthBalance) / 2,14) (contracts/core/RdpxV2Core.sol#543-551)
+	- _validate(dpxEthBalance + _amount <= (ethBalance + dpxEthBalance) / 2,14) (contracts/core/RdpxV2Core.sol#543-551)
+RdpxV2Core._transfer(uint256,uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#634-695) uses timestamp for comparisons
+	Dangerous comparisons:
+	- _validate(expiry >= block.timestamp,2) (contracts/core/RdpxV2Core.sol#646)
+PerpetualAtlanticVault.updateFundingPaymentPointer() (contracts/perp-vault/PerpetualAtlanticVault.sol#466-502) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp >= nextFundingPaymentTimestamp() (contracts/perp-vault/PerpetualAtlanticVault.sol#467)
+	- lastUpdateTime < nextFundingPaymentTimestamp() (contracts/perp-vault/PerpetualAtlanticVault.sol#468)
+	- lastUpdateTime == 0 (contracts/perp-vault/PerpetualAtlanticVault.sol#473-475)
+PerpetualAtlanticVault.updateFunding() (contracts/perp-vault/PerpetualAtlanticVault.sol#508-531) uses timestamp for comparisons
+	Dangerous comparisons:
+	- lastUpdateTime == 0 (contracts/perp-vault/PerpetualAtlanticVault.sol#511-513)
+PerpetualAtlanticVault._updateFundingRate(uint256) (contracts/perp-vault/PerpetualAtlanticVault.sol#604-626) uses timestamp for comparisons
+	Dangerous comparisons:
+	- fundingRates[latestFundingPaymentPointer] == 0 (contracts/perp-vault/PerpetualAtlanticVault.sol#605)
+	- lastUpdateTime > nextFundingPaymentTimestamp() - fundingDuration (contracts/perp-vault/PerpetualAtlanticVault.sol#608)
+	- endTime_scope_1 == startTime_scope_0 (contracts/perp-vault/PerpetualAtlanticVault.sol#621)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+INFO:Detectors:
+ContractWhitelist.isContract(address) (contracts/helper/ContractWhitelist.sol#52-58) uses assembly
+	- INLINE ASM (contracts/helper/ContractWhitelist.sol#54-56)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#assembly-usage
+INFO:Detectors:
+RdpxV2Core.provideFunding() (contracts/core/RdpxV2Core.sol#803-823) compares to a boolean constant:
+	-_validate(fundingPaidFor[pointer] == false,16) (contracts/core/RdpxV2Core.sol#812)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#boolean-equality
+INFO:Detectors:
+RdpxV2Core._bondWithDelegate(uint256,uint256,uint256) (contracts/core/RdpxV2Core.sol#709-757) has costly operations inside a loop:
+	- totalWethDelegated -= wethRequired (contracts/core/RdpxV2Core.sol#733)
+PerpetualAtlanticVault.settle(uint256[]) (contracts/perp-vault/PerpetualAtlanticVault.sol#318-371) has costly operations inside a loop:
+	- totalActiveOptions -= amount (contracts/perp-vault/PerpetualAtlanticVault.sol#341)
+PerpetualAtlanticVault.updateFundingPaymentPointer() (contracts/perp-vault/PerpetualAtlanticVault.sol#466-502) has costly operations inside a loop:
+	- lastUpdateTime = nextFundingPaymentTimestamp() (contracts/perp-vault/PerpetualAtlanticVault.sol#477)
+PerpetualAtlanticVault.updateFundingPaymentPointer() (contracts/perp-vault/PerpetualAtlanticVault.sol#466-502) has costly operations inside a loop:
+	- latestFundingPaymentPointer += 1 (contracts/perp-vault/PerpetualAtlanticVault.sol#499)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop
+INFO:Detectors:
+PerpetualAtlanticVaultLP._beforeTokenTransfer(address,address,uint256) (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#234-238) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code
+INFO:Detectors:
+Pragma version0.8.19 (contracts/amo/UniV2LiquidityAMO.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/amo/UniV2LiquidityAmo.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/amo/UniV3LiquidityAMO.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/amo/UniV3LiquidityAmo.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/core/IRdpxV2Core.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/core/RdpxV2Bond.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/core/RdpxV2Core.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/decaying-bonds/IRdpxDecayingBonds.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/decaying-bonds/RdpxDecayingBonds.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/dpxETH/DpxEthToken.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/dpxETH/IDpxEthToken.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/helper/ContractWhitelist.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/helper/Pausable.sol#3) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/interfaces/ICurveFactory.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/interfaces/IERC20WithBurn.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/interfaces/IOptionPricing.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/interfaces/IRdpxEthOracle.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version^0.8.19 (contracts/interfaces/IRdpxV2ReceiptToken.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/interfaces/IReLP.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version^0.8.9 (contracts/interfaces/IStableSwap.sol#2) allows old versions
+Pragma version0.8.19 (contracts/interfaces/IUniV2LiquidityAmo.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/interfaces/IVolatilityOracle.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/perp-vault/IPerpetualAtlanticVault.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/perp-vault/IPerpetualAtlanticVaultLP.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/perp-vault/PerpetualAtlanticVault.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/reLP/ReLPContract.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/relp/ReLPContract.sol#2) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+Pragma version0.8.19 (contracts/uniswap_v2/IUniswapV2Pair.sol#3) necessitates a version too recent to be trusted. Consider deploying with 0.8.18.
+solc-0.8.19 is not recommended for deployment
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#incorrect-versions-of-solidity
+INFO:Detectors:
+Low level call in UniV3LiquidityAMO.execute(address,uint256,bytes) (contracts/amo/UniV3LiquidityAMO.sol#340-347):
+	- (success,result) = _to.call{value: _value}(_data) (contracts/amo/UniV3LiquidityAMO.sol#345)
+Low level call in UniV3LiquidityAMO.execute(address,uint256,bytes) (contracts/amo/UniV3LiquidityAmo.sol#340-347):
+	- (success,result) = _to.call{value: _value}(_data) (contracts/amo/UniV3LiquidityAmo.sol#345)
+Low level call in RdpxDecayingBonds.emergencyWithdraw(address[],bool,address,uint256,uint256) (contracts/decaying-bonds/RdpxDecayingBonds.sol#89-107):
+	- (success) = to.call{gas: gas,value: amount}() (contracts/decaying-bonds/RdpxDecayingBonds.sol#98)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+INFO:Detectors:
+UniV2LiquidityAMO (contracts/amo/UniV2LiquidityAMO.sol#22-428) should inherit from IRdpxV2Core (contracts/core/IRdpxV2Core.sol#4-178)
+ReLPContract (contracts/reLP/ReLPContract.sol#25-296) should inherit from IReLP (contracts/interfaces/IReLP.sol#4-6)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-inheritance
+INFO:Detectors:
+Parameter UniV2LiquidityAMO.setAddresses(address,address,address,address,address,address,address)._tokenA (contracts/amo/UniV2LiquidityAMO.sol#75) is not in mixedCase
+Parameter UniV2LiquidityAMO.setAddresses(address,address,address,address,address,address,address)._tokenB (contracts/amo/UniV2LiquidityAMO.sol#76) is not in mixedCase
+Parameter UniV2LiquidityAMO.setAddresses(address,address,address,address,address,address,address)._pair (contracts/amo/UniV2LiquidityAMO.sol#77) is not in mixedCase
+Parameter UniV2LiquidityAMO.setAddresses(address,address,address,address,address,address,address)._rdpxV2Core (contracts/amo/UniV2LiquidityAMO.sol#78) is not in mixedCase
+Parameter UniV2LiquidityAMO.setAddresses(address,address,address,address,address,address,address)._rdpxOracle (contracts/amo/UniV2LiquidityAMO.sol#79) is not in mixedCase
+Parameter UniV2LiquidityAMO.setAddresses(address,address,address,address,address,address,address)._ammFactory (contracts/amo/UniV2LiquidityAMO.sol#80) is not in mixedCase
+Parameter UniV2LiquidityAMO.setAddresses(address,address,address,address,address,address,address)._ammRouter (contracts/amo/UniV2LiquidityAMO.sol#81) is not in mixedCase
+Parameter UniV2LiquidityAMO.setSlippageTolerance(uint256)._slippageTolerance (contracts/amo/UniV2LiquidityAMO.sol#110) is not in mixedCase
+Parameter UniV2LiquidityAMO.approveContractToSpend(address,address,uint256)._token (contracts/amo/UniV2LiquidityAMO.sol#127) is not in mixedCase
+Parameter UniV2LiquidityAMO.approveContractToSpend(address,address,uint256)._spender (contracts/amo/UniV2LiquidityAMO.sol#128) is not in mixedCase
+Parameter UniV2LiquidityAMO.approveContractToSpend(address,address,uint256)._amount (contracts/amo/UniV2LiquidityAMO.sol#129) is not in mixedCase
+Event UniV3LiquidityAMOlog(uint256) (contracts/amo/UniV3LiquidityAMO.sol#380) is not in CapWords
+Parameter UniV3LiquidityAMO.liquidityInPool(address,int24,int24,uint24)._collateral_address (contracts/amo/UniV3LiquidityAMO.sol#95) is not in mixedCase
+Parameter UniV3LiquidityAMO.liquidityInPool(address,int24,int24,uint24)._tickLower (contracts/amo/UniV3LiquidityAMO.sol#96) is not in mixedCase
+Parameter UniV3LiquidityAMO.liquidityInPool(address,int24,int24,uint24)._tickUpper (contracts/amo/UniV3LiquidityAMO.sol#97) is not in mixedCase
+Parameter UniV3LiquidityAMO.liquidityInPool(address,int24,int24,uint24)._fee (contracts/amo/UniV3LiquidityAMO.sol#98) is not in mixedCase
+Parameter UniV3LiquidityAMO.approveTarget(address,address,uint256,bool)._target (contracts/amo/UniV3LiquidityAMO.sol#141) is not in mixedCase
+Parameter UniV3LiquidityAMO.approveTarget(address,address,uint256,bool)._token (contracts/amo/UniV3LiquidityAMO.sol#142) is not in mixedCase
+Parameter UniV3LiquidityAMO.approveTarget(address,address,uint256,bool)._amount (contracts/amo/UniV3LiquidityAMO.sol#143) is not in mixedCase
+Parameter UniV3LiquidityAMO.approveTarget(address,address,uint256,bool).use_safe_approve (contracts/amo/UniV3LiquidityAMO.sol#144) is not in mixedCase
+Parameter UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160)._tokenA (contracts/amo/UniV3LiquidityAMO.sol#276) is not in mixedCase
+Parameter UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160)._tokenB (contracts/amo/UniV3LiquidityAMO.sol#277) is not in mixedCase
+Parameter UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160)._fee_tier (contracts/amo/UniV3LiquidityAMO.sol#278) is not in mixedCase
+Parameter UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160)._amountAtoB (contracts/amo/UniV3LiquidityAMO.sol#279) is not in mixedCase
+Parameter UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160)._amountOutMinimum (contracts/amo/UniV3LiquidityAMO.sol#280) is not in mixedCase
+Parameter UniV3LiquidityAMO.swap(address,address,uint24,uint256,uint256,uint160)._sqrtPriceLimitX96 (contracts/amo/UniV3LiquidityAMO.sol#281) is not in mixedCase
+Parameter UniV3LiquidityAMO.recoverERC721(address,uint256).token_id (contracts/amo/UniV3LiquidityAMO.sol#327) is not in mixedCase
+Parameter UniV3LiquidityAMO.execute(address,uint256,bytes)._to (contracts/amo/UniV3LiquidityAMO.sol#341) is not in mixedCase
+Parameter UniV3LiquidityAMO.execute(address,uint256,bytes)._value (contracts/amo/UniV3LiquidityAMO.sol#342) is not in mixedCase
+Parameter UniV3LiquidityAMO.execute(address,uint256,bytes)._data (contracts/amo/UniV3LiquidityAMO.sol#343) is not in mixedCase
+Variable UniV3LiquidityAMO.univ3_factory (contracts/amo/UniV3LiquidityAMO.sol#35) is not in mixedCase
+Variable UniV3LiquidityAMO.univ3_positions (contracts/amo/UniV3LiquidityAMO.sol#36) is not in mixedCase
+Variable UniV3LiquidityAMO.univ3_router (contracts/amo/UniV3LiquidityAMO.sol#37) is not in mixedCase
+Variable UniV3LiquidityAMO.positions_array (contracts/amo/UniV3LiquidityAMO.sol#63) is not in mixedCase
+Variable UniV3LiquidityAMO.positions_mapping (contracts/amo/UniV3LiquidityAMO.sol#66) is not in mixedCase
+Parameter RdpxV2Core.setRdpxBurnPercentage(uint256)._rdpxBurnPercentage (contracts/core/RdpxV2Core.sol#181) is not in mixedCase
+Parameter RdpxV2Core.setRdpxFeePercentage(uint256)._rdpxFeePercentage (contracts/core/RdpxV2Core.sol#194) is not in mixedCase
+Parameter RdpxV2Core.setIsreLP(bool)._isReLPActive (contracts/core/RdpxV2Core.sol#207) is not in mixedCase
+Parameter RdpxV2Core.setPutOptionsRequired(bool)._putOptionsRequired (contracts/core/RdpxV2Core.sol#219) is not in mixedCase
+Parameter RdpxV2Core.setBondMaturity(uint256)._bondMaturity (contracts/core/RdpxV2Core.sol#231) is not in mixedCase
+Parameter RdpxV2Core.addAssetTotokenReserves(address,string)._asset (contracts/core/RdpxV2Core.sol#243) is not in mixedCase
+Parameter RdpxV2Core.addAssetTotokenReserves(address,string)._assetSymbol (contracts/core/RdpxV2Core.sol#244) is not in mixedCase
+Parameter RdpxV2Core.removeAssetFromtokenReserves(string)._assetSymbol (contracts/core/RdpxV2Core.sol#273) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._dopexAMMRouter (contracts/core/RdpxV2Core.sol#307) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._dpxEthCurvePool (contracts/core/RdpxV2Core.sol#308) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._rdpxDecayingBonds (contracts/core/RdpxV2Core.sol#309) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._perpetualAtlanticVault (contracts/core/RdpxV2Core.sol#310) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._perpetualAtlanticVaultLP (contracts/core/RdpxV2Core.sol#311) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._rdpxReserve (contracts/core/RdpxV2Core.sol#312) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._rdpxV2ReceiptToken (contracts/core/RdpxV2Core.sol#313) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._feeDistributor (contracts/core/RdpxV2Core.sol#314) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._reLPContract (contracts/core/RdpxV2Core.sol#315) is not in mixedCase
+Parameter RdpxV2Core.setAddresses(address,address,address,address,address,address,address,address,address,address)._receiptTokenBonds (contracts/core/RdpxV2Core.sol#316) is not in mixedCase
+Parameter RdpxV2Core.setPricingOracleAddresses(address,address)._rdpxPriceOracle (contracts/core/RdpxV2Core.sol#367) is not in mixedCase
+Parameter RdpxV2Core.setPricingOracleAddresses(address,address)._dpxEthPriceOracle (contracts/core/RdpxV2Core.sol#368) is not in mixedCase
+Parameter RdpxV2Core.addAMOAddress(address)._addr (contracts/core/RdpxV2Core.sol#387) is not in mixedCase
+Parameter RdpxV2Core.removeAMOAddress(uint256)._index (contracts/core/RdpxV2Core.sol#399) is not in mixedCase
+Parameter RdpxV2Core.approveContractToSpend(address,address,uint256)._token (contracts/core/RdpxV2Core.sol#414) is not in mixedCase
+Parameter RdpxV2Core.approveContractToSpend(address,address,uint256)._spender (contracts/core/RdpxV2Core.sol#415) is not in mixedCase
+Parameter RdpxV2Core.approveContractToSpend(address,address,uint256)._amount (contracts/core/RdpxV2Core.sol#416) is not in mixedCase
+Parameter RdpxV2Core.addToContractWhitelist(address)._addr (contracts/core/RdpxV2Core.sol#430) is not in mixedCase
+Parameter RdpxV2Core.removeFromContractWhitelist(address)._addr (contracts/core/RdpxV2Core.sol#441) is not in mixedCase
+Parameter RdpxV2Core.setBondDiscount(uint256)._bondDiscountFactor (contracts/core/RdpxV2Core.sol#452) is not in mixedCase
+Parameter RdpxV2Core.setSlippageTolerance(uint256)._slippageTolerance (contracts/core/RdpxV2Core.sol#466) is not in mixedCase
+Parameter RdpxV2Core.bondWithDelegate(address,uint256[],uint256[],uint256)._to (contracts/core/RdpxV2Core.sol#835) is not in mixedCase
+Parameter RdpxV2Core.bondWithDelegate(address,uint256[],uint256[],uint256)._amounts (contracts/core/RdpxV2Core.sol#836) is not in mixedCase
+Parameter RdpxV2Core.bondWithDelegate(address,uint256[],uint256[],uint256)._delegateIds (contracts/core/RdpxV2Core.sol#837) is not in mixedCase
+Parameter RdpxV2Core.bond(uint256,uint256,address)._amount (contracts/core/RdpxV2Core.sol#915) is not in mixedCase
+Parameter RdpxV2Core.bond(uint256,uint256,address)._to (contracts/core/RdpxV2Core.sol#917) is not in mixedCase
+Parameter RdpxV2Core.addToDelegate(uint256,uint256)._amount (contracts/core/RdpxV2Core.sol#962) is not in mixedCase
+Parameter RdpxV2Core.addToDelegate(uint256,uint256)._fee (contracts/core/RdpxV2Core.sol#963) is not in mixedCase
+Parameter RdpxV2Core.upperDepeg(uint256,uint256)._amount (contracts/core/RdpxV2Core.sol#1041) is not in mixedCase
+Parameter RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256)._rdpxAmount (contracts/core/RdpxV2Core.sol#1070) is not in mixedCase
+Parameter RdpxV2Core.lowerDepeg(uint256,uint256,uint256,uint256)._wethAmount (contracts/core/RdpxV2Core.sol#1071) is not in mixedCase
+Parameter RdpxV2Core.getReserveTokenInfo(string)._token (contracts/core/RdpxV2Core.sol#1125) is not in mixedCase
+Parameter RdpxV2Core.calculateBondCost(uint256,uint256)._amount (contracts/core/RdpxV2Core.sol#1146) is not in mixedCase
+Parameter RdpxV2Core.calculateBondCost(uint256,uint256)._rdpxBondId (contracts/core/RdpxV2Core.sol#1147) is not in mixedCase
+Parameter RdpxV2Core.getDelegatePosition(uint256)._delegateId (contracts/core/RdpxV2Core.sol#1253) is not in mixedCase
+Parameter RdpxDecayingBonds.getBondsOwned(address)._address (contracts/decaying-bonds/RdpxDecayingBonds.sol#152) is not in mixedCase
+Parameter DpxEthToken.burn(uint256)._amount (contracts/dpxETH/DpxEthToken.sol#42) is not in mixedCase
+Function ICurveFactory.deploy_plain_pool(string,string,address[4],uint256,uint256,uint256,uint256) (contracts/interfaces/ICurveFactory.sol#9-17) is not in mixedCase
+Parameter ICurveFactory.deploy_plain_pool(string,string,address[4],uint256,uint256,uint256,uint256)._A (contracts/interfaces/ICurveFactory.sol#13) is not in mixedCase
+Parameter ICurveFactory.deploy_plain_pool(string,string,address[4],uint256,uint256,uint256,uint256)._asset_type (contracts/interfaces/ICurveFactory.sol#15) is not in mixedCase
+Parameter ICurveFactory.deploy_plain_pool(string,string,address[4],uint256,uint256,uint256,uint256)._implementaion_idx (contracts/interfaces/ICurveFactory.sol#16) is not in mixedCase
+Function IStableSwap.add_liquidity(uint256[2],uint256) (contracts/interfaces/IStableSwap.sol#5-8) is not in mixedCase
+Parameter IStableSwap.add_liquidity(uint256[2],uint256).min_mint_amount (contracts/interfaces/IStableSwap.sol#7) is not in mixedCase
+Function IStableSwap.remove_liquidity_one_coin(uint256,int128,uint256) (contracts/interfaces/IStableSwap.sol#12-16) is not in mixedCase
+Parameter IStableSwap.remove_liquidity_one_coin(uint256,int128,uint256)._token_amount (contracts/interfaces/IStableSwap.sol#13) is not in mixedCase
+Parameter IStableSwap.remove_liquidity_one_coin(uint256,int128,uint256).min_amount (contracts/interfaces/IStableSwap.sol#15) is not in mixedCase
+Function IStableSwap.get_virtual_price() (contracts/interfaces/IStableSwap.sol#18) is not in mixedCase
+Function IStableSwap.get_dy(int128,int128,uint256) (contracts/interfaces/IStableSwap.sol#24-28) is not in mixedCase
+Parameter IStableSwap.exchange(int128,int128,uint256,uint256)._min_dy (contracts/interfaces/IStableSwap.sol#34) is not in mixedCase
+Parameter PerpetualAtlanticVault.addToContractWhitelist(address)._contract (contracts/perp-vault/PerpetualAtlanticVault.sol#154) is not in mixedCase
+Parameter PerpetualAtlanticVault.removeFromContractWhitelist(address)._contract (contracts/perp-vault/PerpetualAtlanticVault.sol#165) is not in mixedCase
+Parameter PerpetualAtlanticVault.setAddresses(address,address,address,address,address,address,address)._optionPricing (contracts/perp-vault/PerpetualAtlanticVault.sol#182) is not in mixedCase
+Parameter PerpetualAtlanticVault.setAddresses(address,address,address,address,address,address,address)._assetPriceOracle (contracts/perp-vault/PerpetualAtlanticVault.sol#183) is not in mixedCase
+Parameter PerpetualAtlanticVault.setAddresses(address,address,address,address,address,address,address)._volatilityOracle (contracts/perp-vault/PerpetualAtlanticVault.sol#184) is not in mixedCase
+Parameter PerpetualAtlanticVault.setAddresses(address,address,address,address,address,address,address)._feeDistributor (contracts/perp-vault/PerpetualAtlanticVault.sol#185) is not in mixedCase
+Parameter PerpetualAtlanticVault.setAddresses(address,address,address,address,address,address,address)._rdpx (contracts/perp-vault/PerpetualAtlanticVault.sol#186) is not in mixedCase
+Parameter PerpetualAtlanticVault.setAddresses(address,address,address,address,address,address,address)._perpetualAtlanticVaultLP (contracts/perp-vault/PerpetualAtlanticVault.sol#187) is not in mixedCase
+Parameter PerpetualAtlanticVault.setAddresses(address,address,address,address,address,address,address)._rdpxV2Core (contracts/perp-vault/PerpetualAtlanticVault.sol#188) is not in mixedCase
+Parameter PerpetualAtlanticVault.updateFundingDuration(uint256)._fundingDuration (contracts/perp-vault/PerpetualAtlanticVault.sol#238) is not in mixedCase
+Parameter PerpetualAtlanticVault.getVolatility(uint256)._strike (contracts/perp-vault/PerpetualAtlanticVault.sol#541) is not in mixedCase
+Parameter PerpetualAtlanticVault.calculatePremium(uint256,uint256,uint256,uint256)._strike (contracts/perp-vault/PerpetualAtlanticVault.sol#550) is not in mixedCase
+Parameter PerpetualAtlanticVault.calculatePremium(uint256,uint256,uint256,uint256)._amount (contracts/perp-vault/PerpetualAtlanticVault.sol#551) is not in mixedCase
+Parameter PerpetualAtlanticVault.calculatePremium(uint256,uint256,uint256,uint256)._price (contracts/perp-vault/PerpetualAtlanticVault.sol#553) is not in mixedCase
+Parameter PerpetualAtlanticVault.roundUp(uint256)._strike (contracts/perp-vault/PerpetualAtlanticVault.sol#586) is not in mixedCase
+Parameter ReLPContract.setreLpFactor(uint256)._reLPFactor (contracts/reLP/ReLPContract.sol#82) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._tokenA (contracts/reLP/ReLPContract.sol#107) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._tokenB (contracts/reLP/ReLPContract.sol#108) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._pair (contracts/reLP/ReLPContract.sol#109) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._rdpxV2Core (contracts/reLP/ReLPContract.sol#110) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._tokenAReserve (contracts/reLP/ReLPContract.sol#111) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._amo (contracts/reLP/ReLPContract.sol#112) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._rdpxOracle (contracts/reLP/ReLPContract.sol#113) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._ammFactory (contracts/reLP/ReLPContract.sol#114) is not in mixedCase
+Parameter ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._ammRouter (contracts/reLP/ReLPContract.sol#115) is not in mixedCase
+Parameter ReLPContract.setLiquiditySlippageTolerance(uint256)._liquiditySlippageTolerance (contracts/reLP/ReLPContract.sol#163) is not in mixedCase
+Parameter ReLPContract.setSlippageTolerance(uint256)._slippageTolerance (contracts/reLP/ReLPContract.sol#178) is not in mixedCase
+Parameter ReLPContract.reLP(uint256)._amount (contracts/reLP/ReLPContract.sol#193) is not in mixedCase
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#conformance-to-solidity-naming-conventions
+INFO:Detectors:
+Variable UniV2LiquidityAMO.swap(uint256,uint256,bool).token1Amount (contracts/amo/UniV2LiquidityAMO.sol#309) is too similar to UniV2LiquidityAMO.swap(uint256,uint256,bool).token2Amount (contracts/amo/UniV2LiquidityAMO.sol#312)
+Variable UniV2LiquidityAMO.swap(uint256,uint256,bool).token1Amount (contracts/amo/UniV2LiquidityAMO.sol#309) is too similar to UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenAAmount (contracts/amo/UniV2LiquidityAMO.sol#190)
+Variable UniV2LiquidityAMO.swap(uint256,uint256,bool).token1Amount (contracts/amo/UniV2LiquidityAMO.sol#309) is too similar to UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenBAmount (contracts/amo/UniV2LiquidityAMO.sol#191)
+Variable UniV2LiquidityAMO.swap(uint256,uint256,bool).token2Amount (contracts/amo/UniV2LiquidityAMO.sol#312) is too similar to UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenAAmount (contracts/amo/UniV2LiquidityAMO.sol#190)
+Variable UniV2LiquidityAMO.swap(uint256,uint256,bool).token2Amount (contracts/amo/UniV2LiquidityAMO.sol#312) is too similar to UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenBAmount (contracts/amo/UniV2LiquidityAMO.sol#191)
+Variable UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenAAmount (contracts/amo/UniV2LiquidityAMO.sol#190) is too similar to UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenBAmount (contracts/amo/UniV2LiquidityAMO.sol#191)
+Variable UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenAAmountMin (contracts/amo/UniV2LiquidityAMO.sol#192) is too similar to UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenBAmountMin (contracts/amo/UniV2LiquidityAMO.sol#193)
+Variable UniV2LiquidityAMO.removeLiquidity(uint256,uint256,uint256).tokenAAmountMin (contracts/amo/UniV2LiquidityAMO.sol#261) is too similar to UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenBAmountMin (contracts/amo/UniV2LiquidityAMO.sol#193)
+Variable UniV2LiquidityAMO.removeLiquidity(uint256,uint256,uint256).tokenAAmountMin (contracts/amo/UniV2LiquidityAMO.sol#261) is too similar to UniV2LiquidityAMO.removeLiquidity(uint256,uint256,uint256).tokenBAmountMin (contracts/amo/UniV2LiquidityAMO.sol#262)
+Variable UniV2LiquidityAMO._sendTokensToRdpxV2Core().tokenABalance (contracts/amo/UniV2LiquidityAMO.sol#161-163) is too similar to UniV2LiquidityAMO._sendTokensToRdpxV2Core().tokenBBalance (contracts/amo/UniV2LiquidityAMO.sol#164-166)
+Variable UniV2LiquidityAMO.removeLiquidity(uint256,uint256,uint256).tokenAReceived (contracts/amo/UniV2LiquidityAMO.sol#266) is too similar to UniV2LiquidityAMO.removeLiquidity(uint256,uint256,uint256).tokenBReceived (contracts/amo/UniV2LiquidityAMO.sol#266)
+Variable UniV2LiquidityAMO.addLiquidity(uint256,uint256,uint256,uint256).tokenAAmountMin (contracts/amo/UniV2LiquidityAMO.sol#192) is too similar to UniV2LiquidityAMO.removeLiquidity(uint256,uint256,uint256).tokenBAmountMin (contracts/amo/UniV2LiquidityAMO.sol#262)
+Variable UniV3LiquidityAMO._sendTokensToRdpxV2Core(address,address).tokenABalance (contracts/amo/UniV3LiquidityAMO.sol#355) is too similar to UniV3LiquidityAMO._sendTokensToRdpxV2Core(address,address).tokenBBalance (contracts/amo/UniV3LiquidityAMO.sol#356)
+Variable ReLPContract.setAddresses(address,address,address,address,address,address,address,address,address)._tokenAReserve (contracts/reLP/ReLPContract.sol#111) is too similar to ReLPContract.reLP(uint256).tokenAReserves (contracts/reLP/ReLPContract.sol#204-205)
+Variable ReLPContract.reLP(uint256).mintokenAAmount (contracts/reLP/ReLPContract.sol#234-235) is too similar to ReLPContract.reLP(uint256).mintokenBAmount (contracts/reLP/ReLPContract.sol#236-238)
+Variable ReLPContract.reLP(uint256).tokenASorted (contracts/reLP/ReLPContract.sol#195) is too similar to ReLPContract.reLP(uint256).tokenBSorted (contracts/reLP/ReLPContract.sol#195)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-too-similar
+INFO:Detectors:
+PerpetualAtlanticVault.roundingPrecision (contracts/perp-vault/PerpetualAtlanticVault.sol#104) should be constant 
+PerpetualAtlanticVaultLP.underlyingSymbol (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#52) should be constant 
+RdpxV2Core.liquiditySlippageTolerance (contracts/core/RdpxV2Core.sol#103) should be constant 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-constant
+INFO:Detectors:
+PerpetualAtlanticVault.collateralPrecision (contracts/perp-vault/PerpetualAtlanticVault.sol#60) should be immutable 
+PerpetualAtlanticVault.collateralToken (contracts/perp-vault/PerpetualAtlanticVault.sol#57) should be immutable 
+PerpetualAtlanticVault.genesis (contracts/perp-vault/PerpetualAtlanticVault.sol#95) should be immutable 
+PerpetualAtlanticVaultLP.collateral (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#49) should be immutable 
+PerpetualAtlanticVaultLP.perpetualAtlanticVault (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#46) should be immutable 
+PerpetualAtlanticVaultLP.rdpx (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#67) should be immutable 
+PerpetualAtlanticVaultLP.rdpxRdpxV2Core (contracts/perp-vault/PerpetualAtlanticVaultLP.sol#70) should be immutable 
+RdpxV2Core.weth (contracts/core/RdpxV2Core.sol#67) should be immutable 
+UniV3LiquidityAMO.rdpx (contracts/amo/UniV3LiquidityAmo.sol#69) should be immutable 
+UniV3LiquidityAMO.rdpxV2Core (contracts/amo/UniV3LiquidityAmo.sol#72) should be immutable 
+UniV3LiquidityAMO.univ3_factory (contracts/amo/UniV3LiquidityAmo.sol#35) should be immutable 
+UniV3LiquidityAMO.univ3_positions (contracts/amo/UniV3LiquidityAmo.sol#36) should be immutable 
+UniV3LiquidityAMO.univ3_router (contracts/amo/UniV3LiquidityAmo.sol#37) should be immutable 
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#state-variables-that-could-be-declared-immutable
+INFO:Slither:. analyzed (144 contracts with 85 detectors), 366 result(s) found
