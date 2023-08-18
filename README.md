@@ -101,7 +101,12 @@ forge test
 
 ### Running coverage
 
-To run solidity code coverage and generate the coverage reports, please use one of the following commands:
+First, comment the following to avoid a stack too deep error due to https://github.com/foundry-rs/foundry/issues/3357:
+
+- [Periphery.t.sol.testUniV3Amo()](https://github.com/code-423n4/2023-08-dopex/blob/main/tests/rdpxV2-core/Periphery.t.sol#L131-L221)
+- [UniV3LiquidityAmo.sol.removeLiquidity()](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol#L213-L270)
+
+Then, to run solidity code coverage and generate the coverage reports, please use one of the following commands:
 
 ```bash
 sh coverage.sh
@@ -113,8 +118,6 @@ or
 chmod +x coverage.sh
 ./coverage.sh
 ```
-
-`forge coverage` will result in an stack too deep error due to https://github.com/foundry-rs/foundry/issues/3357
 
 ### Slither
 
