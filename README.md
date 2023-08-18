@@ -33,17 +33,19 @@ Full product spec: https://dopex.notion.site/rDPX-V2-RI-b45b5b402af54bcab758d62f
 
 # Scope
 
-| Contract                                                                          | Lines | Purpose                                                        | Libraries used                                                                 |
+*See [scope.txt](https://github.com/code-423n4/2023-08-dopex/blob/main/scope.txt)*
+
+| Contract                                                                          | SLOCs | Purpose                                                        | Libraries used                                                                 |
 | --------------------------------------------------------------------------------- | ---- | -------------------------------------------------------------- | ------------------------------------------------------------------------------ |
-| [contracts/amo/UniV2LiquidityAmo.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol)                      | 422  | This contract encompasses all functions for the Uniswap V2 AMO | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), Uniswap V2 libraries |
-| [contracts/amo/UniV3LiquidityAmo.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol)                      | 380  | This contract encompasses all functions for the Uniswap V3 AMO | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), Uniswap V3 libraries |
-| [contracts/core/RdpxV2Core.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol)                                   | 1278 | This is the core contract of rDPX V2                           | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [contracts/core/RdpxV2Bond.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Bond.sol)                                   | 67   | ERC721 contract for minting NFT bonds via the core contract    | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [contracts/decaying-bonds/RdpxDecayingBonds.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol)           | 183  | Contract responsible to mint rDPX decaying bonds               | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [contracts/dpxETH/DpxEthToken.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol)                               | 63   | ERC20 dpxETH token contract                                    | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [contracts/perp-vault/PerpetualAtlanticVault.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol)     | 664  | Contract for the Perpetual Atlantic Vault (ERC721)             | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
-| [contracts/perp-vault/PerpetualAtlanticVaultLP.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol) | 302  | Contract for the Perpetual Atlantic Vault LP (ERC4626)         | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), solmate              |
-| [contracts/reLP/ReLPContract.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol)                     | 297  | Contract to perform the reLP process on the Uniswap V2 AMO     | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/amo/UniV2LiquidityAmo.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol)                      | 271  | This contract encompasses all functions for the Uniswap V2 AMO | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), Uniswap V2 libraries |
+| [contracts/amo/UniV3LiquidityAmo.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV3LiquidityAmo.sol)                      | 269  | This contract encompasses all functions for the Uniswap V3 AMO | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), Uniswap V3 libraries |
+| [contracts/core/RdpxV2Core.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Core.sol)                                   | 708 | This is the core contract of rDPX V2                           | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/core/RdpxV2Bond.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/core/RdpxV2Bond.sol)                                   | 54   | ERC721 contract for minting NFT bonds via the core contract    | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/decaying-bonds/RdpxDecayingBonds.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/decaying-bonds/RdpxDecayingBonds.sol)           | 119  | Contract responsible to mint rDPX decaying bonds               | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/dpxETH/DpxEthToken.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/dpxETH/DpxEthToken.sol)                               | 51   | ERC20 dpxETH token contract                                    | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/perp-vault/PerpetualAtlanticVault.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVault.sol)     | 420  | Contract for the Perpetual Atlantic Vault (ERC721)             | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
+| [contracts/perp-vault/PerpetualAtlanticVaultLP.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/perp-vault/PerpetualAtlanticVaultLP.sol) | 182  | Contract for the Perpetual Atlantic Vault LP (ERC4626)         | [`@openzeppelin/*`](https://openzeppelin.com/contracts/), solmate              |
+| [contracts/reLP/ReLPContract.sol](https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/reLP/ReLPContract.sol)                     | 190  | Contract to perform the reLP process on the Uniswap V2 AMO     | [`@openzeppelin/*`](https://openzeppelin.com/contracts/)                       |
 
 ## Out of scope
 
@@ -53,7 +55,7 @@ RdpxV2ReceiptToken contracts, staking contracts, reserve contracts, dpxETH/ETH o
 
 ```
 - How many contracts are in scope?: 9 (Excluding interfaces)
-- Total SLoC for these contracts?:  3656 (Excluding interfaces)
+- Total SLoC for these contracts?:  2264 (Excluding interfaces)
 - How many external imports are there?: 20+
 - How many separate interfaces and struct definitions are there for the contracts within scope?:  30
 - Does most of your code generally use composition or inheritance?:  Inheritance
@@ -97,9 +99,24 @@ Run all tests like this:
 forge test
 ```
 
-Run solidity code coverage:
+### Running coverage
+
+To run solidity code coverage and generate the coverage reports, please use one of the following commands:
+
+```bash
+sh coverage.sh
+```
+
+or 
 
 ```bash
 chmod +x coverage.sh
 ./coverage.sh
 ```
+
+`forge coverage` will result in an stack too deep error due to https://github.com/foundry-rs/foundry/issues/3357
+
+### Slither
+
+Slither's output can be found at [./slither.txt](https://github.com/code-423n4/2023-08-dopex/blob/main/slither.txt). 
+You can run it on your own with `slither .`

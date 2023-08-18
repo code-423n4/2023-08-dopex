@@ -1,0 +1,313 @@
+diff --git a/contracts/amo/UniV3LiquidityAmo.sol b/contracts/amo/UniV3LiquidityAmo.sol
+index 9129094..60e5873 100644
+--- a/contracts/amo/UniV3LiquidityAmo.sol
++++ b/contracts/amo/UniV3LiquidityAmo.sol
+@@ -210,64 +210,64 @@ contract UniV3LiquidityAMO is AccessControl, ERC721Holder {
+     _sendTokensToRdpxV2Core(params._tokenA, params._tokenB);
+   }
+ 
+-  function removeLiquidity(
+-    uint256 positionIndex,
+-    uint256 minAmount0,
+-    uint256 minAmount1
+-  ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+-    Position memory pos = positions_array[positionIndex];
+-    INonfungiblePositionManager.CollectParams
+-      memory collect_params = INonfungiblePositionManager.CollectParams(
+-        pos.token_id,
+-        rdpxV2Core,
+-        type(uint128).max,
+-        type(uint128).max
+-      );
+-
+-    (
+-      ,
+-      ,
+-      address tokenA,
+-      address tokenB,
+-      ,
+-      ,
+-      ,
+-      uint128 liquidity,
+-      ,
+-      ,
+-      ,
+-
+-    ) = univ3_positions.positions(pos.token_id);
+-
+-    // remove liquidity
+-    INonfungiblePositionManager.DecreaseLiquidityParams
+-      memory decreaseLiquidityParams = INonfungiblePositionManager
+-        .DecreaseLiquidityParams(
+-          pos.token_id,
+-          liquidity,
+-          minAmount0,
+-          minAmount1,
+-          block.timestamp
+-        );
+-
+-    univ3_positions.decreaseLiquidity(decreaseLiquidityParams);
+-
+-    univ3_positions.collect(collect_params);
+-
+-    univ3_positions.burn(pos.token_id);
+-
+-    positions_array[positionIndex] = positions_array[
+-      positions_array.length - 1
+-    ];
+-    positions_array.pop();
+-    delete positions_mapping[pos.token_id];
+-
+-    // send tokens to rdpxV2Core
+-    _sendTokensToRdpxV2Core(tokenA, tokenB);
+-
+-    emit log(positions_array.length);
+-    emit log(positions_mapping[pos.token_id].token_id);
+-  }
++  // function removeLiquidity(
++  //   uint256 positionIndex,
++  //   uint256 minAmount0,
++  //   uint256 minAmount1
++  // ) public onlyRole(DEFAULT_ADMIN_ROLE) {
++  //   Position memory pos = positions_array[positionIndex];
++  //   INonfungiblePositionManager.CollectParams
++  //     memory collect_params = INonfungiblePositionManager.CollectParams(
++  //       pos.token_id,
++  //       rdpxV2Core,
++  //       type(uint128).max,
++  //       type(uint128).max
++  //     );
++
++  //   (
++  //     ,
++  //     ,
++  //     address tokenA,
++  //     address tokenB,
++  //     ,
++  //     ,
++  //     ,
++  //     uint128 liquidity,
++  //     ,
++  //     ,
++  //     ,
++
++  //   ) = univ3_positions.positions(pos.token_id);
++
++  //   // remove liquidity
++  //   INonfungiblePositionManager.DecreaseLiquidityParams
++  //     memory decreaseLiquidityParams = INonfungiblePositionManager
++  //       .DecreaseLiquidityParams(
++  //         pos.token_id,
++  //         liquidity,
++  //         minAmount0,
++  //         minAmount1,
++  //         block.timestamp
++  //       );
++
++  //   univ3_positions.decreaseLiquidity(decreaseLiquidityParams);
++
++  //   univ3_positions.collect(collect_params);
++
++  //   univ3_positions.burn(pos.token_id);
++
++  //   positions_array[positionIndex] = positions_array[
++  //     positions_array.length - 1
++  //   ];
++  //   positions_array.pop();
++  //   delete positions_mapping[pos.token_id];
++
++  //   // send tokens to rdpxV2Core
++  //   _sendTokensToRdpxV2Core(tokenA, tokenB);
++
++  //   emit log(positions_array.length);
++  //   emit log(positions_mapping[pos.token_id].token_id);
++  // }
+ 
+   // Swap tokenA into tokenB using univ3_router.ExactInputSingle()
+   // Uni V3 only
+diff --git a/contracts/reLP/ReLPContract.sol b/contracts/reLP/ReLPContract.sol
+index 4c7a60c..f9e5d90 100644
+--- a/contracts/reLP/ReLPContract.sol
++++ b/contracts/reLP/ReLPContract.sol
+@@ -216,8 +216,8 @@ contract ReLPContract is AccessControl {
+ 
+     uint256 baseReLpRatio = (reLPFactor * Math.sqrt(tokenAReserves) * 1e2) /
+       (Math.sqrt(1e18)); // 1e6 precision
+-
+-    uint256 tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) *
++    uint256 amount_ = _amount; // needed to avoid stack too deep error
++    uint256 tokenAToRemove = ((((amount_ * 4) * 1e18) / tokenAReserves) *
+       tokenALpReserve *
+       baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2);
+ 
+diff --git a/tests/RdpxV2CoreTest.t.sol b/tests/RdpxV2CoreTest.t.sol
+index 6486b37..02ed984 100644
+--- a/tests/RdpxV2CoreTest.t.sol
++++ b/tests/RdpxV2CoreTest.t.sol
+@@ -1154,95 +1154,95 @@ contract RdpxV2CoreTest is Test, ERC721Holder {
+     assertEq(wethBalance1 - 1e18, wethBalance2);
+   }
+ 
+-  function testUniV3Amo() public {
+-    // create a v3 pool
+-    address pool = IUniswapV3Factory(0x1F98431c8aD98523631AE4a59f267346ea31F984)
+-      .createPool(address(rdpx), address(weth), 500);
+-    // initalize a price in the uni v3 pool
+-    IUniswapV3Pool(pool).initialize(1771845812700903892492222464);
+-
+-    uniV3LiquidityAMO = new UniV3LiquidityAMO(
+-      address(rdpx),
+-      address(rdpxV2Core)
+-    );
++  // function testUniV3Amo() public {
++  //   // create a v3 pool
++  //   address pool = IUniswapV3Factory(0x1F98431c8aD98523631AE4a59f267346ea31F984)
++  //     .createPool(address(rdpx), address(weth), 500);
++  //   // initalize a price in the uni v3 pool
++  //   IUniswapV3Pool(pool).initialize(1771845812700903892492222464);
+ 
+-    rdpxV2Core.addAMOAddress(address(uniV3LiquidityAMO));
++  //   uniV3LiquidityAMO = new UniV3LiquidityAMO(
++  //     address(rdpx),
++  //     address(rdpxV2Core)
++  //   );
+ 
+-    rdpxV2Core.approveContractToSpend(
+-      address(rdpx),
+-      address(uniV3LiquidityAMO),
+-      type(uint256).max
+-    );
++  //   rdpxV2Core.addAMOAddress(address(uniV3LiquidityAMO));
+ 
+-    rdpxV2Core.approveContractToSpend(
+-      address(weth),
+-      address(uniV3LiquidityAMO),
+-      type(uint256).max
+-    );
++  //   rdpxV2Core.approveContractToSpend(
++  //     address(rdpx),
++  //     address(uniV3LiquidityAMO),
++  //     type(uint256).max
++  //   );
+ 
+-    rdpx.transfer(address(rdpxV2Core), 50e18);
+-    weth.transfer(address(rdpxV2Core), 11e18);
++  //   rdpxV2Core.approveContractToSpend(
++  //     address(weth),
++  //     address(uniV3LiquidityAMO),
++  //     type(uint256).max
++  //   );
+ 
+-    // test add liquidity
+-    int24 minTick = -887270;
+-    int24 maxTick = 887270;
+-    uint24 fee = 500;
+-
+-    UniV3LiquidityAMO.AddLiquidityParams memory params = UniV3LiquidityAMO
+-      .AddLiquidityParams(
+-        address(rdpx),
+-        address(weth),
+-        minTick,
+-        maxTick,
+-        fee,
+-        1e18,
+-        1e18,
+-        0,
+-        0
+-      );
++  //   rdpx.transfer(address(rdpxV2Core), 50e18);
++  //   weth.transfer(address(rdpxV2Core), 11e18);
+ 
+-    uniV3LiquidityAMO.addLiquidity(params);
++  //   // test add liquidity
++  //   int24 minTick = -887270;
++  //   int24 maxTick = 887270;
++  //   uint24 fee = 500;
+ 
+-    assertEq(rdpx.balanceOf(address(uniV3LiquidityAMO)), 0);
+-    assertEq(weth.balanceOf(address(uniV3LiquidityAMO)), 0);
++  //   UniV3LiquidityAMO.AddLiquidityParams memory params = UniV3LiquidityAMO
++  //     .AddLiquidityParams(
++  //       address(rdpx),
++  //       address(weth),
++  //       minTick,
++  //       maxTick,
++  //       fee,
++  //       1e18,
++  //       1e18,
++  //       0,
++  //       0
++  //     );
+ 
+-    // test swap rdpx to eth
+-    uint256 rdpxBalance1 = rdpx.balanceOf(address(rdpxV2Core));
+-    uint256 wethBalance1 = weth.balanceOf(address(rdpxV2Core));
++  //   uniV3LiquidityAMO.addLiquidity(params);
+ 
+-    uniV3LiquidityAMO.swap(address(rdpx), address(weth), 500, 1e16, 0, 0);
++  //   assertEq(rdpx.balanceOf(address(uniV3LiquidityAMO)), 0);
++  //   assertEq(weth.balanceOf(address(uniV3LiquidityAMO)), 0);
+ 
+-    uint256 rdpxBalance2 = rdpx.balanceOf(address(rdpxV2Core));
+-    uint256 wethBalance2 = weth.balanceOf(address(rdpxV2Core));
++  //   // test swap rdpx to eth
++  //   uint256 rdpxBalance1 = rdpx.balanceOf(address(rdpxV2Core));
++  //   uint256 wethBalance1 = weth.balanceOf(address(rdpxV2Core));
+ 
+-    assertEq(rdpxBalance1 - 1e16, rdpxBalance2);
+-    assertEq(wethBalance2, 10999504808180183776);
++  //   uniV3LiquidityAMO.swap(address(rdpx), address(weth), 500, 1e16, 0, 0);
+ 
+-    assertEq(rdpx.balanceOf(address(uniV3LiquidityAMO)), 0);
+-    assertEq(weth.balanceOf(address(uniV3LiquidityAMO)), 0);
++  //   uint256 rdpxBalance2 = rdpx.balanceOf(address(rdpxV2Core));
++  //   uint256 wethBalance2 = weth.balanceOf(address(rdpxV2Core));
+ 
+-    // test swap weth to rdpx
+-    uniV3LiquidityAMO.swap(address(weth), address(rdpx), 500, 1e18, 0, 0);
++  //   assertEq(rdpxBalance1 - 1e16, rdpxBalance2);
++  //   assertEq(wethBalance2, 10999504808180183776);
+ 
+-    rdpxBalance1 = rdpx.balanceOf(address(rdpxV2Core));
+-    wethBalance1 = weth.balanceOf(address(rdpxV2Core));
++  //   assertEq(rdpx.balanceOf(address(uniV3LiquidityAMO)), 0);
++  //   assertEq(weth.balanceOf(address(uniV3LiquidityAMO)), 0);
+ 
+-    assertEq(rdpxBalance1, 49999494856333163815);
+-    assertEq(wethBalance1, wethBalance2 - 1e18);
++  //   // test swap weth to rdpx
++  //   uniV3LiquidityAMO.swap(address(weth), address(rdpx), 500, 1e18, 0, 0);
+ 
+-    assertEq(rdpx.balanceOf(address(uniV3LiquidityAMO)), 0);
+-    assertEq(weth.balanceOf(address(uniV3LiquidityAMO)), 0);
++  //   rdpxBalance1 = rdpx.balanceOf(address(rdpxV2Core));
++  //   wethBalance1 = weth.balanceOf(address(rdpxV2Core));
+ 
+-    // test rmove liquidity
+-    uniV3LiquidityAMO.removeLiquidity(0, 0, 0);
++  //   assertEq(rdpxBalance1, 49999494856333163815);
++  //   assertEq(wethBalance1, wethBalance2 - 1e18);
+ 
+-    rdpxBalance2 = rdpx.balanceOf(address(rdpxV2Core));
+-    wethBalance2 = weth.balanceOf(address(rdpxV2Core));
++  //   assertEq(rdpx.balanceOf(address(uniV3LiquidityAMO)), 0);
++  //   assertEq(weth.balanceOf(address(uniV3LiquidityAMO)), 0);
+ 
+-    assertEq(rdpxBalance2, 49999999999999999968);
+-    assertEq(wethBalance2, 10999999999999999966);
++  //   // test rmove liquidity
++  //   uniV3LiquidityAMO.removeLiquidity(0, 0, 0);
+ 
+-    assertEq(rdpx.balanceOf(address(uniV3LiquidityAMO)), 0);
+-    assertEq(weth.balanceOf(address(uniV3LiquidityAMO)), 0);
+-  }
++  //   rdpxBalance2 = rdpx.balanceOf(address(rdpxV2Core));
++  //   wethBalance2 = weth.balanceOf(address(rdpxV2Core));
++
++  //   assertEq(rdpxBalance2, 49999999999999999968);
++  //   assertEq(wethBalance2, 10999999999999999966);
++
++  //   assertEq(rdpx.balanceOf(address(uniV3LiquidityAMO)), 0);
++  //   assertEq(weth.balanceOf(address(uniV3LiquidityAMO)), 0);
++  // }
+ }
