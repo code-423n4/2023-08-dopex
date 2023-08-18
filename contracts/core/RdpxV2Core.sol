@@ -827,8 +827,6 @@ contract RdpxV2Core is
     _validate(_amounts.length == _delegateIds.length, 3);
 
     uint256 userTotalBondAmount;
-    uint256 totalRdpxRequired;
-    uint256 totalWethRequired;
     uint256 totalBondAmount;
 
     uint256[] memory delegateReceiptTokenAmounts = new uint256[](
@@ -851,8 +849,6 @@ contract RdpxV2Core is
       delegateReceiptTokenAmounts[i] = returnValues.delegateReceiptTokenAmount;
 
       userTotalBondAmount += returnValues.bondAmountForUser;
-      totalRdpxRequired += returnValues.rdpxRequired;
-      totalWethRequired += returnValues.wethRequired;
       totalBondAmount += _amounts[i];
 
       // purchase options
@@ -1011,6 +1007,40 @@ contract RdpxV2Core is
     emit LogSync();
   }
 
+   /**
+   * @notice Withdraws DSC from a matured bond
+   * @param  id bond ID
+   * @param  to the address to send the DSC too
+   * @return receiptTokenAmount the amount of receipt Tokens to transfer
+   **/
+  function redeem(
+    uint256 id,
+    address to
+  ) external returns (uint256 receiptTokenAmount) {
+    // Validate bond ID
+    _validate(bonds[id].timestamp > 0, 6);
+    // Validate if bond has matured
+    _validate(block.timestamp > bonds[id].maturity, 7);
+
+    _validate(
+      msg.sender == RdpxV2Bond(addresses.receiptTokenBonds).ownerOf(id),
+      9
+    );
+
+    // Burn the bond token
+    // Note requires an approval of the bond token to this contract
+    RdpxV2Bond(addresses.receiptTokenBonds).burn(id);
+
+    // transfer receipt tokens to user
+    receiptTokenAmount = bonds[id].amount;
+    IERC20WithBurn(addresses.rdpxV2ReceiptToken).safeTransfer(
+      to,
+      receiptTokenAmount
+    );
+
+    emit LogRedeem(to, receiptTokenAmount);
+  }
+
   // ================================ REPEG FUNCTIONS ================================ //
 
   /**
@@ -1040,7 +1070,7 @@ contract RdpxV2Core is
   }
 
   /**
-   * @notice Rdpx V2 Corecan redeem Rdpx/ETH lp tokens ot buy back and burn DpxEth
+   * @notice Rdpx V2 Core can redeem Rdpx/ETH lp tokens ot buy back and burn DpxEth
    * @dev    uintParams are used to avoid reaching stack depth
    * @param  _rdpxAmount The amount of rdpx to use
    * @param  _wethAmount The amount of weth to use

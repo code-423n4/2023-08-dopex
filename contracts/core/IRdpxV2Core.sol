@@ -175,4 +175,9 @@ interface IRdpxV2Core {
   /// @notice Emitted when isReLpActive is set
   /// @param isReLPActive the boolean value of isReLpActive
   event LogSetIsReLPActive(bool isReLPActive);
+
+  /// @notice Emitted when a bond is redeemed
+  /// @param to the address to which the receipt tokens are sent
+  /// @param amount the amount of receipt tokens redeemed
+  event LogRedeem(address to, uint256 amount);
 }

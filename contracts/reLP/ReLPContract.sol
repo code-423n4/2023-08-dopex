@@ -48,6 +48,15 @@ contract ReLPContract is AccessControl {
     address ammRouter;
   }
 
+  struct TokenAInfo {
+    // tokenA reserves
+    uint256 tokenAReserve;
+    // rdpx price
+    uint256 tokenAPrice;
+    // tokenA LP reserves
+    uint256 tokenALpReserve;
+  }
+
   /// @notice  addresses of the contracts
   Addresses public addresses;
 
@@ -202,28 +211,33 @@ contract ReLPContract is AccessControl {
       tokenBSorted
     );
 
+    TokenAInfo memory tokenAInfo = TokenAInfo(0, 0, 0);
+
     // get tokenA reserves
-    uint256 tokenAReserves = IRdpxReserve(addresses.tokenAReserve)
+    tokenAInfo.tokenAReserve = IRdpxReserve(addresses.tokenAReserve)
       .rdpxReserve(); // rdpx reserves
 
     // get rdpx price
-    uint256 tokenAPrice = IRdpxEthOracle(addresses.rdpxOracle)
+    tokenAInfo.tokenAPrice = IRdpxEthOracle(addresses.rdpxOracle)
       .getRdpxPriceInEth();
 
-    uint256 tokenALpReserve = addresses.tokenA == tokenASorted
+    tokenAInfo.tokenALpReserve = addresses.tokenA == tokenASorted
       ? reserveA
       : reserveB;
 
-    uint256 baseReLpRatio = (reLPFactor * Math.sqrt(tokenAReserves) * 1e2) /
-      (Math.sqrt(1e18)); // 1e6 precision
+    uint256 baseReLpRatio = (reLPFactor *
+      Math.sqrt(tokenAInfo.tokenAReserve) *
+      1e2) / (Math.sqrt(1e18)); // 1e6 precision
 
-    uint256 tokenAToRemove = ((((_amount * 4) * 1e18) / tokenAReserves) *
-      tokenALpReserve *
+    uint256 tokenAToRemove = ((((_amount * 4) * 1e18) /
+      tokenAInfo.tokenAReserve) *
+      tokenAInfo.tokenALpReserve *
       baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2);
 
     uint256 totalLpSupply = IUniswapV2Pair(addresses.pair).totalSupply();
 
-    uint256 lpToRemove = (tokenAToRemove * totalLpSupply) / tokenALpReserve;
+    uint256 lpToRemove = (tokenAToRemove * totalLpSupply) /
+      tokenAInfo.tokenALpReserve;
 
     // transfer LP tokens from the AMO
     IERC20WithBurn(addresses.pair).transferFrom(
@@ -235,8 +249,9 @@ contract ReLPContract is AccessControl {
     // calculate min amounts to remove
     uint256 mintokenAAmount = tokenAToRemove -
       ((tokenAToRemove * liquiditySlippageTolerance) / 1e8);
-    uint256 mintokenBAmount = ((tokenAToRemove * tokenAPrice) / 1e8) -
-      ((tokenAToRemove * tokenAPrice) * liquiditySlippageTolerance) /
+    uint256 mintokenBAmount = ((tokenAToRemove * tokenAInfo.tokenAPrice) /
+      1e8) -
+      ((tokenAToRemove * tokenAInfo.tokenAPrice) * liquiditySlippageTolerance) /
       1e16;
 
     (, uint256 amountB) = IUniswapV2Router(addresses.ammRouter).removeLiquidity(
@@ -256,8 +271,8 @@ contract ReLPContract is AccessControl {
 
     // calculate min amount of tokenA to be received
     mintokenAAmount =
-      (((amountB / 2) * tokenAPrice) / 1e8) -
-      (((amountB / 2) * tokenAPrice * slippageTolerance) / 1e16);
+      (((amountB / 2) * tokenAInfo.tokenAPrice) / 1e8) -
+      (((amountB / 2) * tokenAInfo.tokenAPrice * slippageTolerance) / 1e16);
 
     uint256 tokenAAmountOut = IUniswapV2Router(addresses.ammRouter)
       .swapExactTokensForTokens(
