@@ -13,7 +13,7 @@
 - Submit findings [using the C4 form](https://code4rena.com/contests/2023-08-dopex/submit)
 - [Read our guidelines for more details](https://docs.code4rena.com/roles/wardens)
 - Starts August 21, 2023 20:00 UTC
-- Ends September 4, 2023 20:00 UTC
+- Ends September 5, 2023 20:00 UTC
 
 ## Automated Findings / Publicly Known Issues
 
