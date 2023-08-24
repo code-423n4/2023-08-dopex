@@ -10112,4 +10112,2403 @@ File: contracts/amo/UniV3LiquidityAmo.sol
 334:     );
 
 ```
-*GitHub*: [158](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L15
+
+*GitHub*: [158](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L158-L162), [163](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L163-L167), [283](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L283-L287), [330](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L330-L334)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+653        IERC20WithBurn(reserveAsset[reservesIndex["RDPX"]].tokenAddress)
+654:         .safeTransferFrom(msg.sender, address(this), _rdpxAmount);
+
+909      IERC20WithBurn(weth).safeTransferFrom(
+910        msg.sender,
+911        address(this),
+912        wethRequired
+913:     );
+
+953:     IERC20WithBurn(weth).safeTransferFrom(msg.sender, address(this), _amount);
+
+```
+*GitHub*: [653](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L653-L654), [909](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L909-L913), [953](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L953-L953)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+289:     collateralToken.safeTransferFrom(msg.sender, address(this), premium);
+
+347      collateralToken.safeTransferFrom(
+348        addresses.perpetualAtlanticVaultLP,
+349        addresses.rdpxV2Core,
+350        ethAmount
+351:     );
+
+353      IERC20WithBurn(addresses.rdpx).safeTransferFrom(
+354        addresses.rdpxV2Core,
+355        addresses.perpetualAtlanticVaultLP,
+356        rdpxAmount
+357:     );
+
+382      collateralToken.safeTransferFrom(
+383        addresses.rdpxV2Core,
+384        address(this),
+385        totalFundingForEpoch[latestFundingPaymentPointer]
+386:     );
+
+```
+*GitHub*: [289](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L289-L289), [347](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L347-L351), [353](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L353-L357), [382](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L382-L386)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+128:     collateral.transferFrom(msg.sender, address(this), assets);
+
+```
+*GitHub*: [128](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L128-L128)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+243      IERC20WithBurn(addresses.pair).transferFrom(
+244        addresses.amo,
+245        address(this),
+246        lpToRemove
+247:     );
+
+```
+*GitHub*: [243](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L243-L247)
+
+
+### [D&#x2011;13] ~~IERC20 approve() Is Deprecated~~
+`approve()` itself is not deprecated, and these are already approvals to zero, not to non-zero, so they won't revert
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+249:       : collateralToken.approve(addresses.perpetualAtlanticVaultLP, 0);
+
+```
+*GitHub*: [249](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L249-L249)
+
+
+### [D&#x2011;14] ~~Large approvals may not work with some ERC20 tokens~~
+These are not maximum approvals, or approvals that grow over time, so there is no broken behavior here
+
+*There are 12 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+134:     IERC20WithBurn(_token).approve(_spender, _amount);
+
+200      IERC20WithBurn(addresses.tokenA).safeApprove(
+201        addresses.ammRouter,
+202        tokenAAmount
+203:     );
+
+204      IERC20WithBurn(addresses.tokenB).safeApprove(
+205        addresses.ammRouter,
+206        tokenBAmount
+207:     );
+
+268:     IERC20WithBurn(addresses.pair).safeApprove(addresses.ammRouter, lpAmount);
+
+328:     IERC20WithBurn(token1).safeApprove(addresses.ammRouter, token1Amount);
+
+```
+*GitHub*: [134](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L134-L134), [200](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L200-L203), [204](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L204-L207), [268](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L268-L268), [328](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L328-L328)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+150:       IERC20WithBurn(_token).approve(_target, _amount);
+
+148:       TransferHelper.safeApprove(_token, _target, _amount);
+
+169      IERC20WithBurn(params._tokenA).approve(
+170        address(univ3_positions),
+171        params._amount0Desired
+172:     );
+
+173      IERC20WithBurn(params._tokenB).approve(
+174        address(univ3_positions),
+175        params._amount1Desired
+176:     );
+
+302:     TransferHelper.safeApprove(_tokenA, address(univ3_router), _amountAtoB);
+
+```
+*GitHub*: [150](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L150-L150), [148](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L148-L148), [169](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L169-L172), [173](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L173-L176), [302](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L302-L302)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+411:     IERC20WithBurn(_token).approve(_spender, _amount);
+
+```
+*GitHub*: [411](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L411-L411)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+249:       : collateralToken.approve(addresses.perpetualAtlanticVaultLP, 0);
+
+```
+*GitHub*: [249](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L249-L249)
+
+
+### [D&#x2011;15] ~~Shorten the array rather than copying to a new one~~
+None of these examples are of filtering out entries from an array.
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+155      uint256[] memory tokenIds = new uint256[](ownerTokenCount);
+156      for (uint256 i; i < ownerTokenCount; i++) {
+157        tokenIds[i] = tokenOfOwnerByIndex(_address, i);
+158:     }
+
+```
+*GitHub*: [155](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L155-L158)
+
+
+### [D&#x2011;16] ~~Missing contract-existence checks before low-level calls~~
+The contract or caller exists, or it's a transfer of funds
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+88      **/
+89     function emergencyWithdraw(
+90       address[] calldata tokens,
+91       bool transferNative,
+92       address payable to,
+93       uint256 amount,
+94       uint256 gas
+95     ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+96       _whenPaused();
+97       if (transferNative) {
+98         (bool success, ) = to.call{ value: amount, gas: gas }("");
+99         require(success, "RdpxReserve: transfer failed");
+100      }
+101:     IERC20WithBurn token;
+
+```
+*GitHub*: [88](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L88-L101)
+
+
+### [D&#x2011;17] ~~Function result should be cached~~
+Transfers are not something that can be 'cached'
+
+*There are 2 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+158:     IERC20WithBurn(params._tokenA).transferFrom(
+
+163:     IERC20WithBurn(params._tokenB).transferFrom(
+
+```
+*GitHub*: [158](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L158-L158), [163](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L163-L163)
+
+
+### [D&#x2011;18] ~~`constant`/`immutable` variable names should use capital letters and underscore~~
+These are already CONSTANT_CASE
+
+*There are 3 instances of this issue:*
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+34:    bytes32 public constant RDPXV2CORE_ROLE = keccak256("RDPXV2CORE_ROLE");
+
+```
+*GitHub*: [34](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L34-L34)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+48:    bytes32 public constant RDPXV2CORE_ROLE = keccak256("RDPXV2CORE_ROLE");
+
+```
+*GitHub*: [48](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L48-L48)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+70:    bytes32 public constant RDPXV2CORE_ROLE = keccak256("RDPXV2CORE_ROLE");
+
+```
+*GitHub*: [70](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L70-L70)
+
+
+### [D&#x2011;19] ~~Constant decimal values~~
+These instances have nothing to do with a token's decimals, so these findings are invalid
+
+*There are 16 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+373:     return (lpTokenBalance * getLpPrice()) / 1e8;
+
+```
+*GitHub*: [373](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L373-L373)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+548:       : (((_amount * getEthPrice()) / 1e8) -
+
+546:       ? (((_amount * getDpxEthPrice()) / 1e8) -
+
+605:     uint256 rdpxRequiredInWeth = (_rdpxRequired * getRdpxPrice()) / 1e8;
+
+669:       uint256 rdpxAmountInWeth = (_rdpxAmount * getRdpxPrice()) / 1e8;
+
+673:       uint256 extraRdpxToWithdraw = (discountReceivedInWeth * 1e8) /
+
+951:     _validate(_fee >= 1e8, 8);
+
+1057:    _validate(getDpxEthPrice() > 1e8, 10);
+
+1087:    _validate(getDpxEthPrice() < 1e8, 13);
+
+1165:        1e2) / (Math.sqrt(1e18)); // 1e8 precision
+
+```
+*GitHub*: [548](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L548-L548), [546](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L546-L546), [605](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L605-L605), [669](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L669-L669), [673](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L673-L673), [951](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L951-L951), [1057](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1057-L1057), [1087](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1087-L1087), [1165](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1165-L1165)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+230:       1e2) / (Math.sqrt(1e18)); // 1e6 precision
+
+232:     uint256 tokenAToRemove = ((((_amount * 4) * 1e18) /
+
+235:       baseReLpRatio) / (1e18 * DEFAULT_PRECISION * 1e2);
+
+251:       ((tokenAToRemove * liquiditySlippageTolerance) / 1e8);
+
+253:       1e8) -
+
+274:       (((amountB / 2) * tokenAInfo.tokenAPrice) / 1e8) -
+
+```
+*GitHub*: [230](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L230-L230), [232](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L232-L232), [235](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L235-L235), [251](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L251-L251), [253](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L253-L253), [274](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L274-L274)
+
+
+### [D&#x2011;20] ~~Functions calling contracts/addresses with transfer hooks are missing reentrancy guards~~
+`_transfer()` is not an external call to a contract, so there is no CEI 'interaction' where a reentrancy can occur, so these instances are invalid.
+
+*There are 2 instances of this issue:*
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+/// @audit `bondWithDelegate()`
+861:       _transfer(
+
+/// @audit `bond()`
+924:     _transfer(rdpxRequired, wethRequired - premium, _amount, rdpxBondId);
+
+```
+*GitHub*: [861](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L861-L861), [924](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L924-L924)
+
+
+### [D&#x2011;21] ~~`require()` / `revert()` statements should have descriptive reason strings~~
+These are not `revert()` calls, so these findings are invalid
+
+*There are 2 instances of this issue:*
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+752:     if (!_clause) revert RdpxV2CoreError(_errorCode);
+
+```
+*GitHub*: [752](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L752-L752)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+622:     if (!_clause) revert PerpetualAtlanticVaultError(_errorCode);
+
+```
+*GitHub*: [622](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L622-L622)
+
+
+### [D&#x2011;22] ~~Use delete instead of setting mapping/state variable to zero, to save gas~~
+Using delete instead of assigning zero to state variables does not save any extra gas with the optimizer [on](https://gist.github.com/IllIllI000/ef8ec3a70aede7f12433fe63dc418515#with-the-optimizer-set-at-200-runs) (saves 5-8 gas with optimizer completely off), so this finding is invalid, especially since if they were interested in gas savings, they'd have the optimizer enabled.
+
+*There are 2 instances of this issue:*
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+277:     reservesIndex[_assetSymbol] = 0;
+
+```
+*GitHub*: [277](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L277-L277)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+343:       optionPositions[optionIds[i]].strike = 0;
+
+```
+*GitHub*: [343](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L343-L343)
+
+
+### [D&#x2011;23] ~~Events that mark critical parameter changes should contain both the old and the new value~~
+These are not critical parameter changes
+
+*There are 22 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+152:     emit LogEmergencyWithdraw(msg.sender, tokens);
+
+177:     emit LogAssetsTransfered(msg.sender, tokenABalance, tokenBBalance);
+
+348      emit LogSwap(
+349        msg.sender,
+350        token1Amount,
+351        token2AmountOutMin,
+352        swapTokenAForTokenB,
+353        token2Amount
+354:     );
+
+```
+*GitHub*: [152](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L152-L152), [177](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L177-L177), [348](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L348-L354)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+321:     emit RecoveredERC20(tokenAddress, tokenAmount);
+
+335:     emit RecoveredERC721(tokenAddress, token_id);
+
+363:     emit LogAssetsTransfered(tokenABalance, tokenBBalance, tokenA, tokenB);
+
+```
+*GitHub*: [321](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L321-L321), [335](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L335-L335), [363](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L363-L363)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+172:     emit LogEmergencyWithdraw(msg.sender, tokens);
+
+807:     emit LogProvideFunding(pointer, fundingAmount);
+
+875      emit LogBondWithDelegate(
+876        _to,
+877        _delegateIds,
+878        _amounts,
+879        rdpxBondId,
+880        receiptTokenAmount,
+881        delegateReceiptTokenAmounts
+882:     );
+
+932:     emit LogBond(rdpxRequired, wethRequired, receiptTokenAmount);
+
+989:     emit LogDelegateWithdraw(delegateId, amountWithdrawn);
+
+1007:    emit LogSync();
+
+1041:    emit LogRedeem(to, receiptTokenAmount);
+
+1069:    emit LogUpperDepeg(_amount, wethReceived);
+
+1123:    emit LogLowerDepeg(_rdpxAmount, _wethAmount, dpxEthReceived);
+
+```
+*GitHub*: [172](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L172-L172), [807](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L807-L807), [875](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L875-L882), [932](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L932-L932), [989](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L989-L989), [1007](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1007-L1007), [1041](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1041-L1041), [1069](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1069-L1069), [1123](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1123-L1123)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+124:     emit BondMinted(to, bondId, expiry, rdpxAmount);
+
+```
+*GitHub*: [124](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L124-L124)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+230:     emit EmergencyWithdraw(msg.sender, tokens);
+
+311:     emit Purchase(strike, amount, premium, to, msg.sender);
+
+389      emit PayFunding(
+390        msg.sender,
+391        totalFundingForEpoch[latestFundingPaymentPointer],
+392        latestFundingPaymentPointer
+393:     );
+
+451        emit CalculateFunding(
+452          msg.sender,
+453          amount,
+454          strike,
+455          premium,
+456          latestFundingPaymentPointer
+457:       );
+
+```
+*GitHub*: [230](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L230-L230), [311](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L311-L311), [389](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L389-L393), [451](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L451-L457)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+134:     emit Deposit(msg.sender, receiver, assets, shares);
+
+174:     emit Withdraw(msg.sender, receiver, owner, assets, shares);
+
+```
+*GitHub*: [134](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L134-L134), [174](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L174-L174)
+
+
+### [D&#x2011;24] ~~Cast to `bytes` or `bytes32` for clearer semantic meaning~~
+These calls to `abi.encodePacked()` have more than one argument
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+106:       keccak256(abi.encodePacked(address(this), _tickLower, _tickUpper))
+
+```
+*GitHub*: [106](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L106-L106)
+
+
+### [D&#x2011;25] ~~Use `bytes.concat()` on bytes instead of `abi.encodePacked()` for clearer semantic meaning~~
+These instances don't use only bytes/strings, so they're invalid
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+106:       keccak256(abi.encodePacked(address(this), _tickLower, _tickUpper))
+
+```
+*GitHub*: [106](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L106-L106)
+
+
+### [D&#x2011;26] ~~Event names should use CamelCase~~
+The instances below are already CamelCase (events are supposed to use CamelCase, not lowerCamelCase)
+
+*There are 13 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+387    event LogAddLiquidity(
+388      address indexed sender,
+389      uint256 tokenAAmount,
+390      uint256 tokenBAmount,
+391      uint256 tokenAAmountMin,
+392      uint256 tokenBAmountMin,
+393      uint256 tokenAUsed,
+394      uint256 tokenBUsed,
+395      uint256 lpReceived
+396:   );
+
+398    event LogRemoveLiquidity(
+399      address indexed sender,
+400      uint256 lpAmount,
+401      uint256 tokenAAmountMin,
+402      uint256 tokenBAmountMin,
+403      uint256 tokenAReceived,
+404      uint256 tokenBReceived
+405:   );
+
+407    event LogSwap(
+408      address indexed sender,
+409      uint256 token1Amount,
+410      uint256 token2AmountOutMin,
+411      bool swapTokenAForTokenB,
+412      uint256 token2Amount
+413:   );
+
+415    event LogAssetsTransfered(
+416      address indexed sender,
+417      uint256 tokenAAmount,
+418      uint256 tokenBAmount
+419:   );
+
+421:   event LogEmergencyWithdraw(address sender, address[] tokens);
+
+```
+*GitHub*: [387](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L387-L396), [398](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L398-L405), [407](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L407-L413), [415](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L415-L419), [421](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L421-L421)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+368:   event RecoveredERC20(address token, uint256 amount);
+
+369:   event RecoveredERC721(address token, uint256 id);
+
+370    event LogAssetsTransfered(
+371      uint256 tokenAAmount,
+372      uint256 tokenBAmount,
+373      address tokenAAddress,
+374      address tokenBAddress
+375:   );
+
+```
+*GitHub*: [368](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L368-L368), [369](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L369-L369), [370](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L370-L375)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+46     event BondMinted(
+47       address to,
+48       uint256 bondId,
+49       uint256 expiry,
+50       uint256 rdpxAmount
+51:    );
+
+53:    event EmergencyWithdraw(address sender);
+
+```
+*GitHub*: [46](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L46-L51), [53](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L53-L53)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+28     event Deposit(
+29       address indexed caller,
+30       address indexed owner,
+31       uint256 assets,
+32       uint256 shares
+33:    );
+
+35     event Withdraw(
+36       address indexed caller,
+37       address indexed receiver,
+38       address indexed owner,
+39       uint256 assets,
+40       uint256 shares
+41:    );
+
+```
+*GitHub*: [28](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L28-L33), [35](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L35-L41)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+311:   event LogSetReLpFactor(uint256 _reLPFactor);
+
+```
+*GitHub*: [311](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L311-L311)
+
+
+### [D&#x2011;27] ~~Dependence on external protocols~~
+There is no way to ascertain whether external monitoring is in place, and no specific vulnerabilities are identified, so this rule is not useful.
+
+*There are 33 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+11:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+12:  import { IUniswapV2Pair } from "../uniswap_V2/IUniswapV2Pair.sol";
+
+222:     (tokenAUsed, tokenBUsed, lpReceived) = IUniswapV2Router(addresses.ammRouter)
+
+271:     (tokenAReceived, tokenBReceived) = IUniswapV2Router(addresses.ammRouter)
+
+336:     token2Amount = IUniswapV2Router(addresses.ammRouter)
+
+```
+*GitHub*: [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L11-L11), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L12-L12), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L12-L12), [222](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L222-L222), [271](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L271-L271), [336](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L336-L336)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+12:  import "../uniswap_V3/IUniswapV3Factory.sol";
+
+13:  import "../uniswap_V3/libraries/TickMath.sol";
+
+14:  import "../uniswap_V3/libraries/LiquidityAmounts.sol";
+
+15:  import "../uniswap_V3/periphery/interfaces/INonfungiblePositionManager.sol";
+
+16:  import "../uniswap_V3/IUniswapV3Pool.sol";
+
+17:  import "../uniswap_V3/ISwapRouter.sol";
+
+25:    function uniswapPool() external view virtual returns (address);
+
+35:    IUniswapV3Factory public univ3_factory;
+
+82:      univ3_factory = IUniswapV3Factory(
+
+100:     IUniswapV3Pool get_pool = IUniswapV3Pool(
+
+```
+*GitHub*: [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L14-L14), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L16-L16), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L17-L17), [25](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L25-L25), [35](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L35-L35), [82](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L82-L82), [100](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L100-L100), [100](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L100-L100)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+13:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+1097:      amountOfWethOut = IUniswapV2Router(addresses.dopexAMMRouter)
+
+```
+*GitHub*: [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L13-L13), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L13-L13), [1097](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1097-L1097)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+11:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+12:  import { IUniswapV2Pair } from "../uniswap_V2/IUniswapV2Pair.sol";
+
+19:  import { UniswapV2Library } from "../uniswap_V2/libraries/UniswapV2Library.sol";
+
+204:     (address tokenASorted, address tokenBSorted) = UniswapV2Library.sortTokens(
+
+208:     (uint256 reserveA, uint256 reserveB) = UniswapV2Library.getReserves(
+
+237:     uint256 totalLpSupply = IUniswapV2Pair(addresses.pair).totalSupply();
+
+257:     (, uint256 amountB) = IUniswapV2Router(addresses.ammRouter).removeLiquidity(
+
+277:     uint256 tokenAAmountOut = IUniswapV2Router(addresses.ammRouter)
+
+286:     (, , uint256 lp) = IUniswapV2Router(addresses.ammRouter).addLiquidity(
+
+```
+*GitHub*: [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L11-L11), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L12-L12), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L12-L12), [19](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L19-L19), [19](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L19-L19), [204](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L204-L204), [208](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L208-L208), [237](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L237-L237), [257](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L257-L257), [277](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L277-L277), [286](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L286-L286)
+
+
+### [D&#x2011;28] ~~Function Names Not in mixedCase~~
+According to the Solidity Style Guide, non-`external`/`public` function names should begin with an [underscore](https://docs.soliditylang.org/en/latest/style-guide.html#underscore-prefix-for-non-external-functions-and-variables), and all of these fall into that category
+
+*There are 20 instances of this issue:*
+
+<details>
+<summary>see instances</summary>
+
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+160:   function _sendTokensToRdpxV2Core() internal {
+
+```
+*GitHub*: [160](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L160-L160)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+353:   function _sendTokensToRdpxV2Core(address tokenA, address tokenB) internal {
+
+```
+*GitHub*: [353](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L353-L353)
+
+```solidity
+File: contracts/core/RdpxV2Bond.sol
+
+45     function _beforeTokenTransfer(
+46       address from,
+47       address to,
+48       uint256 tokenId,
+49       uint256 batchSize
+50:    ) internal override(ERC721, ERC721Enumerable) {
+
+```
+*GitHub*: [45](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L45-L50)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+471    function _purchaseOptions(
+472      uint256 _amount
+473:   ) internal returns (uint256 premium) {
+
+495    function _issueBond(
+496      address _to,
+497      uint256 _amount
+498:   ) internal returns (uint256 bondId) {
+
+515    function _curveSwap(
+516      uint256 _amount,
+517      bool _ethToDpxEth,
+518      bool validate,
+519      uint256 minAmount
+520:   ) internal returns (uint256 amountOut) {
+
+566    function _stake(
+567      address _to,
+568      uint256 _amount
+569:   ) internal returns (uint256 receiptTokenAmount) {
+
+598    function _calculateAmounts(
+599      uint256 _wethRequired,
+600      uint256 _rdpxRequired,
+601      uint256 _amount,
+602      uint256 _delegateFee
+603:   ) internal view returns (uint256 amount1, uint256 amount2) {
+
+624    function _transfer(
+625      uint256 _rdpxAmount,
+626      uint256 _wethAmount,
+627      uint256 _bondAmount,
+628      uint256 _bondId
+629:   ) internal {
+
+699    function _bondWithDelegate(
+700      uint256 _amount,
+701      uint256 rdpxBondId,
+702      uint256 delegateId
+703:   ) internal returns (BondWithDelegateReturnValue memory returnValues) {
+
+751:   function _validate(bool _clause, uint256 _errorCode) internal pure {
+
+```
+*GitHub*: [471](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L471-L473), [495](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L495-L498), [515](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L515-L520), [566](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L566-L569), [598](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L598-L603), [624](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L624-L629), [699](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L699-L703), [751](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L751-L751)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+129:   function _mintToken(address to) private returns (uint256 tokenId) {
+
+162    function _beforeTokenTransfer(
+163      address from,
+164      address to,
+165      uint256 tokenId,
+166      uint256 batchSize
+167:   ) internal override(ERC721, ERC721Enumerable) {
+
+```
+*GitHub*: [129](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L129-L129), [162](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L162-L167)
+
+```solidity
+File: contracts/dpxETH/DpxEthToken.sol
+
+55     function _beforeTokenTransfer(
+56       address from,
+57       address to,
+58       uint256 amount
+59:    ) internal override {
+
+```
+*GitHub*: [55](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L55-L59)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+588:   function _mintOptionToken() private returns (uint256 tokenId) {
+
+594:   function _updateFundingRate(uint256 amount) private {
+
+621:   function _validate(bool _clause, uint256 _errorCode) private pure {
+
+635    function _beforeTokenTransfer(
+636      address from,
+637      address to,
+638      uint256 tokenId,
+639      uint256 batchSize
+640:   ) internal override(ERC721, ERC721Enumerable) {
+
+```
+*GitHub*: [588](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L588-L588), [594](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L594-L594), [621](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L621-L621), [635](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L635-L640)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+218    function _convertToAssets(
+219      uint256 shares
+220:   ) internal view virtual returns (uint256 assets, uint256 rdpxAmount) {
+
+231    function _beforeTokenTransfer(
+232      address from,
+233      address,
+234      uint256
+235:   ) internal virtual {}
+
+```
+*GitHub*: [218](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L218-L220), [231](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L231-L235)
+
+</details>
+
+### [D&#x2011;29] ~~Contracts do not work with fee-on-transfer tokens~~
+An ERC20 token being used, in and of itself, is not evidence of a fee-on-transfer issue; there must be other evidence that the balance accounting gets broken, and these lines do not contain such evidence.
+
+*There are 15 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+134:     IERC20WithBurn(_token).approve(_spender, _amount);
+
+268:     IERC20WithBurn(addresses.pair).safeApprove(addresses.ammRouter, lpAmount);
+
+```
+*GitHub*: [134](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L134-L134), [268](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L268-L268)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+150:       IERC20WithBurn(_token).approve(_target, _amount);
+
+```
+*GitHub*: [150](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L150-L150)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+339:     IERC20WithBurn(weth).approve(
+
+343:     IERC20WithBurn(weth).approve(addresses.dopexAMMRouter, type(uint256).max);
+
+344:     IERC20WithBurn(weth).approve(addresses.dpxEthCurvePool, type(uint256).max);
+
+345:     IERC20WithBurn(weth).approve(
+
+411:     IERC20WithBurn(_token).approve(_spender, _amount);
+
+```
+*GitHub*: [339](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L339-L339), [343](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L343-L343), [344](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L344-L344), [345](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L345-L345), [411](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L411-L411)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+121:     collateralToken = IERC20WithBurn(_collateralToken);
+
+```
+*GitHub*: [121](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L121-L121)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+102:     collateral = ERC20(_collateral);
+
+107:     ERC20(rdpx).approve(_perpetualAtlanticVault, type(uint256).max);
+
+91:        ERC20(_collateral).decimals()
+
+```
+*GitHub*: [102](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L102-L102), [107](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L107-L107), [91](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L91-L91)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+150:     IERC20WithBurn(addresses.pair).safeApprove(
+
+155:     IERC20WithBurn(addresses.tokenA).safeApprove(
+
+160:     IERC20WithBurn(addresses.tokenB).safeApprove(
+
+```
+*GitHub*: [150](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L150-L150), [155](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L155-L155), [160](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L160-L160)
+
+
+### [D&#x2011;30] ~~Use != 0 instead of > 0 for unsigned integer comparison~~
+Only valid prior to Solidity version 0.8.13, and only for `require()` statements, and at least one of those is not true for the examples below
+
+*There are 19 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+113:       _slippageTolerance > 0,
+
+133:     require(_amount > 0, "reLPContract: amount must be greater than 0");
+
+```
+*GitHub*: [113](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L113-L113), [133](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L133-L133)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+183:     _validate(_rdpxBurnPercentage > 0, 3);
+
+196:     _validate(_rdpxFeePercentage > 0, 3);
+
+231:     _validate(_bondMaturity > 0, 3);
+
+410:     _validate(_amount > 0, 17);
+
+444:     _validate(_bondDiscountFactor > 0, 3);
+
+458:     _validate(_slippageTolerance > 0, 3);
+
+556:       minAmount > 0 ? minAmount : minOut
+
+838:       _validate(_amounts[i] > 0, 4);
+
+901:     _validate(_amount > 0, 4);
+
+984:     _validate(amountWithdrawn > 0, 15);
+
+1021:    _validate(bonds[id].timestamp > 0, 6);
+
+```
+*GitHub*: [183](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L183-L183), [196](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L196-L196), [231](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L231-L231), [410](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L410-L410), [444](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L444-L444), [458](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L458-L458), [556](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L556-L556), [838](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L838-L838), [901](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L901-L901), [984](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L984-L984), [1021](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1021-L1021)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+265:     _validate(amount > 0, 2);
+
+414:       _validate(optionsPerStrike[strikes[i]] > 0, 4);
+
+547:       _price > 0 ? _price : getUnderlyingPrice(),
+
+```
+*GitHub*: [265](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L265-L265), [414](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L414-L414), [547](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L547-L547)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+94:        _reLPFactor > 0,
+
+175:       _liquiditySlippageTolerance > 0,
+
+190:       _slippageTolerance > 0,
+
+```
+*GitHub*: [94](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L94-L94), [175](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L175-L175), [190](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L190-L190)
+
+
+### [D&#x2011;31] ~~State variables not capped at reasonable values~~
+These assignments already have the necessary checks
+
+*There are 16 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+116:     slippageTolerance = _slippageTolerance;
+
+```
+*GitHub*: [116](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L116-L116)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+184:     rdpxBurnPercentage = _rdpxBurnPercentage;
+
+197:     rdpxFeePercentage = _rdpxFeePercentage;
+
+232:     bondMaturity = _bondMaturity;
+
+445:     bondDiscountFactor = _bondDiscountFactor;
+
+459:     slippageTolerance = _slippageTolerance;
+
+964:     totalWethDelegated += _amount;
+
+```
+*GitHub*: [184](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L184-L184), [197](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L197-L197), [232](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L232-L232), [445](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L445-L445), [459](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L459-L459), [964](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L964-L964)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+302:     totalActiveOptions += amount;
+
+303:     fundingPaymentsAccountedFor[latestFundingPaymentPointer] += amount;
+
+304:     optionsPerStrike[strike] += amount;
+
+307      fundingPaymentsAccountedForPerStrike[latestFundingPaymentPointer][
+308        strike
+309:     ] += amount;
+
+```
+*GitHub*: [302](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L302-L302), [303](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L303-L303), [304](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L304-L304), [307](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L307-L309)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+195:     _totalCollateral += proceeds;
+
+213:     _rdpxCollateral += amount;
+
+```
+*GitHub*: [195](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L195-L195), [213](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L213-L213)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+97:      reLPFactor = _reLPFactor;
+
+178:     liquiditySlippageTolerance = _liquiditySlippageTolerance;
+
+193:     slippageTolerance = _slippageTolerance;
+
+```
+*GitHub*: [97](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L97-L97), [178](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L178-L178), [193](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L193-L193)
+
+
+### [D&#x2011;32] ~~Tokens may be minted to `address(0x0)`~~
+In the cases below, `_mint()` prevents minting to `address(0x0)`
+
+*There are 4 instances of this issue:*
+
+```solidity
+File: contracts/core/RdpxV2Bond.sol
+
+37     function mint(
+38       address to
+39     ) public onlyRole(MINTER_ROLE) returns (uint256 tokenId) {
+40       tokenId = _tokenIdCounter.current();
+41       _tokenIdCounter.increment();
+42       _mint(to, tokenId);
+43:    }
+
+```
+*GitHub*: [37](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L37-L43)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+129    function _mintToken(address to) private returns (uint256 tokenId) {
+130      tokenId = _tokenIdCounter.current();
+131      _tokenIdCounter.increment();
+132      _mint(to, tokenId);
+133:   }
+
+```
+*GitHub*: [129](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L129-L133)
+
+```solidity
+File: contracts/dpxETH/DpxEthToken.sol
+
+37     function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+38       _mint(to, amount);
+39:    }
+
+```
+*GitHub*: [37](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L37-L39)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+588    function _mintOptionToken() private returns (uint256 tokenId) {
+589      tokenId = _tokenIdCounter.current();
+590      _tokenIdCounter.increment();
+591      _mint(addresses.rdpxV2Core, tokenId);
+592:   }
+
+```
+*GitHub*: [588](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L588-L592)
+
+
+### [D&#x2011;33] ~~Multiplications of powers of can be replaced by a left shift operation to save gas~~
+This is not safe to do in all cases, because there is no overflow protection with left bit shifts
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+232:     uint256 tokenAToRemove = ((((_amount * 4) * 1e18) /
+
+```
+*GitHub*: [232](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L232-L232)
+
+
+### [D&#x2011;34] ~~Allowed fees/rates should be capped by smart contracts~~
+There are already limits set for these functions
+
+*There are 2 instances of this issue:*
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+180    function setRdpxBurnPercentage(
+181      uint256 _rdpxBurnPercentage
+182    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+183      _validate(_rdpxBurnPercentage > 0, 3);
+184      rdpxBurnPercentage = _rdpxBurnPercentage;
+185      emit LogSetRdpxBurnPercentage(_rdpxBurnPercentage);
+186:   }
+
+193    function setRdpxFeePercentage(
+194      uint256 _rdpxFeePercentage
+195    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+196      _validate(_rdpxFeePercentage > 0, 3);
+197      rdpxFeePercentage = _rdpxFeePercentage;
+198      emit LogSetRdpxFeePercentage(_rdpxFeePercentage);
+199:   }
+
+```
+*GitHub*: [180](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L180-L186), [193](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L193-L199)
+
+
+### [D&#x2011;35] ~~Contracts are not using their OZ Upgradeable counterparts~~
+The rule is true only when the contract being defined is upgradeable, which isn't the case for these invalid examples
+
+*There are 41 instances of this issue:*
+
+<details>
+<summary>see instances</summary>
+
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+/// @audit UniV2LiquidityAMO is a non-upgradeable contract
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit UniV2LiquidityAMO is a non-upgradeable contract
+6:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+/// @audit UniV2LiquidityAMO is a non-upgradeable contract
+7:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit UniV2LiquidityAMO is a non-upgradeable contract
+17:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L7-L7), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L17-L17)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+/// @audit OracleLike is a non-upgradeable contract
+4:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit OracleLike is a non-upgradeable contract
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit OracleLike is a non-upgradeable contract
+6:   import { ERC721Holder } from "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+
+/// @audit OracleLike is a non-upgradeable contract
+7:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L7-L7)
+
+```solidity
+File: contracts/core/RdpxV2Bond.sol
+
+/// @audit RdpxV2Bond is a non-upgradeable contract
+4:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+/// @audit RdpxV2Bond is a non-upgradeable contract
+5:   import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+/// @audit RdpxV2Bond is a non-upgradeable contract
+7:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit RdpxV2Bond is a non-upgradeable contract
+8:   import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+/// @audit RdpxV2Bond is a non-upgradeable contract
+9:   import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L5-L5), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L9-L9)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+/// @audit RdpxV2Core is a non-upgradeable contract
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit RdpxV2Core is a non-upgradeable contract
+6:   import { ERC721Holder } from "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+
+/// @audit RdpxV2Core is a non-upgradeable contract
+26:  import { EnumerableSet } from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+
+/// @audit RdpxV2Core is a non-upgradeable contract
+27:  import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit RdpxV2Core is a non-upgradeable contract
+28:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L6-L6), [26](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L26-L26), [27](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L27-L27), [28](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L28-L28)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+/// @audit RdpxDecayingBonds is a non-upgradeable contract
+5:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit RdpxDecayingBonds is a non-upgradeable contract
+9:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+/// @audit RdpxDecayingBonds is a non-upgradeable contract
+10:  import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+/// @audit RdpxDecayingBonds is a non-upgradeable contract
+11:  import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+/// @audit RdpxDecayingBonds is a non-upgradeable contract
+12:  import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit RdpxDecayingBonds is a non-upgradeable contract
+13:  import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L5-L5), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L9-L9), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L13-L13)
+
+```solidity
+File: contracts/dpxETH/DpxEthToken.sol
+
+/// @audit DpxEthToken is a non-upgradeable contract
+4:   import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+/// @audit DpxEthToken is a non-upgradeable contract
+5:   import { ERC20Burnable } from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+
+/// @audit DpxEthToken is a non-upgradeable contract
+7:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L5-L5), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L7-L7)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+/// @audit PerpetualAtlanticVault is a non-upgradeable contract
+5:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit PerpetualAtlanticVault is a non-upgradeable contract
+8:   import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+/// @audit PerpetualAtlanticVault is a non-upgradeable contract
+9:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+/// @audit PerpetualAtlanticVault is a non-upgradeable contract
+10:  import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+/// @audit PerpetualAtlanticVault is a non-upgradeable contract
+11:  import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+/// @audit PerpetualAtlanticVault is a non-upgradeable contract
+12:  import { ERC4626 } from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
+
+/// @audit PerpetualAtlanticVault is a non-upgradeable contract
+13:  import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit PerpetualAtlanticVault is a non-upgradeable contract
+14:  import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L5-L5), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L9-L9), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L14-L14)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+/// @audit PerpetualAtlanticVaultLP is a non-upgradeable contract
+10:  import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
+
+/// @audit PerpetualAtlanticVaultLP is a non-upgradeable contract
+11:  import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+```
+*GitHub*: [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L11-L11)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+/// @audit ReLPContract is a non-upgradeable contract
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit ReLPContract is a non-upgradeable contract
+6:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+/// @audit ReLPContract is a non-upgradeable contract
+7:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit ReLPContract is a non-upgradeable contract
+20:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L7-L7), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L20-L20)
+
+</details>
+
+### [D&#x2011;36] ~~Unnecessary look up in if condition~~
+
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+95:        _perpetualAtlanticVault != address(0) || _rdpx != address(0),
+
+```
+*GitHub*: [95](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L95-L95)
+
+
+### [D&#x2011;37] ~~All interfaces used within a project should be imported~~
+These contracts don't rely on other contracts for their definitions, so there's nothing to import
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+22:  abstract contract OracleLike {
+
+```
+*GitHub*: [22](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L22-L22)
+
+
+### [D&#x2011;38] ~~Change `public` function visibility to `external` to save gas~~
+Both `public` and `external` functions use the same amount of gas (both deployment and runtime gas), so this finding is invalid
+
+*There are 27 instances of this issue:*
+
+<details>
+<summary>see instances</summary>
+
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+94     function liquidityInPool(
+95       address _collateral_address,
+96       int24 _tickLower,
+97       int24 _tickUpper,
+98       uint24 _fee
+99:    ) public view returns (uint128) {
+
+112:   function numPositions() public view returns (uint256) {
+
+139    function approveTarget(
+140      address _target,
+141      address _token,
+142      uint256 _amount,
+143      bool use_safe_approve
+144:   ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+
+155    function addLiquidity(
+156      AddLiquidityParams memory params
+157:   ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+
+213    function removeLiquidity(
+214      uint256 positionIndex,
+215      uint256 minAmount0,
+216      uint256 minAmount1
+217:   ) public onlyRole(DEFAULT_ADMIN_ROLE) {
+
+274    function swap(
+275      address _tokenA,
+276      address _tokenB,
+277      uint24 _fee_tier,
+278      uint256 _amountAtoB,
+279      uint256 _amountOutMinimum,
+280      uint160 _sqrtPriceLimitX96
+281:   ) public onlyRole(DEFAULT_ADMIN_ROLE) returns (uint256) {
+
+```
+*GitHub*: [94](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L94-L99), [112](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L112-L112), [139](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L139-L144), [155](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L155-L157), [213](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L213-L217), [274](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L274-L281)
+
+```solidity
+File: contracts/core/RdpxV2Bond.sol
+
+29:    function pause() public onlyRole(DEFAULT_ADMIN_ROLE) {
+
+33:    function unpause() public onlyRole(DEFAULT_ADMIN_ROLE) {
+
+37     function mint(
+38       address to
+39:    ) public onlyRole(MINTER_ROLE) returns (uint256 tokenId) {
+
+```
+*GitHub*: [29](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L29-L29), [33](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L33-L33), [37](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L37-L39)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+819    function bondWithDelegate(
+820      address _to,
+821      uint256[] memory _amounts,
+822      uint256[] memory _delegateIds,
+823      uint256 rdpxBondId
+824:   ) public returns (uint256 receiptTokenAmount, uint256[] memory) {
+
+894    function bond(
+895      uint256 _amount,
+896      uint256 rdpxBondId,
+897      address _to
+898:   ) public returns (uint256 receiptTokenAmount) {
+
+1135   function getReserveTokenInfo(
+1136     string memory _token
+1137:  ) public view returns (address, uint256, string memory) {
+
+1206:  function getLpPrice() public view returns (uint256) {
+
+1260   function getDelegatePosition(
+1261     uint256 _delegateId
+1262   )
+1263     public
+1264     view
+1265     returns (
+1266       address delegate,
+1267       uint256 amount,
+1268       uint256 fee,
+1269       uint256 activeCollateral
+1270     )
+1271:  {
+
+```
+*GitHub*: [819](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L819-L824), [894](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L894-L898), [1135](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1135-L1137), [1206](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1206-L1206), [1260](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1260-L1271)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+139    function decreaseAmount(
+140      uint256 bondId,
+141      uint256 amount
+142:   ) public onlyRole(RDPXV2CORE_ROLE) {
+
+```
+*GitHub*: [139](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L139-L142)
+
+```solidity
+File: contracts/dpxETH/DpxEthToken.sol
+
+29:    function pause() public onlyRole(PAUSER_ROLE) {
+
+33:    function unpause() public onlyRole(PAUSER_ROLE) {
+
+37:    function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
+
+```
+*GitHub*: [29](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L29-L29), [33](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L33-L33), [37](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L37-L37)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+554    function calculatePnl(
+555      uint256 price,
+556      uint256 strike,
+557      uint256 amount
+558:   ) public pure returns (uint256) {
+
+```
+*GitHub*: [554](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L554-L558)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+145    function redeem(
+146      uint256 shares,
+147      address receiver,
+148      address owner
+149:   ) public returns (uint256 assets, uint256 rdpxAmount) {
+
+180:   function lockCollateral(uint256 amount) public onlyPerpVault {
+
+185:   function unlockLiquidity(uint256 amount) public onlyPerpVault {
+
+190:   function addProceeds(uint256 proceeds) public onlyPerpVault {
+
+199:   function subtractLoss(uint256 loss) public onlyPerpVault {
+
+208:   function addRdpx(uint256 amount) public onlyPerpVault {
+
+240:   function activeCollateral() public view returns (uint256) {
+
+250:   function rdpxCollateral() public view returns (uint256) {
+
+```
+*GitHub*: [145](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L145-L149), [180](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L180-L180), [185](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L185-L185), [190](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L190-L190), [199](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L199-L199), [208](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L208-L208), [240](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L240-L240), [250](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L250-L250)
+
+</details>
+
+### [D&#x2011;39] ~~Use replace and pop instead of the delete keyword to removing an item from an array~~
+The examples below are mappings, not arrays
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+263:     delete positions_mapping[pos.token_id];
+
+```
+*GitHub*: [263](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L263-L263)
+
+
+### [D&#x2011;40] ~~safeMint should be used in place of mint~~
+These are not ERC721.mint() calls
+
+*There are 3 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+193      (uint256 tokenId, uint128 amountLiquidity, , ) = univ3_positions.mint(
+194        mintParams
+195:     );
+
+```
+*GitHub*: [193](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L193-L195)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+572      IDpxEthToken(reserveAsset[reservesIndex["DPXETH"]].tokenAddress).mint(
+573        address(this),
+574        _amount / 2
+575:     );
+
+1059     IDpxEthToken(reserveAsset[reservesIndex["DPXETH"]].tokenAddress).mint(
+1060       address(this),
+1061       _amount
+1062:    );
+
+```
+*GitHub*: [572](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L572-L575), [1059](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1059-L1062)
+
+
+### [D&#x2011;41] ~~Use `_safeMint` instead of `_mint` for ERC721~~
+The contract here isn't an ERC721 - it's some other token. Note that ERC1155 defines `_mint()`, not `_safeMint()`
+
+*There are 2 instances of this issue:*
+
+```solidity
+File: contracts/dpxETH/DpxEthToken.sol
+
+38:      _mint(to, amount);
+
+```
+*GitHub*: [38](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L38-L38)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+130:     _mint(receiver, shares);
+
+```
+*GitHub*: [130](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L130-L130)
+
+
+### [D&#x2011;42] ~~It's not standard to end and begin a code object on the same line~~
+These are perfectly standard
+
+*There are 91 instances of this issue:*
+
+<details>
+<summary>see instances</summary>
+
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+6:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+7:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+10:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+11:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+12:  import { IUniswapV2Pair } from "../uniswap_V2/IUniswapV2Pair.sol";
+
+13:  import { IRdpxEthOracle } from "../interfaces/IRdpxEthOracle.sol";
+
+14:  import { IRdpxV2Core } from "../core/IRdpxV2Core.sol";
+
+17:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L7-L7), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L14-L14), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L17-L17)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+4:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+6:   import { ERC721Holder } from "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+
+7:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+8:   import { TransferHelper } from "../libraries/TransferHelper.sol";
+
+9:   import { IRdpxV2Core } from "../core/IRdpxV2Core.sol";
+
+20:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L9-L9), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L20-L20)
+
+```solidity
+File: contracts/core/RdpxV2Bond.sol
+
+4:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+5:   import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+6:   import { Pausable } from "../helper/Pausable.sol";
+
+7:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+8:   import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+9:   import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L9-L9)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+6:   import { ERC721Holder } from "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+
+7:   import { ContractWhitelist } from "../helper/ContractWhitelist.sol";
+
+8:   import { Pausable } from "../helper/Pausable.sol";
+
+9:   import { RdpxV2Bond } from "./RdpxV2Bond.sol";
+
+12:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+13:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+14:  import { IStableSwap } from "../interfaces/IStableSwap.sol";
+
+15:  import { IRdpxDecayingBonds } from "../decaying-bonds/IRdpxDecayingBonds.sol";
+
+16:  import { IDpxEthToken } from "../dpxETH/IDpxEthToken.sol";
+
+17:  import { IPerpetualAtlanticVault } from "../perp-vault/IPerpetualAtlanticVault.sol";
+
+18:  import { IRdpxEthOracle } from "../interfaces/IRdpxEthOracle.sol";
+
+19:  import { IDpxEthOracle } from "../oracles/IDpxEthOracle.sol";
+
+20:  import { IRdpxReserve } from "../reserve/IRdpxReserve.sol";
+
+21:  import { IRdpxV2Core } from "./IRdpxV2Core.sol";
+
+22:  import { IRdpxV2ReceiptToken } from "../interfaces/IRdpxV2ReceiptToken.sol";
+
+23:  import { IReLP } from "../interfaces/IReLP.sol";
+
+26:  import { EnumerableSet } from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+
+27:  import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+28:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L9-L9), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L14-L14), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L16-L16), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L17-L17), [18](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L18-L18), [19](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L19-L19), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L20-L20), [21](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L21-L21), [22](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L22-L22), [23](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L23-L23), [26](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L26-L26), [27](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L27-L27), [28](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L28-L28)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+5:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+8:   import { Pausable } from "../helper/Pausable.sol";
+
+9:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+10:  import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+11:  import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+12:  import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+13:  import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+16:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L5-L5), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L9-L9), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L13-L13), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L16-L16)
+
+```solidity
+File: contracts/dpxETH/DpxEthToken.sol
+
+4:   import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+5:   import { ERC20Burnable } from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+
+6:   import { Pausable } from "../helper/Pausable.sol";
+
+7:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+8:   import { IDpxEthToken } from "./IDpxEthToken.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L8-L8)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+5:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+8:   import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+9:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+10:  import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+11:  import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+12:  import { ERC4626 } from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
+
+13:  import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+14:  import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+15:  import { IPerpetualAtlanticVaultLP } from "./IPerpetualAtlanticVaultLP.sol";
+
+16:  import { ContractWhitelist } from "../helper/ContractWhitelist.sol";
+
+17:  import { Pausable } from "../helper/Pausable.sol";
+
+20:  import { IPerpetualAtlanticVault } from "./IPerpetualAtlanticVault.sol";
+
+21:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+22:  import { IOptionPricing } from "../interfaces/IOptionPricing.sol";
+
+23:  import { IRdpxEthOracle } from "../interfaces/IRdpxEthOracle.sol";
+
+24:  import { IVolatilityOracle } from "../interfaces/IVolatilityOracle.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L5-L5), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L9-L9), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L14-L14), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L16-L16), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L17-L17), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L20-L20), [21](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L21-L21), [22](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L22-L22), [23](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L23-L23), [24](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L24-L24)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+5:   import { ERC20 } from "solmate/src/tokens/ERC20.sol";
+
+6:   import { FixedPointMathLib } from "solmate/src/utils/FixedPointMathLib.sol";
+
+7:   import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+10:  import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
+
+11:  import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+12:  import { SafeTransferLib } from "solmate/src/utils/SafeTransferLib.sol";
+
+15:  import { IPerpetualAtlanticVault } from "./IPerpetualAtlanticVault.sol";
+
+16:  import { IPerpetualAtlanticVaultLP } from "./IPerpetualAtlanticVaultLP.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L7-L7), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L12-L12), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L16-L16)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+6:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+7:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+10:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+11:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+12:  import { IUniswapV2Pair } from "../uniswap_V2/IUniswapV2Pair.sol";
+
+13:  import { IRdpxReserve } from "../reserve/IRdpxReserve.sol";
+
+14:  import { IRdpxEthOracle } from "../interfaces/IRdpxEthOracle.sol";
+
+15:  import { IRdpxV2Core } from "../core/IRdpxV2Core.sol";
+
+16:  import { IUniV2LiquidityAmo } from "../interfaces/IUniV2LiquidityAmo.sol";
+
+19:  import { UniswapV2Library } from "../uniswap_V2/libraries/UniswapV2Library.sol";
+
+20:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L7-L7), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L14-L14), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L16-L16), [19](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L19-L19), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L20-L20)
+
+</details>
+
+### [D&#x2011;43] ~~State variable read in a loop~~
+these references to the variable cannot be cached, or that are `constant`/`immutable`
+
+*There are 30 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+/// @audit positions_array
+121:       Position memory current_position = positions_array[i];
+
+/// @audit univ3_positions
+131:       univ3_positions.collect(collect_params);
+
+```
+*GitHub*: [121](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L121-L121), [131](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L131-L131)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+/// @audit reserveAsset
+248:         reserveAsset[i].tokenAddress != _asset,
+
+/// @audit optionsOwned
+776:       optionsOwned[optionIds[i]] = false;
+
+/// @audit reserveAsset
+997:       uint256 balance = IERC20WithBurn(reserveAsset[i].tokenAddress).balanceOf(
+
+/// @audit reserveAsset
+1001:      if (weth == reserveAsset[i].tokenAddress) {
+
+/// @audit reserveAsset
+1004:      reserveAsset[i].tokenBalance = balance;
+
+```
+*GitHub*: [248](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L248-L248), [776](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L776-L776), [997](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L997-L997), [1001](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1001-L1001), [1004](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L1004-L1004)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+/// @audit optionPositions
+329:       uint256 strike = optionPositions[optionIds[i]].strike;
+
+/// @audit optionPositions
+330:       uint256 amount = optionPositions[optionIds[i]].amount;
+
+/// @audit optionsPerStrike
+337:       optionsPerStrike[strike] -= amount;
+
+/// @audit totalActiveOptions
+338:       totalActiveOptions -= amount;
+
+/// @audit optionPositions
+343:       optionPositions[optionIds[i]].strike = 0;
+
+/// @audit optionsPerStrike
+414:       _validate(optionsPerStrike[strikes[i]] > 0, 4);
+
+/// @audit latestFundingPerStrike
+416:         latestFundingPerStrike[strikes[i]] != latestFundingPaymentPointer,
+
+/// @audit optionsPerStrike
+421:       uint256 amount = optionsPerStrike[strike] -
+
+/// @audit fundingPaymentsAccountedForPerStrike
+/// @audit latestFundingPaymentPointer
+422:         fundingPaymentsAccountedForPerStrike[latestFundingPaymentPointer][
+
+/// @audit latestFundingPerStrike
+/// @audit latestFundingPaymentPointer
+436:       latestFundingPerStrike[strike] = latestFundingPaymentPointer;
+
+/// @audit fundingPaymentsAccountedFor
+/// @audit latestFundingPaymentPointer
+440:       fundingPaymentsAccountedFor[latestFundingPaymentPointer] += amount;
+
+/// @audit fundingPaymentsAccountedForPerStrike
+/// @audit latestFundingPaymentPointer
+443:       fundingPaymentsAccountedForPerStrike[latestFundingPaymentPointer][
+
+/// @audit totalFundingForEpoch
+/// @audit latestFundingPaymentPointer
+449:       totalFundingForEpoch[latestFundingPaymentPointer] += premium;
+
+/// @audit fundingRates
+/// @audit latestFundingPaymentPointer
+465:         uint256 currentFundingRate = fundingRates[latestFundingPaymentPointer];
+
+/// @audit lastUpdateTime
+471:         lastUpdateTime = nextFundingPaymentTimestamp();
+
+/// @audit collateralToken
+473:         collateralToken.safeTransfer(
+
+/// @audit latestFundingPaymentPointer
+493:       latestFundingPaymentPointer += 1;
+
+```
+*GitHub*: [329](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L329-L329), [330](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L330-L330), [337](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L337-L337), [338](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L338-L338), [343](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L343-L343), [414](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L414-L414), [416](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L416-L416), [421](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L421-L421), [422](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L422-L422), [422](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L422-L422), [436](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L436-L436), [436](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L436-L436), [440](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L440-L440), [440](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L440-L440), [443](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L443-L443), [443](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L443-L443), [449](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L449-L449), [449](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L449-L449), [465](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L465-L465), [465](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L465-L465), [471](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L471-L471), [473](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L473-L473), [493](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L493-L493)
+
+
+### [D&#x2011;44] ~~Save gas with the use of specific import statements~~
+Importing whole files rather than specific identifiers [does not waste gas](https://ethereum.stackexchange.com/questions/138876/does-solidity-optimizer-eliminate-unused-internal-functions-of-libraries), so this finding is invalid
+
+*There are 6 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+12:  import "../uniswap_V3/IUniswapV3Factory.sol";
+
+13:  import "../uniswap_V3/libraries/TickMath.sol";
+
+14:  import "../uniswap_V3/libraries/LiquidityAmounts.sol";
+
+15:  import "../uniswap_V3/periphery/interfaces/INonfungiblePositionManager.sol";
+
+16:  import "../uniswap_V3/IUniswapV3Pool.sol";
+
+17:  import "../uniswap_V3/ISwapRouter.sol";
+
+```
+*GitHub*: [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L14-L14), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L16-L16), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L17-L17)
+
+
+### [D&#x2011;45] ~~Unused import~~
+These instances _are_ used
+
+*There are 91 instances of this issue:*
+
+<details>
+<summary>see instances</summary>
+
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+/// @audit AccessControl
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit SafeMath
+6:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+/// @audit SafeERC20
+7:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit IERC20WithBurn
+10:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+/// @audit IUniswapV2Router
+11:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+/// @audit IUniswapV2Pair
+12:  import { IUniswapV2Pair } from "../uniswap_V2/IUniswapV2Pair.sol";
+
+/// @audit IRdpxEthOracle
+13:  import { IRdpxEthOracle } from "../interfaces/IRdpxEthOracle.sol";
+
+/// @audit IRdpxV2Core
+14:  import { IRdpxV2Core } from "../core/IRdpxV2Core.sol";
+
+/// @audit Math
+17:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L7-L7), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L14-L14), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L17-L17)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+/// @audit SafeERC20
+4:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit AccessControl
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit ERC721Holder
+6:   import { ERC721Holder } from "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+
+/// @audit SafeMath
+7:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+/// @audit TransferHelper
+8:   import { TransferHelper } from "../libraries/TransferHelper.sol";
+
+/// @audit IRdpxV2Core
+9:   import { IRdpxV2Core } from "../core/IRdpxV2Core.sol";
+
+/// @audit IERC20WithBurn
+20:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L9-L9), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L20-L20)
+
+```solidity
+File: contracts/core/RdpxV2Bond.sol
+
+/// @audit ERC721
+4:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+/// @audit ERC721Enumerable
+5:   import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+/// @audit Pausable
+6:   import { Pausable } from "../helper/Pausable.sol";
+
+/// @audit AccessControl
+7:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit ERC721Burnable
+8:   import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+/// @audit Counters
+9:   import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Bond.sol#L9-L9)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+/// @audit AccessControl
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit ERC721Holder
+6:   import { ERC721Holder } from "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
+
+/// @audit ContractWhitelist
+7:   import { ContractWhitelist } from "../helper/ContractWhitelist.sol";
+
+/// @audit Pausable
+8:   import { Pausable } from "../helper/Pausable.sol";
+
+/// @audit RdpxV2Bond
+9:   import { RdpxV2Bond } from "./RdpxV2Bond.sol";
+
+/// @audit IERC20WithBurn
+12:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+/// @audit IUniswapV2Router
+13:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+/// @audit IStableSwap
+14:  import { IStableSwap } from "../interfaces/IStableSwap.sol";
+
+/// @audit IRdpxDecayingBonds
+15:  import { IRdpxDecayingBonds } from "../decaying-bonds/IRdpxDecayingBonds.sol";
+
+/// @audit IDpxEthToken
+16:  import { IDpxEthToken } from "../dpxETH/IDpxEthToken.sol";
+
+/// @audit IPerpetualAtlanticVault
+17:  import { IPerpetualAtlanticVault } from "../perp-vault/IPerpetualAtlanticVault.sol";
+
+/// @audit IRdpxEthOracle
+18:  import { IRdpxEthOracle } from "../interfaces/IRdpxEthOracle.sol";
+
+/// @audit IDpxEthOracle
+19:  import { IDpxEthOracle } from "../oracles/IDpxEthOracle.sol";
+
+/// @audit IRdpxReserve
+20:  import { IRdpxReserve } from "../reserve/IRdpxReserve.sol";
+
+/// @audit IRdpxV2Core
+21:  import { IRdpxV2Core } from "./IRdpxV2Core.sol";
+
+/// @audit IRdpxV2ReceiptToken
+22:  import { IRdpxV2ReceiptToken } from "../interfaces/IRdpxV2ReceiptToken.sol";
+
+/// @audit IReLP
+23:  import { IReLP } from "../interfaces/IReLP.sol";
+
+/// @audit EnumerableSet
+26:  import { EnumerableSet } from "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
+
+/// @audit SafeERC20
+27:  import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit Math
+28:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L9-L9), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L14-L14), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L16-L16), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L17-L17), [18](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L18-L18), [19](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L19-L19), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L20-L20), [21](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L21-L21), [22](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L22-L22), [23](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L23-L23), [26](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L26-L26), [27](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L27-L27), [28](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L28-L28)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+/// @audit SafeERC20
+5:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit Pausable
+8:   import { Pausable } from "../helper/Pausable.sol";
+
+/// @audit ERC721
+9:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+/// @audit ERC721Enumerable
+10:  import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+/// @audit ERC721Burnable
+11:  import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+/// @audit AccessControl
+12:  import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit Counters
+13:  import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+/// @audit IERC20WithBurn
+16:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L5-L5), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L9-L9), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L13-L13), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L16-L16)
+
+```solidity
+File: contracts/dpxETH/DpxEthToken.sol
+
+/// @audit ERC20
+4:   import { ERC20 } from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+/// @audit ERC20Burnable
+5:   import { ERC20Burnable } from "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
+
+/// @audit Pausable
+6:   import { Pausable } from "../helper/Pausable.sol";
+
+/// @audit AccessControl
+7:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit IDpxEthToken
+8:   import { IDpxEthToken } from "./IDpxEthToken.sol";
+
+```
+*GitHub*: [4](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L4-L4), [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L7-L7), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/dpxETH/DpxEthToken.sol#L8-L8)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+/// @audit SafeERC20
+5:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit ReentrancyGuard
+8:   import { ReentrancyGuard } from "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+
+/// @audit ERC721
+9:   import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+
+/// @audit ERC721Enumerable
+10:  import { ERC721Enumerable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+
+/// @audit ERC721Burnable
+11:  import { ERC721Burnable } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
+
+/// @audit ERC4626
+12:  import { ERC4626 } from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
+
+/// @audit AccessControl
+13:  import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit Counters
+14:  import { Counters } from "@openzeppelin/contracts/utils/Counters.sol";
+
+/// @audit IPerpetualAtlanticVaultLP
+15:  import { IPerpetualAtlanticVaultLP } from "./IPerpetualAtlanticVaultLP.sol";
+
+/// @audit ContractWhitelist
+16:  import { ContractWhitelist } from "../helper/ContractWhitelist.sol";
+
+/// @audit Pausable
+17:  import { Pausable } from "../helper/Pausable.sol";
+
+/// @audit IPerpetualAtlanticVault
+20:  import { IPerpetualAtlanticVault } from "./IPerpetualAtlanticVault.sol";
+
+/// @audit IERC20WithBurn
+21:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+/// @audit IOptionPricing
+22:  import { IOptionPricing } from "../interfaces/IOptionPricing.sol";
+
+/// @audit IRdpxEthOracle
+23:  import { IRdpxEthOracle } from "../interfaces/IRdpxEthOracle.sol";
+
+/// @audit IVolatilityOracle
+24:  import { IVolatilityOracle } from "../interfaces/IVolatilityOracle.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L5-L5), [8](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L8-L8), [9](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L9-L9), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L14-L14), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L16-L16), [17](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L17-L17), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L20-L20), [21](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L21-L21), [22](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L22-L22), [23](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L23-L23), [24](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L24-L24)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVaultLP.sol
+
+/// @audit ERC20
+5:   import { ERC20 } from "solmate/src/tokens/ERC20.sol";
+
+/// @audit FixedPointMathLib
+6:   import { FixedPointMathLib } from "solmate/src/utils/FixedPointMathLib.sol";
+
+/// @audit IERC20WithBurn
+7:   import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+/// @audit Strings
+10:  import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
+
+/// @audit SafeERC20
+11:  import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit SafeTransferLib
+12:  import { SafeTransferLib } from "solmate/src/utils/SafeTransferLib.sol";
+
+/// @audit IPerpetualAtlanticVault
+15:  import { IPerpetualAtlanticVault } from "./IPerpetualAtlanticVault.sol";
+
+/// @audit IPerpetualAtlanticVaultLP
+16:  import { IPerpetualAtlanticVaultLP } from "./IPerpetualAtlanticVaultLP.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L7-L7), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L12-L12), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVaultLP.sol#L16-L16)
+
+```solidity
+File: contracts/reLP/ReLPContract.sol
+
+/// @audit AccessControl
+5:   import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+
+/// @audit SafeMath
+6:   import { SafeMath } from "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+/// @audit SafeERC20
+7:   import { SafeERC20 } from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+
+/// @audit IERC20WithBurn
+10:  import { IERC20WithBurn } from "../interfaces/IERC20WithBurn.sol";
+
+/// @audit IUniswapV2Router
+11:  import { IUniswapV2Router } from "../uniswap_V2/IUniswapV2Router.sol";
+
+/// @audit IUniswapV2Pair
+12:  import { IUniswapV2Pair } from "../uniswap_V2/IUniswapV2Pair.sol";
+
+/// @audit IRdpxReserve
+13:  import { IRdpxReserve } from "../reserve/IRdpxReserve.sol";
+
+/// @audit IRdpxEthOracle
+14:  import { IRdpxEthOracle } from "../interfaces/IRdpxEthOracle.sol";
+
+/// @audit IRdpxV2Core
+15:  import { IRdpxV2Core } from "../core/IRdpxV2Core.sol";
+
+/// @audit IUniV2LiquidityAmo
+16:  import { IUniV2LiquidityAmo } from "../interfaces/IUniV2LiquidityAmo.sol";
+
+/// @audit UniswapV2Library
+19:  import { UniswapV2Library } from "../uniswap_V2/libraries/UniswapV2Library.sol";
+
+/// @audit Math
+20:  import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
+
+```
+*GitHub*: [5](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L5-L5), [6](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L6-L6), [7](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L7-L7), [10](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L10-L10), [11](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L11-L11), [12](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L12-L12), [13](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L13-L13), [14](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L14-L14), [15](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L15-L15), [16](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L16-L16), [19](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L19-L19), [20](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/reLP/ReLPContract.sol#L20-L20)
+
+</details>
+
+### [D&#x2011;46] ~~Unusual loop variable~~
+These instances all properly use 'i' as the outer for-loop loop variable
+
+*There are 12 instances of this issue:*
+
+```solidity
+File: contracts/amo/UniV2LiquidityAmo.sol
+
+147:     for (uint256 i = 0; i < tokens.length; i++) {
+
+```
+*GitHub*: [147](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV2LiquidityAmo.sol#L147-L147)
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+120:     for (uint i = 0; i < positions_array.length; i++) {
+
+```
+*GitHub*: [120](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L120-L120)
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+167:     for (uint256 i = 0; i < tokens.length; i++) {
+
+246:     for (uint256 i = 1; i < reserveAsset.length; i++) {
+
+775:     for (uint256 i = 0; i < optionIds.length; i++) {
+
+836:     for (uint256 i = 0; i < _amounts.length; i++) {
+
+996:     for (uint256 i = 1; i < reserveAsset.length; i++) {
+
+```
+*GitHub*: [167](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L167-L167), [246](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L246-L246), [775](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L775-L775), [836](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L836-L836), [996](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L996-L996)
+
+```solidity
+File: contracts/decaying-bonds/RdpxDecayingBonds.sol
+
+103:     for (uint256 i = 0; i < tokens.length; i++) {
+
+156:     for (uint256 i; i < ownerTokenCount; i++) {
+
+```
+*GitHub*: [103](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L103-L103), [156](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/decaying-bonds/RdpxDecayingBonds.sol#L156-L156)
+
+```solidity
+File: contracts/perp-vault/PerpetualAtlanticVault.sol
+
+225:     for (uint256 i = 0; i < tokens.length; i++) {
+
+328:     for (uint256 i = 0; i < optionIds.length; i++) {
+
+413:     for (uint256 i = 0; i < strikes.length; i++) {
+
+```
+*GitHub*: [225](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L225-L225), [328](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L328-L328), [413](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/perp-vault/PerpetualAtlanticVault.sol#L413-L413)
+
+
+### [D&#x2011;47] ~~Using named function calls is a much safer~~
+A named function cannot be used here, because it's not known to the current contract
+
+*There is one instance of this issue:*
+
+```solidity
+File: contracts/amo/UniV3LiquidityAmo.sol
+
+344:     (bool success, bytes memory result) = _to.call{ value: _value }(_data);
+
+```
+*GitHub*: [344](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/amo/UniV3LiquidityAmo.sol#L344-L344)
+
+
+### [D&#x2011;48] ~~SafeTransfer should be used in place of transfer~~
+The instances below are not external transfer calls, so using `safeTransfer()`/`safeTransferFrom()` is not invalid
+
+*There are 2 instances of this issue:*
+
+```solidity
+File: contracts/core/RdpxV2Core.sol
+
+861        _transfer(
+862          returnValues.rdpxRequired,
+863          returnValues.wethRequired - premium,
+864          _amounts[i],
+865          rdpxBondId
+866:       );
+
+924:     _transfer(rdpxRequired, wethRequired - premium, _amount, rdpxBondId);
+
+```
+*GitHub*: [861](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L861-L866), [924](https://github.com/code-423n4/2023-08-dopex/blob/0ea4387a4851cd6c8811dfb61da95a677f3f63ae/contracts/core/RdpxV2Core.sol#L924-L924)
+
+
+## Rubric
+See [this](https://illilli000.github.io/races/2023-07-lens/scorer.html) link for how to use this rubric:
+```json
+{"salt":"79d71a","hashes":["ab66d7e6ed","1c9a06b760","78a30425fb","8734585791","a7df10a09a","9b3cebbe5b","b92515ee77","c867e717f9","a2d6996739","0d9973ab74","4f6e37a361","821f9c0dda","ec149aef52","f4dbc4f13f","b67599372e","b6319c055a","002a61bb5b","a3af926ac5","8e50a40555","0d1a190d86","161f2c84aa","4da74879da","20014d6d83","1aaa863220","fc333e86ca","2b9c5ebe76","6f0e6f05fe","dc42231dac","e810098178","ed52b1836d","c549486c96","db54216fbb","030353ddb4","9415e0da14","3a95dab0b7","1f043e7622","9c0981161b","9ac7a5840a","2091afe863","d136883550","a1c7750c98","42e7ae8f81","1f043e7622","9c0981161b","9ac7a5840a","2091afe863","d136883550","a1c7750c98","42e7ae8f81","eb4cf21bd4","3ce0b3ad9a","13cbaad45f","e872235c6f","06625d796f","7c27090ec0","63c792f2aa","70418b4146","d9349c9d01","cafbb92cf0","beada54aad","c6feb2b242","9a384bcce4","c12a14008d","8e83664286","ce9b58e652","ee0bcd1409","09c2302346","5f42bf55c5","81208f4514","d127eb73e6","b78ae6e18f","fed514394c","0da95dff9a","753a2c74a0","147fd694a0","1a384161be","bc762d47c6","58825da3c2","5c94df7483","f61b650bfd","12aa36a28c","7bda20511c","deef8c10bc","e24c4accb1","9de3c3995e","0e2949820f","470031f847","ba4e26dad1","a683fd4d63","11b28f71f6","b7da2191a7","2ef809fc76","89b1fb360f","9169495a76","af716d0f01","0cd8d6f3d0","55a0446a4b","5142023f4b","96295ec8de","086b09e330","070907188b","786d765331","3830e6af0c","0a1c2baf79","1da1033b39","175b5a937a","2fc3688c27","fd5d7b41b5","16be7392b9","13bf00c4ae","bf750bf395","d0077e2258","6a8ff9d8b0","b8cf5b11af","0b34bb7fd8","7a01796076","d95340ebb8","b08a0185a7","d0ddcdb377","66ac02a052","c3e336f0a7","0962a2880a","93989c9b36","a9c6c8aa20","3ff7f26d1b","2616d55690","9db9ba09d4","a0dc16d2f6","2fa0673e10","6b7c3f1da5","259ff928f0","20c0a1d106","81dc91d2b0","c80dbfdaed","bb8d04fbcd","048de526aa","956fd25b43","a68952a819","89a5cf522a","630c24bf88","c80dbfdaed","bb8d04fbcd","048de526aa","956fd25b43","a68952a819","89a5cf522a","630c24bf88","6623ceae01","024795787f","36783b5345","b286d75c52","9ed8afde13","0bb15ff860","8619edba00","d69ed41910","0e9a4d7e31","bfed68f2f3","1fac9c0833","5671c17394","b537b3fe04","c1749e5acf","adf47fca5d","477fa50be5","7407814177","a2a58d8a8c","efa181d7a1","b996d18bbc","8999651cc9","795f2204e7","9c50738be6","6e5f8cb708","ead11847aa","24e5df696b","a8307d2cb4","01a60c8a76","c9f151e9d3","a64ab1c29d","56992afc5a","676696c26a","b1f6d23256","32f825f3a9","7e885efd5d","238a1d2d55","fe79f1076b","02e1fbd926","c27738014c","0ef580d7f6","c4a28f808e","b7546f0d14","9af4cebf71","4da9c10d19","3624547981","e359838ee1","aace257ab4","7377c2b6e8","0b304cdf82","bc740ece28","e3cba8fd4e","6961c9b22e","00e46bb129","a42e9b44af","60d9b97110","0dd0e58c18","2ef792dcfb","c89db27ae9","b4d91bd96b","c7e0684894","2c63fe042b","96e432674a","d67513480a","07f52bdfa7","712778db2c","c0b8cc632f","b2c43e0904","6000d8d175","8809360072","b16982f64c","c1d42a9008","a6db863a34","5f6bf60069","be95bfd8c5","a692f04041","38e175efce","4c3a16520f","6b7950cfdb","155534820d","8b26420e4e","49562bccdf","c76cbb1efa","7122090ac2","809a8d4aad","c3e6225d65","425d127db2","197569fab6","5447e5f0ad","c7840b6bd9","08348301d3","4bf69afd49","31d3feca7f","b9fe880f1f","e286fb7659","d89ffe003c","df6fa4baec","b5e9e62f1f","3eb8c032bc","dc9b24442a","cebf5d9839","6c1085f4be","2d79acd09d","a9b5296e1f","694433847b","adef1f38ce","9e4f63bfa1","dba4c8735f","a2bc0b3091","527ca24410","0a07ddfeb2","b5d7aeacdd","39320e6f8b","b891ab4587","1316d2e702","4f03408b24","c41103733e","917e05f43b","ac919ae8ae","e075da227d","8df5f141d2","f2c9509aba","8d665fd6ff","51ba54dddb","f28519ab11","87e9c2bbae","16041bf786","85d0810ce3","b59e922cfb","4e31e6be26","ac49c1620b","019b48e9b3","a926ffb257","85d63bd38c","1c60738635","44e194a209","c3fc87906e","9e0f6203be","388cfaa0d7","69b5175c00","ec165d172c","09bbf3162e","32c1a1a788","16adfbe0e8","2ef33ad52a","a95ed5a312","814debc3f5","4d5ee082bc","35526f6cff","0597ef695c","0ac86b0f53","51382e4bab","0ee9b689c6","d9bad8d1d2","1e28117c7a","1c63cfd7c4","5872ad4724","c0ed29ef5e","3fa0477db9","37a5f4031e","e8587e29e7","978521c45c","3ee741a2d9","7f8cc51b52","7352959f1d","26859f20ec","09dd6f63cf","93fdba2212","0a3b26626e","6077128f28","7e95373a63","24a385cc84","4dc287cf7e","b7541b2f21","c8bc34c1bc","7862187158","54470b75d5","2c75c7634d","ea84e7e8e2","c277efd19a","cfdf87bbef","526ed4c25a","dd5500c128","1a87e9a3f7","ecdbe775d6","f05f6c5f20","c70666603b","0575039efa","0d628f5f7a","c280c05a83","85f2b3a29a","00d48f4258","0b903e02b3","99c9740798","8fda382a4b","a499ec6672","a7d237c899","8f4c336ee7","7ec255ea37","c16115f04f","90a1d36187","cffc51e19e","219d330d93","00ea354216","30d02b6485","3e4addffcb","2fc16171af","a38bd9f2d8","d9654d6de2","649b7ce8b1","9a7f60732f","c255bdf6a9","b0ee8be1f5","318cda3d61","074d7f9d23","d17ba577ce","00c2f8f0c8","b6baa84be3","fc112845bb","b8ae7392b5","aad3be3625","7eef57a47e","cad4146129","0697340367","9a22287653","5eebb11cd1","74a478c0f1","b69e02ba26","663fd542b1","b299ecfa23","9d2e61db89","d882c4c19f","895edd8324","be0498e233","a585d520e3","ca80567b06","14ffcec55b","7aa8b67375","4063992b87","2900b7b761","3032083d98","ebf8785638","d6197ea283","fa0e12d4c5","0656aecfcc","fe775490b2","1e68acbab6","7836372928","dc3adf974d","ceb536e092","2c14338e33","f2f07748ae","f4f38ff86e","5fe857db31","a308398f51","4bc8f0c6ab","98d15e98d8","a24146caa8","0aef977a1f","0e57776a7b","c0d430e361","e011b4f462","a5498e596c","27762cd441","1847b7ee51","648e1a4120","880c0030ab","2343ea58e3","d7daecb064","47b9d49f33","d9787bd54a","14c53f1c4a","9ab226918a","3585bec6a1","5d3e8896e6","a66042f9b0","461bc46ee2","c3e2753206","e2343d6ab5","89949609b8","33cf41fd85","a8b7526041","40547544da","62a3f074c1","18b03f9a2a","875cddcdc0","3e6d142008","4c01fcf4eb","1d9c84e564","d4669422a7","d52aeb8928","10268b21c2","e6e04e2e05","745a23a62d","4c6f9c390b","e77fb80656","e9f687b18a","c0a0f54fa2","08c99500f6","320c234297","d28612be6d","87b1bae465","e77fb80656","e9f687b18a","c0a0f54fa2","08c99500f6","320c234297","d28612be6d","87b1bae465","e1030b6b09","082565e50c","7507303137","68e0dbdfdd","330694f464","45d5aa8c99","08538f38e4","4e49881142","b8cdce7aed","bb5c7eb2a2","5fc1ad4fef","df4475dc57","7c3218fb26","909e9f18c0","b3b5af62fd","457aa8a66c","56e1ab4fa4","9981e6c252","698e22458a","28652e2691","c945c199d6","b2d338cda7","dc1c4b7fe1","01c668302c","b521ffc328","36a1cb195d","9975acb9ef","01fa5c016c","fd29e31d47","609832fc49","2d9e08c457","52257a2f5a","6883cb0e6c","34d73e5b28","9c4e834fc6","c366c0d5a3","bc6300343e","e6ff2d295d","4a9c920475","7bc2a2524e","9785af4ba0","f180a671ed","a347bc2302","6fc92440d4","4c9feb41e2","122e97db0e","6d07ad7af4","861c9d80ef","26bd29604a","645628c217","739783aa7f","86e582c7f8","1b7fbf1729","18d215d778","e01f9c7c57","9dfe68ee6b","76f0a9e5ca","5304a45285","bdc72bba90","86bdc37b37","0791d6cbab","7627330a3b","3dd4846cc8","50f3d58de8","9951d852b9","2726983fd7","87abb56c43","d46b51b8e5","60f6319b13","ebe608fe97","a22fb5e48b","d91ccc144c","9e69f74864","14d1d0c040","33de6771f0","57b07f5379","a6a918738a","e4fb427ebd","ed314632d8","798771959b","ed15a907b2","a58b4ba5fb","7b0e5f9b8e","b3458e6275","ae1d1dc675","50a3dcc035","d84ccdf305","5647c1074f","6223e1994c","51a35d335c","03dc8b0639","a22fb5e48b","d91ccc144c","9e69f74864","14d1d0c040","33de6771f0","57b07f5379","a6a918738a","283760e6ee","3edf817b31","5773016ed1","32ad5443de","1bac8de9ae","2be4587fbd","5def4e77e9","38938c6c74","82961b3291","39d49e15df","e82acc73da","5c7820cdb4","d13514cd2d","0ee75d2536","cbbdefe58d","5c24adca7c","3e08d5a3ce","7b960188e8","dbcaefc3b1","3f17242095","a68de9c83b","d407d474d1","fd2f11ded9","77e4676a65","c09c27cadd","4c7a4a83a7","f8cdd675d8","46934fa230","b03f95a0b6","a01d2000ba","850a0ba57b","0e93c08168","c355f1df9c","12c4f2816e","8617a126d1","6509f703e9","d3e4bcb678","dd77edc8ed","fbfc0a6b7f","3bea2e1cb1","f76a6495fb","c596703151","05ef1edfe5","d4523daeb1","007d9790fc","c27f35552e","98fb67cb22","e3896ea54e","fd32684d62","983e71fb02","e6eef09152","ca3552328f","e211f590b9","a40a4e21f0","57677cb9bc","0b5d2138dc","d52f6c1f19","7406424fb0","b8f562021d","3e16cd1dea","3d4fdfd8e7","4c12de9473","9beece202a","abd61ec218","f4f30098a0","a541211c6c","d287ed5dfc","23916eaed1","68c6572e0f","e752221f8a","ce6ed995e5","096de13d79","57f234440f","374c1d7b94","5de28408eb","eeb4252ca6","efd6031d83","cf0d1c0ee8","d6ff6ab3f6","a8cf2db857","d1424f26eb","008b5839a4","64e058ef45","572386df24","3dab35aa0e","04f5a4e21d","72720d17d2","da0841c140","875aa70fc6","66f6be63d7","83ca63735b","031357147f","f796120685","1023de3656","28cce5f046","1211f2052d","958e32c42e","b065e03605","4cd7c8a6a6","50c16284b3","2fb68eeb26","a10b071cb4","e9bdb0d2bb","e573a9520d","31eb5a037c","a4687fcf08","7a5594a181","c7d050c2a1","04f8d2720b","18ed208112","dbfb933924","836caf9aec","abd61ec218","f4f30098a0","a541211c6c","d287ed5dfc","23916eaed1","68c6572e0f","e752221f8a","b007fc7b31","f4118af415","92a45fcb4a","7fee2bdb7e","e1c52e6924","cf6d90f426","841ed6f388","9db58eb632","0e7b92fc40","37405271cf","abb7a177e9","0770d47201","74cf797c1d","0a0870738f","5819b8c9f9","3624936e03","972f1b495d","75f6aace54","9be2901cea","d56d13a95d","e3ef03dd50","0a12ae245c","45c38295b4","c35ccf8ff3","1fbe679ca4","0317a4a069","9de3ca39b2","a047a660bc","2a0a3aec21","6495c21521","3f474af265","4415776a88","20b47fb897","1a4c1d658e","e213b50afa","afc276c1b4","049f9f3aba","546e7fe864","00fd1dba75","88f9a00b6e","89565ff265","9d4101f7a4","3b56dc8743","d5acc409f7","ba41944b54","b4d590516d","bb75d889ae","f49b3afc5f","f88e2f34d4","87c2c13f38","d20b68a729","e2922f43a3","8c30fffe0a","6f4b88f19b","a0b021221b","a1cc113d26","9e3a326834","d0ad8e5ac0","3dc6e7bde7","72944fcbdc","a43b310871","0385bbbaaa","9557b08a61","afc276c1b4","049f9f3aba","546e7fe864","00fd1dba75","88f9a00b6e","89565ff265","9d4101f7a4","c3d8e03645","0b78fdc7e9","8bc1633d97","f87ef524fe","60c8e4aeee","43f3ca4e2b","e38fae9312","fb28f76425","4c45b635cd","7cad7c4d3b","c2ee906ab0","bc0beac283","f375f8f3f6","1e1249d7a2","283d90ab64","dbb4034aae","34f89331fc","d09c60ab10","03138c4121","6f5fe08c2e","4788b6eaba","aff1ad5f60","8c22f1b6fb","a8f9558ca3","0e1222d26e","4e224a886b","88f2bbaeb2","0b34083f22","beadc834bd","c2f5b83227","6ef2e4dc92","0fe5bc9174","43729b28ea","7f4c04471a","376a5bc51b","b29a70a42e","0431a15a12","4787282a37","3cdd4dcf26","34d2d7b20c","17a8a1a69a","6e12263f3a","c2d2c508bd","570f89e3b5","83784c1353","239e050aad","50772a72cf","d17d43bfb6","df0fd8f88e","fc6e2f6f3a","5e8b0d95bf","611e75b78e","0ae12f899d","06c2526b0c","b874d7ed49","2a4fd9733a","4fca397108","3a1cda4000","9c340b1593","c5023a8693","ac6df90719","39c39ce3c3","ce91d6b4c4","299af899f4","6b4e327d2c","01ab4963a7","be06ef7705","8050321b3b","4badfd5bb1","63d0d24f25","f6c1299afd","e073e9f47e","e0765db7ee","01225bc8a5","dd8620097f","29a99083c4","d8d4407d33","b4db49fe73","9c9752c19f","0e01f00598","757b2d02e3","9a311a4734","d767123ebc","eb7ee30cfc","ada417216c","494ddabd1e","cd3dbbab2c","8b58061455","12464bfeb8","f66213a099","435eceedfa","3349a570af","bafa998e57","6685915d2d","9784e58596","1ca7ef2f97","dfe3f4496d","7618aeac8a","ca14a4ae10","a15e8907b2","fe9afbf862","04058c6fff","57e82b54c4","1ddd0c5185","3deccae61f","f63d415564","cfce42b92f","fdd2781666","b1403d2108","9732158911","6324a4d741","32d179edf4","e3d7a81ba5","28f40e6ee3","c6d11d3a3b","f64d45a3d0","dad87d4122","46975d2a48","f3a1421800","62aef168a9","ead362b3e6","47fb720576","205f39f017","71be11e4ff","e8e4be9888","74a82c037f","5dec963570","8a1c9794c5","6f15a277c1","1862493936","fff1321d90","6ba5f3ffdf","ad94bc4806","a8f896b355","ab84a9fa1c","1de80ea96a","601531023c","08fa193ab0","4b963966ae","9df2150ed5","e4fb9e5011","4ceac41296","9cb42d7cca","44622e483f","2d1bdf328d","bd7035c292","1366e5a334","abd697a06c","b0f41a41de","cd8b3ee40b","ca1da30eb1","cc51b882d5","8fa2f2e2a4","8868db4fc5","b66961fa98","8cb68cceeb","1f9c6dbbb9","7e1bf57066","ed791cc8e6","b95254be68","ae05ec5ba0","0a7bddca49","6007b81799","c213cf5d2e","d6762c69a8","0943198002","dfbb89b030","1e4f194ce1","405c02ad3b","392c8f084a","658211853e","6ce5b8e967","d257844507","94689434c7","971a7fcbb6","423237f1ac","637c725d72","0f752bf4c9","37c57b5303","7ca64bb395","63999e8f45","ed8e8c8985","12d53ce0bc","de7104d5b6","082f4d36ea","fe71d05c40","b024655808","2286b007d4","75ffae08cf","082156822a","00c2ef679c","c00ef98aa5","7859b413e4","852d53e40a","e1a88db019","e9e0174db4","963e1e9793","60d644478a","ab3b2bd93c","6e91ab93a6","0484ca3399","064144e8e6","e2e278c10d","082156822a","00c2ef679c","c00ef98aa5","7859b413e4","852d53e40a","e1a88db019","e9e0174db4","9375bff261","f93f499a84","edacffc6f5","4428db1736","9546248925","745a16da95","9cd39b960a","e3c7841dc7","e12d2db035","60f3e10e63","e7d6905bcd","2138d3aefa","2888f46700","e93cb6cbd3","9375bff261","f93f499a84","edacffc6f5","4428db1736","9546248925","745a16da95","9cd39b960a","082156822a","00c2ef679c","c00ef98aa5","7859b413e4","852d53e40a","e1a88db019","e9e0174db4","6f6f8ba0a8","f1910a5dad","e2ac7237fc","3c8a732c7f","5bb96cf53d","08e921cb3a","ff2460334b","3a65003a55","0d654b0bea","7ba3eca819","bfa6741644","01e0fd3893","f392ef6b72","a627d58259","8bbef750bf","70d659bfe1","a702cf5937","7563072767","baf11eae8b","b888fab7c8","1d361376fc","3d1ab5f011","e9be8f7e6e","5ba61b2d36","af717d2d23","d5cbe41230","ce6a94c0d8","f3e8f574bc","fa21171343","1a9e98818f","2ef94be331","0a610bf2d6","b3172be7a0","69da63c247","9d38853bf0","f9243a2ecc","c1d6ea88ec","721bed811f","5d0078157f","09dce24e9a","debad75a5f","ba307fa4fb","16c6c8b9ce","eed5f7a50c","620323c6f7","e68aa6f166","7e91675cdd","d4eda7686e","c348d88e81","a96583964f","bb84c52538","8d2e169449","25fc035dfd","84d044f83b","c534b863e3","d1d936383d","325e6bfd65","11b9ba6795","5e2b476f22","858c5d6698","b1e02ec93b","5bf4f0afd7","e136ea6363","3d1ab5f011","e9be8f7e6e","5ba61b2d36","af717d2d23","d5cbe41230","ce6a94c0d8","f3e8f574bc","d1860fbc61","930b040e98","7f968c3129","27ec3b559d","bf08c3b691","8dd1c1c02b","dea17660aa","3de3b36c11","d473dd44f0","2d37980814","890f4568f4","53842a3838","a683e0e2b8","1b5e130719","37ff8c80d0","f8a1aedcd7","67bfb70c22","4777d625fa","55fedde8f1","3ab81d10cc","7bfbfb83da","fcefea50b1","69331d85c5","87d3a9e5d1","575a500674","71dbd3b53c","26f8ba583f","d55612be63","df40fe03d7","692133fe17","9a54364e25","a80575eea8","7eb24eb88b","d476799a03","4e02de327f","04a2e47010","cc46b9f41a","3fa34b7bcf","365c977519","361561267e","0cd92315b8","3386a11696","413119f166","d1597a7580","ab13d45a55","03140ed065","93879f6e86","c8c2f3eb66","adfa0b38d0","e387faf4bb","b42cf9e60f","4bbc2574a3","5a65349171","91e9412f7f","11a7036f86","9f1234d665","bf437a7efc","1c1bc5c075","669a2f9af7","a3f69068e5","d8b70cd40f","a2bf4c93b9","9d0436fde9","04dc0ca10b","3f63c160cf","f00fac94f9","d6f0718022","f0026ad893","3041839ac1","ed44afc22f","6a76ba2e7f","f4e9c4aa2e","c6629cf8c3","639c27b2de","6117f9707b","b709afa1f2","376f3ac642","303358b85d","5c5a032948","640f351723","844183ead7","9105ff96c6","841cb0be1b","c6260440c4","c959a9da99","9d98ec0fbf","63e61e3b4a","164c07a379","e93cfaaa16","51735c3e92","ac6bbf4f3b","edf855746c","317022d1b6","ba86c2facd","b50377a31b","a1cea4d61b","6d55046b00","7dfcd0944b","a742da4ecf","386ac7a2d3","b701a30944","3e78a43145","e6fff21b1b","2d44c9dcd4","f779ea21a5","a0d47e2c95","bb3133ec9a","ae36b8a0dd","96c02efd70","cc158c4fb0","e4343e76da","e12d4420d0","8820402f2f","6ff0a80a5f","c3c5b66cf2","d1a652155a","3aa4370e34","3af475948e","9b8bd4ad1c","bb0bf50782","d7446697c3","968e6c0a4b","b321c4bf06","139673ff97","a7e96c2451","ef9e9f2470","ae14372767","3c696ad6ad","4c79e8722f","ccc5710214","e736229f25","03a8e50eb7","83e9489681","dbc7eba6eb","4534c6370b","9e57568b7b","e2999ef633","af6b5bf2f8","8e5bc6e8a8","1d96341893","3d3637c1bc","877e464ada","fc64be9f45","534b65fceb","4354e76a54","ef747686c7","6c691927be","cf0a89ad70","95ad4ed0b2","7c54848f3f","845484e2bc","c24966c07f","78fe461cfb","46945e8bcb","35264e42b6","86890e12e6","a07866061e","4a63cb5952","5ed65bf9c9","df807bc4dc","8213c82bad","e6b50bebcb","b050e4e9be","cc2836abda","5924df0713","1c080bb013","d9b6fad29c","60fa054dd9","0e0ddc73ff","37d43a20bc","1a97488bd0","361343d52c","a3df9ef029","cb969ba5cb","3ff7e97f2b","603af99f88","8e06208cb3","07c5ae6b31","3070aaaa0b","cabe70bd1a","b8eeb1c6e9","f65c6e710d","7082d9675a","969cb43acb","d4da6129fa","31821f13e6","3d88d160f5","bf73dce9e9","6e7c6eb0f7","e6364dbca1","ab0022a865","3070833b2a","38b91d3127","b8685f91d0","5465482287","cb338efb81","2bfee3ba67","85ffb9a0ae","0ba54d5de4","3b16a481e1","35ab9b9104","c39806163d","b16f6d7485","24cb5b02de","0c41465e2f","5ef8989582","7d067cc36f","fe95c130c2","8d4a54bcb5","bd09b42d6e","852337cb98","91bb28c4e4","908196b278","6e1ca25ecd","ca1c344fa7","c2b60d7095","2973b1bdb5","03d5fad8bd","81face0938","7eeebe3b71","a5efe22bb2","979a6e3da5","c3ab7b974c","9019afd66b","417f002bbc","f4e98cd2a7","801aafea9f","0f6b785e1c","1dc02f783b","e7bdb563f9","e1aeba484a","478a4af801","eb68701fbf","ee4f38e10e","0e1dad4eb2","b5f4b6ac72","a15b2170c7","cafdd501e0","2be19790c8","ec38574e13","5829a7de2c","2dc5816fdb","756d4b4a61","823987fc21","5c368b3dad","97bccb8233","dcc56f1f71","a4d1a38c99","676b365c35","84282431f4","e1a946dadc","c2f9b756fa","a12d4a77fc","cad55d2d06","cbcce3f63b","cc2f857182","8454d567e6","69282a3e47","64727a2e8b","9b02241e24","eb3b85a8e1","8fca2f5954","b3fd70015e","d84a08e722","de0da73d35","af0009cabc","82e1fb55d0","a619d625e0","b1f33175ad","ffa3f2d679","5c843f9715","ff9d305f3d","977afe77a8","5f5588da3b","6e7430dc0d","e39192b0df","a80b6f3e49","557aa2ad21","503bea0d07","69a2580cd4","4e9bd03444","5b0e326656","88e6f1a985","6353f8acf1","46cb1ae6e1","32045ad78d","aafa39de00","09536a0ff3","37ba067c9e","5d053d6c39","c577d23f54","50d160c6ad","5cab9549fb","d161b3f3b2","a105fcb7f9","b3c3f1c296","6d0cdb7b84","816d356279","35af25a49d","c41860f147","51a4597b55","29d5efd829","328207348f","adbc73bffd","b1aaf38ce1","ee8781d451","b97443c064","8a75decfc3","c21d4903f2","bdf9c8f7c8","3fa172d27d","09c693a175","1ac6f5eb83","c9347e38b8","65ccd91463","e65bf13425","6590b40da0","3832fa84c1","67bce87dcc","9615de252a","fb12411fcc","52a508325f","2c5018a108","c872d703de","66025222d2","6215bbc681","b1da13edb5","3e276aab72","f6d96d2d8e","1d134a2314","3e2f3ad8a2","15242891ef","12f6b525ad","87a4bd1a71","bfa5620007","ef38ab2176","3e6974946c","0ba6a7e07d","87b7e3e5f8","a21c35e892","08f2bce432","751848501c","f62e97343c","4102aa48c2","985a55a066","92ad0362b2","4059a1d42d","8903dcef86","4940e5b6d2","e7b56372a2","baf41a252f","0579284cf9","76f0795522","34c9bb556d","9ccf52a5e5","7cae6f974a","dcfc45faed","57c4f2304c","39bf1966c8","26cb6eecb9","bf073f8ebb","6c8d7fa3cd","fccc543123","efce39c5b2","464c147805","8f3edc16cd","f3d7528c88","68875fd9c3","16790638f1","d0e6cc2824","caceae7ddd","35a617d869","33ba991829","4dcf8290da","0f30d9095e","2b29a466c1","dde527c410","298f3ae457","f352846248","0143182817","b8123cf796","431be773c1","84eff5db5e","b44ffcd10d","e195a646a7","6f70aac3ad","a4a9b8b116","2167e0b68f","d7f1f6ac3a","1640d2c26a","895ea4dfba","52e1e90745","3bbeb3ba44","1591c366de","fecc5d514c","591ac7c131","8322b944ff","0df5b74fb1","2def6a4547","3bbeb3ba44","1591c366de","fecc5d514c","591ac7c131","8322b944ff","0df5b74fb1","2def6a4547","0681cd57e9","82e9b1112d","b8b5514535","a489665e37","14b87072b7","93fdc580f9","d175e72354","e81cedd8a7","4adb358937","9b2850557a","c0fb252c44","c67cab0e11","76e5dcd169","626b2cb03a","261c3cfe59","272752f40e","ab74ae24cf","06b1f23e05","306adf70e2","e211f53e8d","559c37f0b8","aa147cffec","964113661b","853610bf24","ad73288f6a","e4bb0908cf","3fa9bcb743","25076135bd","3aebb6d741","c2936a27b1","04e6e4601d","2c2a93667f","64e0776dd2","383a508077","b6d63d8f3b","6426dedaf4","45dc984cd8","611ec86502","89cb93cc0a","d50758c5eb","84a737a52f","846087180f","28b7f6374b","6c87a4d103","8c8398ab9c","99ef653683","90c46523cd","564361534e","b024a2a07c","83eec5b6f1","013c5566f7","6607221fb4","3a0d1d9ed7","93d013023b","a7452073c8","5d49c44094","65caa5e6d4","7ad03f72ee","eeec95d0ef","90138f36a3","d2a6730182","5ad7a7d07e","16da5e0794","f0a9002950","701fbd839e","52425ab501","b539ac4ac6","0a3e23019d","bf0db01e55","8318067789","1299b9e7a4","0a79b0a00a","27d98f4696","95f3a1d8e4","5638c0a172","57cd8caaff","a5576dca7b","0e3a21e66e","95f822a931","7ca2587188","a7e86f6350","2c72be0bb3","409158b5f4","ea5c1200bb","3c967662ec","079f333a22","6419a285e3","f5a4b02af1","6bcff3a80b","3b80a3d74b","5c30dd6e22","ac3a7d27c5","6dadb27226","e67fd68805","4165d1060e","ab4ca2fdc2","b4e63666b3","c377ec215a","ca5c16a755","a1109982de","c60d6018c4","d2bb90c186","5e58793fb0","25f9c6ee29","5c5e3ce4cf","0e545452c4","954ec094b7","5304704ff4","3647b9d26d","3666e125df","62aa92500f","2870b532de","07e625540d","cebeafcb0f","964a9002b2","7db9e86d58","99f702ac9d","bd970fe72d","e37248b84f","fc3135fcbd","3bd48d97e0","12cec13295","9b76880e02","ddfeac1f9b","d555c20a9b","437405fae7","b09edc6d66","8c2d1d54af","4804e1f927","bb7e2b36cc","77200d129a","dd9a1cae0e","0592762e68","f68910164f","4ebf0146c9","fed76708a8","d9d1c6b488","4e6f752566","df37ea1ff4","fcdfdb1565","57bb5ab016","9c89d55576","e32b79ebbd","28e51b8ba4","f1bad0d8dc","7701ac6593","9a5937f8fa","9bfc183277","8a2c2cdd6f","b6cba41253","e17cf45f0d","60d8a980d0","92283510d0","7bea28a195","0112daea3f","17d9d96753","9574dac14c","5ac589db42","3e3f2184c7","56260f1bac","442b6c32c8","638eda690b","1d657b41e0","6cb1a5ebf0","b1a85d3607","075f77d35a","accfdd6be3","29727017cb","c6ea2e83ce","dbe60001c6","f3c3968940","138673104e","485914cb40","c7864a114a","28827b2144","7263de1055","82e637eb3a","2fa2602ada","5f0f91f516","607135b2c6","ce91dc67e0","286ffc021d","4898492ce2","262661fc65","80f2d26931","5e03b0ef31","ad2e5b9ba9","167795640a","fc05d3f2b6","a49fecdfa1","98906496d1","a01c9b2fb7","825e25e3a9","724d491457","3bf713727b","d39c826c6d","4430690e24","bb9e5e0e8d","89df203fbb","015a194695","f8975c3097","2f175120e2","f563f020c8","b6b59b3dff","81102bafa9","580cf76f4f","9742449493","89a9fb8b84","48ff48dc24","393cdfd2cb","cb0c36df9d","b0c511dc87","91e8d72fcc","11859d0ab8","9d7c3d43a9","51fc4615d7","8617e6d91c","75872aabbe","89e33ca15c","168865e317","76f927313f","9fbd796c63","a8e21a6008","9ba52eeb37","75872aabbe","89e33ca15c","168865e317","76f927313f","9fbd796c63","a8e21a6008","9ba52eeb37","cb0c36df9d","b0c511dc87","91e8d72fcc","11859d0ab8","9d7c3d43a9","51fc4615d7","8617e6d91c","430084d74e","9844ebdd03","6f5acc2b5a","c9084b8619","f3a41f988e","3e97b361c4","3454f916e5","7c0b122a55","b7f94749de","31113810da","7265510737","d5d2d8cd93","b5e98b8425","52c6b64028","037479bf73","76d99b9478","eeaaaa0a43","8da0837f4f","27b20ba022","87989339ac","fa51057622","8284d1fc86","85219892e1","30d1bd3888","00e48595f0","51ff002a12","55f67f2ed5","fcc0e902a3","44dddc731b","e59d00ed40","fef9c76eab","18ca4bc770","5bf13dcf56","0a89c4a77f","cd5f0bba68","9c0438c5d6","2687ce089a","8df466e4dd","6b5ec3d165","d7367c7783","dc892a7b77","104c9343ee","2e2557fabf","6bcddfa7e8","2db8b4a7a9","59d681e27a","d73e801499","af9b750e0d","46c3af2fbd","44dddc731b","e59d00ed40","fef9c76eab","18ca4bc770","5bf13dcf56","0a89c4a77f","cd5f0bba68","12d0004f17","53bb084996","f094bf1ada","a395e3a91f","62a7b34aee","103c112011","03c381ffb1","83a7a8cba0","8ef0ce87d9","f29ef2a807","3d3fab5764","b5f23da6c4","9fe20411e1","f8bea5736f","9b04da57de","5707820774","11cca8080a","530f0df39d","d49406cf10","b78451974e","934dbadde2","6cdb4372c6","ec3f3f5ef2","04cf365328","42ae815c66","114a0058be","dd53ef631b","8b0902e80c","9082f5b250","01f6ca1b35","734bbc2752","4c5df8b97e","e68022c151","8be8434cf6","9caa69c541","a5efc24d9a","7b8f55fe50","f4969daf47","9380423311","ec7b1f1a23","3f8e447032","8c942c85aa","fb06919951","9fb8232790","14a7443002","69b36bcd7b","3e438e850b","f014473b57","87d89faa24","7842bd8704","5acd0bacee","460480e23c","5bdde54984","e3ea4b10f1","73ad51e75b","f2773e2c26","54c678614d","356cd4f4b9","a86daa94a8","fc6fb2bd2e","7fd90ba7e9","04fbaf9e7a","b5d37235f1","eb5dd9cc08","c868aff26a","437dabbe7f","ae80e2b709","48f310697a","2820796668","c8dbdab4b5","89e8c6a5a7","ca026be168","ec836d1d6f","fb6f2dd353","c34bda475c","81de6f4d4a","3ceaf537bd","0840222d72","1a5c2c75bb","4fa526b85b","1788cda72a","92d57ac972","0311a43729","be71cc96cc","0a562a5a62","86d1208433","b8931fbc5e","a62c8c9fa7","54d0b781c9","5faf71d14a","a19b6c0458","0df924d75a","b77bd99829","755fd2fc07","85b574deae","70d1b7171f","325dd28086","c204ebfe7b","65a55cad3f","c13666207a","9d598bca72","920c03eb52","73d2b51753","d659bf7174","97d01829dd","9994036120","e904413836","5b35c818ed","b8fca76fc4","db173b4476","e058c06d32","dedafc98ac","7a3839dc70","8f816a16f1","65222ce377","1627a39c9c","e1073550d1","c690406750","939c236837","68fa75647d","b44fa88265","afaaca4912","d37f3a6a3e","fe3d4f9842","ecfa426eae","bdbe72c8be","ef63c913a4","4746db2e0e","7a2be6e64e","ecad035d6a","a438ed6230","144fb515da","545d09339c","2b4dcf7827","f88f22d338","c14850fdc3","843726a00e","60ef1f15d3","0b5cebeb11","4dee2c02d3","392e5b3975","78b6d5f99f","2b51b04738","e2e05c3bc8","d2f1c94980","4b0f131e04","751b40660d","ef63c913a4","4746db2e0e","7a2be6e64e","ecad035d6a","a438ed6230","144fb515da","545d09339c","d2de79a415","821591734c","81f5c8a596","75a5290e15","087c302c35","a181f66c6e","31c0d7cb7f","5cf3a78451","2790c9dc5a","0dd0e6766c","4822b7cc60","941772debe","582e01cc1b","546ea4e697","5733246eed","bf9e0786c3","ade7284d1b","8f161a1466","288b9555f1","34b55523e1","206f1e625d","0cddd3b984","e0368460a7","27ecfb1323","45535f523b","7dbe56f2ce","3c8daa82bd","0833de5b8c","79776aad84","e8394a7b1c","ecd74dd100","4e300b9568","556a223865","1c3f187cb6","9b481f530f","399d768ecf","6c97d31ca3","ab3ad90002","412f317433","573952be4b","8af9bc738a","f3bff3a70e","afdeec607f","d32adbd82b","131aaf944b","3551655e59","e364aefeec","d9df904e77","bdc7ac66c9","a5a392f920","86d7613258","e3e89c5feb","dc508537db","9b7c820152","752b6645b2","1864fb297c","6e8bd320f8","7474e5741b","df91ad1255","aa503eed6b","fa65c8eb7c","e8c4afb3d0","41ac01acca","fb3a5ae8a0","d32c089fe9","fb02a99436","1c29479956","e477a7ab5c","5baa61b84c","13cc763dc0","a5a392f920","86d7613258","e3e89c5feb","dc508537db","9b7c820152","752b6645b2","1864fb297c","399d768ecf","6c97d31ca3","ab3ad90002","412f317433","573952be4b","8af9bc738a","f3bff3a70e","513c5373ab","57613627ea","d6348f2ad9","414ba150f7","32e0e3e4e8","4e3c8e8171","00bda104e2","4e7dad4bda","add65f7c10","f2511c069c","d08d900b4e","d59c7340ca","de6e40e919","023d630ab4","5585f4e38f","33c5c0c11a","73fc8550c0","d83707ee21","1afd0136e1","194728d699","9782594fa0","4e7dad4bda","add65f7c10","f2511c069c","d08d900b4e","d59c7340ca","de6e40e919","023d630ab4","6394bac49c","094b22fed9","bcb73e72f7","74ea476e07","e92ebc19d3","ad974b5eaa","0ee08985be","d6fb17a36c","a5c1e6ef99","05f186fb37","b66d4c0e40","1aff339f7d","dd824b046a","89a8ff966a","260fb4f642","d5168716c6","4e6f8da9c5","90f4910468","7782deb594","e21e0a6a68","dff9a65ede","3f488c3e7f","5a7a9a0d6a","6f90f49ff1","478c5c5574","70cf993f5a","0127d15930","434bd128a6","ce8cd51fd0","66ea9085c9","fe7e505e15","8c81c3c106","cd1c1fd324","79b8f924c7","63e08c435f","37fbd3b31d","d0950d09f1","82dab6cb79","5aacd384a3","bbaa63f167","a78c4154c1","29910cc473","2e74a926da","07f5854fb7","19c520cf15","87f30117db","2b439a2a14","0aa8ec45ee","eb88e0d471","6da198b5b8","039b9462cc","75a7c8fa35","c3c8827dcd","23f17dbd06","60d603b1e7","d1e202efa2","fa8ce991ac","a308b2cd5b","d2c2f7527a","54941aa224","cee679c792","0eb1993589","ade2531cc2","46836809bd","fc8835b62d","c629095bcc","7b0daa0b7f","e88953e08a","62c8fcced2","30bcd8f1e6","567c658cdb","69f808754c","5a90efc6d7","390fb3088f","b059edd59a","97adcbda1a","1d9912b6c7","3c33825820","e62aadc9e1","9e3050f900","c25c941f69","dc71d81824","7360a94f71","036f5519ef","46ce701490","592bf728b5","ee54d64aac","a10263c8d3","6e43b5bb88","7244a099e4","c268c05577","0edd80d1dd","ce9d6e82f5","1d2792525d","778be52dc7","f1aea29200","08f690359b","0d25f7da9c","2ff8071f56","be5fc1e7e1","fa01853545","8bea477399","20a965d4f1","534855bbfe","d3c0a80af0","4a173c5909","05bb28f428","a004b9eab4","618d7d827c","e30c08af99","c6ead6f115","027fc9e629","99c3e4a1ee","18f037fc22","ccbbbb7685","38d876f064","0d01667b35","0e82aedd6f","a78755376d","7ab7b4ce57","73d94b98c7","18d16c2032","c70c87b590","bf937e318e","eff500a6df","e17898144d","1cc54793b8","0c4ca6fa12","f5efa9014b","570b9b4a2a","5647a6162f","ca82024c6f","9cd7156a99","65bdb6291c","f4fdbeaf05","fef3418e69","5c5af1f30d","bd78ebec42","86ba0ee138","d6322c45ee","1692b1a64e","24043bf364","dd45f7b4f1","1e4935ef41","df88fb5a0a","f03ddf265b","5471eee6f1","c4169d88bf","c53f618428","4387896008","98c7d0f20c","b0bd45022b","947df2ab96","7e6937f334","58647f7886","8bb0fd1b91","66469799ca","1bb4657a29","0bb837affa","de90620e5d","32f3448cb9","806526e874","6f1a7b129f","e6f34c16d6","b54e205a5a","b8ee6d4996","5ca611f843","2a55d3a61d","11e55af37d","4bfb5d0524","74db0c89f3","e5ace9ad0c","671472d98e","fa38e133c5","62fc90b3c5","666c163eb7","5f12297e73","fa580e871d","be96b7a852","e786d4cbd2","ca3dbb93f1","e847857f02","a5f7d8e285","9e09e6bd4b","ff7751e4e5","4ca51d9b2f","aac1e96c9e","63912d3969","5154bc4d23","6ce80c2de3","080474df47","6f44a36da3","816dd72292","f32040c638","54922619ae","6e77ade6a1","dab73e694f","a30a55ed58","0e7a630352","52d897de8b","dfc333906e","c8e64d1989","40fd46e7a0","bf6518da4b","f81cb5927a","e2484a41ec","9bbbc7b281","4d30ec2874","5e9da7b190","653c07b637","5af50fbe33","6c8091455e","e6f10d5b3c","9237e7e436","aa2e907cbe","1c872d4e70","5c9ee32cc9","353d3e2b39","7b582b3f40","ac8e6b9fb3","bbe248bc8f","01907da321","3cb2f65cbc","21b44b1f6f","8c8344bb49","9b46f0648c","389420d155","fd01893feb","ab491598d4","1164220b8e","ebf05b4266","e8c841a516","88a317e4bc","abd29592c5","5e118c86ce","04b61fa707","9f0acc5080","462ad2c278","9b45a99aea","dab868fe32","1bba62a12a","be524c1595","7e80bf6ca8","caa10b5b0d","cc33f55566","1726a552be","967de6427b","b1a54b0d75","8152f9257b","bfc886aea6","d04db597d6","e0fb0551f7","a1bc31b0df","482d0affb5","d181ae0671","f4b0ddbc0c","8b2f509776","362201eab5","012a06dbb5","2a6d67ef4a","3b9f452bb4","6ffb6edb28","cf6d759898","04547c5403","16c626cf16","50e40f2145","ca7e606868","48efe3a504","8f0d534bb0","0b50030c83","cdada4b5e9","b7ffa6b699","e57d165562","594a8b4db7","2c2549f623","d0554e34fb","1bbffd55a1","cf467f6dee","feb1fa07e7","071a3f2d84","2a6d67ef4a","3b9f452bb4","6ffb6edb28","cf6d759898","04547c5403","16c626cf16","50e40f2145","deb9cb90b1","68d73c1b1a","d0467b69dc","e2087d70c5","9f8f86fed4","10294be2df","2542045a8f","3502e05b7f","fcd17735b8","54d5f7b21d","ba38e9158e","753435e33f","636133d228","eae90c3564","4381ca16a4","60e34e9670","4d153a5eec","3362b46d6e","f194cbf9df","a3f08c6099","3865247d6a","e64e7d5c0b","5f2a2e0f51","ce6ed9fd09","b18c8dba02","a28321b972","1cc6abcb51","67f4a6aa83","4e414159db","3112471770","bf2cdb9dc9","80b5d3c52a","30fd01ccc5","3fd7b22851","5207e619a6","ab47af9a6c","6b176be40a","bc2ea4edf0","f7f8542c2d","0505c2e148","ed19b908f6","5620f8b747","1120aeac9f","3169af2ca8","606af8e922","c6836ecf0e","445895e7ea","cfdec8b54c","a9a6c1c617","787df0430f","f06bd48664","11c392243a","bd0818a8a1","443d8e6257","e614269600","89cd26438a","33b06b8f13","2a00eb6b5d","5e58f52f34","112b0bc7b9","8f048c6f10","31b80ab925","ecd7f5ced2","d28848520e","6dfe8617ea","fe34057d61","243c56a410","773d2bb194","cb2dfa5938","3e5611cc82","2babd2bd29","62c32b190a","b477e8b71b","2ce54d6a2c","27bd60b9f4","0621bdc0ed","1e50bf67f2","d8b5fb1a66","49e7bab02d","893ef3707d","5756e282d0","6e9b31de03","1a8430a901","51cc21661c","f65cdb1d55","cc58a1748b","b006b0dff4","dba4f2e283","6359bf5337","7dff092e6c","7f8788da93","5770bcfa96","186be149e6","6ddc0e0d66","de27a4e372","463b57e746","393df748f1","e9c1c04379","d4251a7bb1","7582a8e933","f4b96f4e90","ab3345debc","e55aad2910","e51aab6f2c","417a1c1f4e","563fc8eea3","06eac61bbf","477e2332e4","596dedf49f","0721ab773e","7c5cd1c054","bf4804a9e3","9eaaff9d04","d83d2d1d88","becdbe7234","ee8f30c912","726862aad8","17544b38e0","4c36588b78","eee7d95e1e","e1ae403ea2","47c0afb158","d8bfd5f897","f99e196b2b","57994e10b8","af8eabb26f","4decdcda3f","d136dbab78","17b26b730c","91c52a83c1","37f16a591b","7e71d1068c","b91aa6bba8","c35ab67cf3","0db4c0ff89","175ccf9305","778a0c3313","5fad59a448","1852d16720","20efa68201","c354d8cd33","56627b4183","acf89037d8","97335f81bc","bc5455d59f","b9b64449d7","9f0f946fc6","c31f8433ab","253f5989e0","1e35853c54","f0c8f1306e","c2d3d30a07","b6212df169","111f99f474","8f1c28bc44","603205f85a","0c99be3b2b","e7e52f323c","bf689fedee","af3d960aa7","c2be541dc6","a7eb000261","bb0e5a0f23","c91db82a16","c197aa7016","9b576e72fb","c717dd7334","baf460406a","dca165554f","84c0efe26e","6cfbbdc980","32af45a3dd","3ad0acef79","e1515552e8","35851d8417","248383bf3e","cdb4831ba5","c85041a1f7","84066eaa37","820e19d926","6703c520f0","c975102a7a","a7eb000261","bb0e5a0f23","c91db82a16","c197aa7016","9b576e72fb","c717dd7334","baf460406a","9584b3e0cd","630eb610ff","8cb19eef04","be05f066a2","880b78985d","11a4145c54","cfe3f62a22","72647dea05","dbbe6bb0d5","f4696306d3","3bd0ba88ac","2874f6a5e5","d0b626db5c","c32373c550","fdd4a23112","f1778c6ff1","3fd8c82227","ca3f942bd9","e761f603a7","08fd10158f","9bcedea314","27a01e467d","515eb6849d","00b3cefe69","d199c3b552","35f9101383","4668e12e8e","d5083ba56b","c41108975e","285e177a50","651ae356e6","06570f055d","0003f804c9","7a2301e13d","b01dde21e3","9551b19524","ec4fd6779a","66fef58b47","57cee85d36","5bb3019979","02b0c7a3a2","a7b26bed42","9551b19524","ec4fd6779a","66fef58b47","57cee85d36","5bb3019979","02b0c7a3a2","a7b26bed42","2a1b93f172","159c927445","b9aad15a99","dc4a4cb868","763a71e17a","42a8548bba","d8d8b36bfb","e20e01c6a9","2c4a883241","d9a7d67f4a","3c3d0eec6a","eca4102987","61a8dd8f52","3a4dedfdec","4ba7c1bbf1","7940eb47d0","91abae6f5b","df9bc0be48","14fd93a35c","cc4d7e17dd","249123bd45","e20e01c6a9","2c4a883241","d9a7d67f4a","3c3d0eec6a","eca4102987","61a8dd8f52","3a4dedfdec","4ac120582e","c768814d73","28cfdeb3ec","1e7c79fd6a","7cb0ade2c1","250ddee40c","d3c5bd7a77","6edf98f473","bfae7c2422","f201bee7a1","fb786059ff","274fb8849c","8b652e778c","656ba667db","cffaab34a2","0c3ca941c3","5af7f572a7","17ab106a86","9e96d3b2ea","6d7fdf9f4d","885ed34371","0041276d9b","9fdc69858b","3583a8dab1","5110250a0c","d0fd18794f","4d3c0b5465","6903fbd4c2","9b9255bca2","a0835bdf38","ca59110fa7","70f03fc3c7","c240080118","f6d1ecf73f","2b285e01cc","ff25919556","9fb0a85ca9","db76732164","3441d84969","f77cf81cb6","6be9e3aa3b","c342914f9b","4415bb027c","4c7aa4c6e6","9e0fa99828","48e965a633","428eb2b6b7","d9f8fbf12b","ebe46c2c97","cffaab34a2","0c3ca941c3","5af7f572a7","17ab106a86","9e96d3b2ea","6d7fdf9f4d","885ed34371","ea80ee0596","32496b0de6","0893e5c3cb","7ab0c34eda","7f3559a26b","d7260e823b","d8eea65bed","3cefb1563d","f4f4323c37","9d595407ae","bf70d6f8c6","6203a97451","8d5785a109","efbb7cdea9","cb61e0dd76","6e9cc14546","b3c4310044","5cb28ac446","8022dc9e8a","2d25d5f98e","110543037d","e4f185355c","b345ac5b15","09efcae222","6369594703","5bba6d19e1","ad9006e1b1","c5e80c9605","a21904528a","619a3ed911","13de527152","9c05e33aa1","d816d8bfd5","e7cf75d79e","81843fcac8","cd90151b39","fa1ae84f63","6ab416443b","ca99992c33","335c1d2e3b","d0f0e5a684","1398714a2f","81c8b7884c","ec55efcbb2","b91812b7a7","eb7905121f","299b6835f8","5f537de375","5b8cf38ac6","9fd78f9017","dacc6c013b","a909cc8ded","f28d6dcaa8","9b5d2a8477","0f462cd6b9","f709b4124a","9fd78f9017","dacc6c013b","a909cc8ded","f28d6dcaa8","9b5d2a8477","0f462cd6b9","f709b4124a","652965281f","78d9edbb23","24c8e98619","b7fbed45c5","52d45beeb8","d3190595e7","0ccf4cc371","652965281f","78d9edbb23","24c8e98619","b7fbed45c5","52d45beeb8","d3190595e7","0ccf4cc371","7cbdc70f48","658d7284b7","f1beed033a","544381a1f5","4b65d96ab8","581fe1d35e","ee67f0ddee","163aab0967","b6f1b072fe","8ad163454e","5e60a7066f","ea578d984b","58ea26a4cb","3ffb7bb44f","8c2ddbbbeb","4d29aa3d88","17aa9509a9","37fcb0f504","f4f048acfe","53215087cb","d020c9cf51","d8bfb83516","7aa7159121","53aae5d53b","2d2f67e0a9","357593562e","59220a5161","8f7ceb924a","bb812bce7a","86951022eb","ddb592f847","f24fbe92ab","48b6136603","e44b208b65","623b3bb214","4051a15eb1","54c4f51da9","2aa1a3eb44","4a2e6de2d5","8e693e4f47","31fefa105e","83173701c2","8c2ddbbbeb","4d29aa3d88","17aa9509a9","37fcb0f504","f4f048acfe","53215087cb","d020c9cf51","f6713d1560","88bbc35f80","23e68544dc","b218a793ff","39a62b6f47","4f07c417d8","f15e4c70a8","fb834ce391","30937129f4","0e50498ecd","441eeaf790","27958b4299","81640494d2","a39789d130","ef7ab43f34","987fcfaacc","fc350f67ec","2932e45c8a","7df4d9c6b2","c82d720233","6253fb83b2","fb834ce391","30937129f4","0e50498ecd","441eeaf790","27958b4299","81640494d2","a39789d130","d9afa1a7be","993d8bc17c","2dca78c734","d714a4d58f","0630a3894f","afd52ed914","34ad4a739e","fd2ae7fd0c","9a51da3b79","3bb4245faf","36c3de2674","74be123d36","b275d2c23d","7d74de5bc6","9829abb0ea","c24935cfa1","116a3ac070","4be2a1aa98","91e68788fb","5c3da44933","04bb486e4f","f403a96618","64cf503931","eca1732efa","8cbbffdce3","c78fd1055e","f065b229f7","0516f6661f","da4dd005b4","ff5ba62ac4","324182cced","52ad571dbe","7a8cb3ea98","b8ee2641bb","6ed3f75f82","1e2e137fb8","07dcf3e612","37b92298b6","f5b66fba3b","4afe7ee2af","0f328c8c48","090ceab6fd","25d7fdb226","9d2687fb9d","2fa387f7d2","20cebfd638","4591f6746b","e38369ca55","f7df9f2a36","1fac11a6dc","b2ac55c84a","d450646e57","6a77596eb5","fbd81b06b9","cb0c53c3f2","1cf8e93858","43cc700339","fca4d931e2","cbd0768abc","a0a1fab300","fca71405e3","d5d8cc7ea3","b8961018b8","be84336e94","7fae54d500","e7daed5cac","f39d8100df","95713f36e2","1dbf8ffaaf","aebf8ae329","dc5a4e04ab","ed7b99111a","caba45ef8e","83eb94e666","64986fd425","1cfbc82763","2012ebb979","b586a8def7","2a4bcc2b45","069a5f97c7","d88608a3df","dcb7363834","6d32c1967e","310e86f813","d4a55fcbd0","76321372bd","ce4551226c","16aea85564","1d71a70be1","190175c776","fa5fec3668","4294c1443d","0fbb84fcf6","2bd08273bf","d18f869f44","ff74476d60","f92bde59e0","e7ca35a4da","c2d38f7b39","350c3de349","626cdc956f","b89395ff92","0f55cd7c59","38a288c1f6","f2b49afe56","2489e23c5a","f5f8f99eca","fed71a7ac6","4b7b645e5e","5990e099f7","7f9ba4a06d","32385f1703","26aa3ba4ba","d1e03da330","1375f28046","83469e7e89","fffdc1bd10","07282ac7de","9f40d5dabb","8fdec1eac4","653ba00b39","f13e3419ee","5ec669aa6b","030466c430","3db0adb58f","f5f5493662","1e69777c65","16d12164f5","6257ec7740","e71d6be3d0","d249fa177f","bbe125f058","dfe63cd06b","95e4c7acf9","158827042a","416bf40229","1feb01f6fa","481c16c8bc","d5aec04add","f15bcf1d43","9c75de1e41","12ad2707fe","6304872ce7","758dbd09e6","48e032642a","b7a4338406","a5ceb94452","65bc25e78b","f81333b5c6","414cdca74c","b32446cf2b","d88a1e89a7","510da4bef5","7a8a49bafc","21cd712c2c","d241c57376","f85afe374a","dd3d3b8b0a","a3f1d97392","587e4bd936","4e28b2e192","f7a3fd61d8","63b1dac680","8929918d39","40172b7050","9df43722cc","fb4053bbef","8c2b902ce7","21cd712c2c","d241c57376","f85afe374a","dd3d3b8b0a","a3f1d97392","587e4bd936","4e28b2e192","fef400fbf6","9ee3b3b85a","94d0ad3fd0","7df440dc61","623c133711","130170b986","2c6f4a7623","d6d5128d29","ebd09efff7","413181a1a4","9793893c79","8c4b84dfdf","3e6b26d5a4","adb3e79d09","12a8b97d2c","6611ce534f","f8b782e4fb","c3cd929218","bd79362559","34634188c9","39c34b83e1","3619d9caf4","79a4524110","e83e124b28","c8e30378bb","486b508e67","2ed38a5aed","aa0e76a3f6","6bef91d28c","db63ea5db3","67a5c44a77","254adfb12d","0bed8a622f","89659649ed","2dbb867793","9159ed63b2","53c21e801b","4d3eeac21f","272043d3db","f0f805ceaf","5354cab4f5","a19b60abba","94554faec0","d9575474cf","73f6301d01","dccb9ffa99","ab5aa7d4a0","8d710d396c","ef25ff3b22","c693d90344","ab914d4489","2143e2f004","af115bad59","5d847dbda0","3357828128","53f12973ad","d7b8feb197","eab6ceca43","fe21c82dcf","782d7be8d9","1b66193c47","5424dbba4a","ba144474ae","550e618270","003671343c","ad69dec258","c3202bc8ca","96ef126cb1","c467674e6e","c7b75a2d94","d3c1f1a34f","b7cddac2c1","ae2a9b7f0c","9973262a0b","1b8e0f1316","8f5eefd9c6","1b301dbba8","96f360501b","357d2f8503","13dc16a314","3f511ea34f","64682869fc","6819fa0ec7","7eb00f8d5a","3f68512457","d423d30ae5","88711bd3f8","61da48e93b","1f5c05bf45","dae5f500f7","0b01e3ed28","698e0210b7","4912b868cb","035224f650","9a99603eb7","261eb5be13","d912bee2f3","6a59b7bad5","552d250c53","994ada8af4","d27327912d","acb89802c5","52312e8b1f","2ed4b2167a","024b360e75","d8c43673e3","2cd47851db","324077f4e9","0fa6c4874b","26a6cbd35b","27894e41f8","11493500c4","c1a6d65c6f","5aab42cf97","2bf4c1b506","3b368e0d60","8104be7eac","aa922b4567","097eb79e98","beb36d3f11","4b3df678d2","150a25c352","499f6e1f76","aaedc9f31f","9870b470a6","c956efbdaa","c9423a0f73","8a3bdbb85d","df70951a73","f0b5563762","8988fcfa38","4ffacecf76","b82291dd52","8cd7140f96","434f3df507","5991229252","c87b6dd03c","f7a2677d8c","c5af4b19a7","1f02a6ba61","c9bdb3e3c1","dd05a57e3c","bff96333ab","56f07f5076","2d4eb0ea46","4f3e52dbb6","97ac8454ef","a8b5e6e482","716b9e23ae","d01e74093d","a28105bed3","8ba865d495","c2f77b0f3d","ff757b440f","1c6de1771a","3d12dac2c2","6481e542ed","ebe20c3087","550f72738d","0ae6d40550","08670067b3","9101adf3cd","e1558ed906","0ee9e0dd71","13e48e070d","59cf65e40e","648810d03c","6619af5302","76e7ad522e","92bf4f022d","60f120bdc1","ecbaa2fcc8","9739110a50","cb84f168d8","fcf96d211e","ed4943719a","c25db7caaa","6fa43af8d2","4af17c7114","370b7fa519","1b7d356dcc","c5979f6a49","1c6de1771a","3d12dac2c2","6481e542ed","ebe20c3087","550f72738d","0ae6d40550","08670067b3","10bd10371c","774fbec04f","2b25b0e1ce","ccdb67ecfb","b86f600d0f","1199123099","b3c6445791","15fe211c34","f578160cd3","1ce1722bce","b191cd2591","5fe09b2fa0","c3cb598fca","0047b6645a","b34d6c1367","fa34f892d3","f3c0bf4fb2","9ab3c3d200","5bc8e68a42","ddafe86254","4f18d8606c","95946311bd","c8fc517118","16780414c0","b31629e394","f80be11236","889bae7c55","fc92b69c60","204f6a6ba1","71b9de5cf2","6a45aed37e","4d62f3a68e","4d017353d4","f34a168f64","ab2e7288fa","55f07c8394","5f53ecfe77","275d8342f9","4f62b68e47","9cfe74bf7d","ad3523309b","cdcf2654ed","ad10a051f2","bc640b2126","63e1e51f01","0fc5dea7c4","6e406633e4","f1e9f612e8","2b6b551cda","c06f9e6750","31e500b023","5e3f796345","7f3ea8ca78","5869f9e1e5","de36a48534","6d6f5e0824","32536272ba","4b6d3eec6c","fb5e9e1ca5","23bfddc188","b776fa4ce7","083379b86a","37b65356b6","ac3b2e85e2","8bdaee3e43","4d3fd4cc3e","65d0c9ab55","345a00a86e","70c3dbe1f4","a3bc8eaf7e","d3c3165d82","d97280da4c","c0dc438d3a","01affafb55","329c05ed96","93b34c7633","f9ebeb25c8","0542466568","95df82157f","3c3ec93d36","faf66cd030","98ce9883cf","a6667c5a62","012e429642","b8b893918e","8ce3ebbe24","42291a6464","ad7aa2bc39","dda5c7a225","5dd2b066a9","6b8e49a6dc","4774ac9875","94bf2c1a5c","3aa93eec69","43481f3a01","d1a6f9ae3e","6027369aaf","e612a0af37","69cc52a908","1311fcc5b4","199c813596","081d2a5ee9","778a68929b","fbb764dd76","3ddea5c164","e5cc55a6ee","f6bd7a8ff3","7a2262e7b1","15a70cb9de","119f5cbddc","a804f9d866","d749bbc908","232a289be9","ca9a13089c","00ebd7c2e3","d068b4a163","c7a0cbc83b","ed69603433","430e0fcce7","b3d70d1997","729d747cf3","ab94a08239","92a2c6656d","eeabc0400b","fb3e627292","37f160b4da","650597ce3f","513d7d8b3b","15e01af341","8d3bbcd03e","3fdb489831","0cedbfbc06","cd36bc5b96","95c79c9e50","01ac270eea","21e0c8ab9f","4221b13e62","d960fe6025","5941766ed2","37c167bce1","9025ca38f3","dc52cfe8b1","f6c9df53fb","307795a4b5","82df093c2a","ccc318e13f","6f8563eb3a","5d31aad130","e3bd3b7dc7","eeb233c0b4","0c217a06be","fb422f39c2","f8fc448f8f","83a6949065","0e259efebf","1322576a99","e0f05d2808","65d40d62d4","2e7758dbe9","d94280a7a6","7409262dfb","a166531b95","9b63ede75b","bf2e47c2f4","2b970e5407","75816b90b3","c12d576903","638b1d10a0","137dddfdf5","f2679ef0a3","b812c1a3b5","150e971e97","002e46e8a4","16b26b4eb5","d2ec41fe52","4e00bc0004","49c83f99b3","23535eaf57","458a92e6f9","de837888a6","37a2442125","cfe517230b","5a9b607e5b","9ae020ebb9","f8ec23b178","e27c52129b","38e5bbec01","e830fbaf57","d184323c16","9892671475","e949d93d5a","b6728b980c","078a00d1b3","054d317909","1264179b10","28d32a4bed","b6c6e3725f","0a92986d50","b20416964b","17cbe97a1a","3c3cc29d7f","a0268caf79","75e629a35b","1883f1474f","dcd0db972d","756179ba38","c534cdef44","76d2177757","6475a0b1b9","01eef1ac28","44688d0a31","135a92e664","e6d8944c10","52373d428e","022e152a79","b86bbd2fc0","d758afdec0","62dd70ea5e","9d65bfe8fb","64ce453147","3de8dfd463","b2e17889cb","6da301157b","649d734f69","bd6358cd5e","bf930a48ca","dfffad970b","943eba8961","ac746af778","5eb101d2af","9af2174115","5c1a19557e","074876fd05","1512f4f7be","77340a7d59","e110181ff8","a134c83b6b","9e704c7ffe","61c1b93bf3","d708531c54","205600ed8c","5598e620b0","b2aac5cc5e","376ded830a","5b58efcea8","7137fc0bb5","57ba50432e","17a86000fb","09e3fbad38","f7f4fad370","1883b85261","337a367c19","ebf981bdf6","b4f24649de","74c709bcc0","60d449e773","c952475ef9","bd23ad0c53","6cbb4fc3d0","ce814a6e4d","c83c3b1f8d","675e01cb41","96f011ed1e","dd9e3d77db","3fac881ed4","ff9f095c19","d68bdf041e","d1f4f9ba4a","2b48f70eec","8757d28974","c9db289216","6ce0af24ee","f87758db1f","e364af04e0","e0559d4bdc","bad3b7050d","226e6c46d2","174cc29906","948eba20b8","01570d3caa","25e2621141","d5bf2b70d7","b3ea914014","6bf7970b3f","5d8fb62956","2440759eb6","66bc59b6f6","e0f3482ea6","6251366835","e3aa1f2495","b97660e2b5","960cff645f","1eba734668","1d488015ca","a265b94ebf","2e5b0efe81","a00e240761","3ad612a4e1","20db31db33","f72cafaa40","55075f7ccb","5edab1e91c","e41d847619","f4e2bfed40","0c97c76478","543133b883","6876f31fa4","d78475e512","b08f93008d","1a40a9362b","86ca222ccf","4b5dd428b5","98f3551ad6","82193d9d14","ab60f25efc","2d9f749561","edaa5c6320","7cd17e1700","1f8db531a9","68e661f79a","97ea0cb9de","5009918f3e","5edab1e91c","e41d847619","f4e2bfed40","0c97c76478","543133b883","6876f31fa4","d78475e512","aea04a9e9f","666f7da283","1589398654","01620b87a8","64f397c157","719a3e43ae","1b408eca93","e11c819d36","4c040a7b27","15b02d1b83","66acef1c23","bb8f2b0a17","2442b76332","b058633291","d35f39696e","049d45bfba","299299cc9e","9bee20fb7b","9f9059ee41","7b51a979c5","2368668b17","f41e8bee9d","0627bf3220","0e16c25d94","bf7a15cb47","1c0d2b3c8a","971d5a9e88","37f8cceea3","e88050ddb0","9617ebb912","7f519183a7","1daadb7ca6","8c5ea1251e","bec39fee2e","b582c49bab","dd20e5db0e","98ca37ef83","65cfd0d4f0","b34c8887e7","587200b268","e4a9d631d7","d793d5ec4f","96768d058b","b8efd5fd61","57e56b4256","bc6d28fd1b","0a4567b93f","551c9c43d1","4228ffc7cd","c748b9f473","42e51abdb6","f41f76c7d3","080cdd52d3","8f3fd42877","5039de027b","d9fde977f6","73659e5aaf","49d78eb92f","1fef864c42","e7e0c3704b","98858977f4","cf2c9d7a97","9708a0aa6e","6c5777f079","b8230b60ee","e8cbf2969e","9d38ac3bde","374907c357","479c61b319","5a366a91ff","a03737ba71","707c36cea9","019bdb213f","f0a974d80e","c6e40d24a4","c47936e218","6c5b2f7b77","c4c59124e3","e68ec91cef","85978193c9","896140124a","85ffa82d59","1b287212be","f80f939bb2","83f6837105","11938fa0eb","492c176e18","d5bab96fe4","69613fc068","0412d9f47f","ce012dedf4","22ee3deba3","5c3879f738","6238320467","6ecf3f0280","bb81cf8274","9718356e88","e756a26239","928333768b","6aaa7e5b63","adc23ad806","64ec349102","93c09ec99f","e6045b4387","dfbdcbf9a8","2bd4e7a70d","3eb77ab5f8","fa7ce503d4","792e462a70","6520fe932c","38f7a5d9ea","009aca49c7","210a2da57f","ec4c9e1127","b064149618","deecb107c5","5840a1a3bb","69323eafd3","9294264302","496285c004","2d79ca2298","6ad16bdc69","793072e6aa","9b6cd86f28","bfdca3fbc3","41a9af633b","ae836e6f54","24af35be0d","cedc46b1c2","090d312e5c","6eb595b19c","b4edfb57d1","668cd919d4","60e70fcc56","a3e8664035","b29ec29c68","bd91f7aa3b","16c81c0dd5","3942cbd70e","cdb4ea5973","9ca5406a03","aa24045227","4a1e7ecba4","461d04aebe","fb11f8a253","9fc77342dc","ded13c3ef6","86069c98a3","de662d31d5","ee13102cf9","a2b5d0dcce","5ace2ce1fb","a08b317da9","0cd2c32de6","844bb703ef","62b053be7a","c1c96adaa2","cd8e170c95","44b2e1bde4","75a6898375","7ed778c1e8","bbab5b3a07","3ba1f2ff99","0e542a5462","8e0f110abd","d6ce88c239","b316cc1519","47f36e7406","6bffdcd3b3","fd5316a061","3a44b9a31f","ce5950ff2d","31406e1af1","e3270fc7ae","bcfb020d5a","c95debc750","f4c70afc3c","427a1822b3","6485c1118d","e509d9c811","e0a722980f","e2e3a5484a","e9b4d2de7d","e3377062ed","d317035b71","3f80fd2141","87c9359d95","065ecf5039","c2005ce7e8","a37578fe3b","2290fe8d19","621017fadd","00c7a5c52c","65ba4a0945","bc83232775","0161d6cdb8","9b7a31db4b","d8295661f5","24586b9dc7","ed5ec73192","8fa038a130","9b826330a8","2efc248c0c","a37578fe3b","2290fe8d19","621017fadd","00c7a5c52c","65ba4a0945","bc83232775","0161d6cdb8","e3e9d25b34","ddf55eafd5","a968a158f5","cf19abdd77","47e29ad9d4","8f973c2ad3","cb8c6d0239","4e7eb47222","589425fbfc","dc2db8db32","246ceaf308","7dd9e29879","d644fe2bf0","001ff11263","bc6f87520f","7f95e75f72","8653220703","01453c70a8","638e180b8d","9216d0f749","1c6a4783fd","3318aad9b2","b10a948f2c","6832d53f1f","ffa3333d4c","c9d959626c","aad22ca4be","68764328f0","660fbd895f","a069361c60","1b47a12ea9","3756236ee0","069aecaa86","fa405fd1ed","c3a5f82583","a494bd2935","3a77a977fa","6f982962cb","db12ef138f","f2331abbc2","8f6b2d6a77","900bdc5b22","04363e2283","7606206627","5d2acc597a","7aa5dd7123","eb7b344d02","21dc1cc845","22031ad79e","9ded7e18df","8fe398d0ac","f2bf2053ee","125e491413","c0a5e251a3","ca6637183c","c6a4a525eb","4fa43c001a","5a3524b495","dc4b637de7","2da32f44d1","c3fd1a61af","08b5cf9863","17cba061e3","fc5d4b3ff1","ff001f3cf4","87efcebc6d","3502613969","3a0443149f","2d0c1ae0f2","8a72a9a755","98d86dd145","9b9901ab5b","8f0ce03083","1c35226db1","c493489a67","dbf90fb943","9404729cd7","e67969897a","1b422d3276","b2907dc5f6","a034f23ecb","f01a15ba0d","6fbd4f2210","2d123a402c","4ff3036b9e","6c005f952b","da1327ea10","d5aa99b36c","c5600a6cf3","a5a1779187","70ff7bd000","358209cf7e","b499fb3c9a","d71a671ded","23393d11b3","e232e5b642","936c4ebc71","b0ceb87d28","cb8926fd9b","66a5dd813b","32b4003e29","456fa9fe2e","141bc4f9d9","89b8194382","4c71f905a9","52f55af950","b69b2097b1","b5754064df","dd655629fd","dcd9be74a8","927b243992","77afcacd41","e8b96500a3","955440f428","40e706e59f","9cfe9d85ab","dd941538c3","baa12f2519","1f1d2d962a","471a981d8e","64b8ff6bee","33f9479bd0","7c9121a312","89c656323c","fb88939923","185cdcffae","1f3a88998d","4d88ff824e","f6e7d739a7","4b4e179f2e","ba21beb65b","a96aa42e9c","99a568f6ba","26c660829f","8fd66b8310","1733bed854","de684e8f50","6ce680778a","3d2f16ac00","346f9001a2","1cdd9b4e21","a20a9d80e9","5a4f0e2be0","b34ae7aadf","cd49eed872","5219b5f2b6","65855e74c0","fe601cb159","caa2c4fe9c","e99c35755e","8c7ad3a2d7","bcfb324216","5f1e4ee998","5ab70d4e76","07f2ad66af","4ad5b77d71","e06553e350","61e6a39bc3","b9def4c65c","21e6307068","c04f2beb05","f26299dd63","d2689591be","0940de61fe","9efc830f52","c6ff9d0d79","230bc11830","274e6b10f0","97665119ef","4b00e63e8a","e0a4167ed1","8fb83467c5","c0ba5be118","194ef9de60","fe00eac747","a85a5ea877","3e69e7a4bd","162e14fb11","37fd6e5a3a","83f701d90f","5b8179af92","8789cf396b","31d859938b","1aa098e9ca","7182d806f9","dfbb3471c1","bb41072f72","7b4f5cf973","b210e101fd","fa57db0fbb","34380b85c6","ed87cad9be","ad073b097e","ecca324333","be69e59be1","69325472c8","7bee3ae2db","14c7de0556","fcedb3eaf5","92dedb7d63","64487d4ebf","9f3db164b4","d46a5cd4a6","045c7673bb","efb75fb2d4","3831fe4c41","214ff5f126","af8009ccbb","a82e17ecc3","f390503284","4c10e15396","83cb11fc96","9fc478b5dc","993fd28e43","3441ed5aec","613758a1ce","f87317354e","6bca2bcc2f","4be35dedbd","cd4a8ac90c","e492cce706","25dc68c303","3be2e1e9be","9223bd96bb","d1a82ac5e5","b4109ace8d","9f31736f77","36d0456ef2","3d736efeb2","b2204cbe25","7a6656f515","dd26c15b57","41325935ce","aeaa62451e","9b3d858425","45e009bf77","ed46c7d1f5","356f836436","a73721896c","20561fc26b","b73cb2e6a3","bc23a792c3","7e367f2c3b","e3acba44d4","b24c167d66","8f2ccb84ab","b8de35eb6b","9d1cd5222f","ed6a7ba2d8","724844ed16","681555815d","df5362bf29","bcc4436209","4e4ba27367","c8fc5fc3f2","f4ea77d1fe","c03c890cb1","a7b961bc90","e93404ce88","d6a959720f","e61538058f","b3cbd4d844","0de41969d4","2b13ecfe99","99ffe166b3","3039097410","9c2e50fd63","f7bece9221","ac854055fa","1a8b4e9b19","74ef0a2c4e","3ac89a4eb6","9419b46489","12b28bb616","5c2379c940","df45ed06ad","52eebdbf76","fda90ba4b0","f15840aa6a","949a597a51","db2cb934b8","09c1cb23a4","d1bc21ec45","9bd174894c","02f7daed8e","d44a7a79df","f77a4b3d86","851c73a0c8","1a8b991df2","7a0a97aa0f","e45375bbcd","66d2460d98","e45fb89fcb","1ffd8fd8bb","101d846b83","596f02bee5","0b8766ade8","cdacf2f35a","32f325ced4","ade7f1df90","4cb594932a","804d20a6b9","d583ce9e08","d263d37735","803000d84f","07092d9f02","b90e0627e8","a5fc31bb0d","61dca3cb4c","1542f89a39","4357ed03c6","344045446b","fa9e74bf83","a6f005d8f4","9811fbc709","d519145987","afbbb2df02","025638b597","4d607c6477","a5fa95caf6","8cd1be1fdb","c6b9999de1","cbe4a0dbe2","11d333da27","ad2e1e83aa","c5b4200ec0","20baec07c7","0d522662fa","b043e7a474","d883c1be53","6a170cf6e4","07ddc76110","107f996b6e","93bae82702","fa911c888d","634e45c96c","2cb7ea210d","729bcfd23e","1bf726c7b9","e774c0ce80","d1e3c11069","5b2344c04e","06b4725d12","f6c0ab7100","b93b7ce8cf","e3f913e1b3","108e17a0cb","b47d436c63","bdd9d1575e","fd2106a8fa","9e4d8b2e2f","cf758094e3","5011d51396","355e7ee8fe","46a72a6507","04b6062a7e","ff520a3ebb","d7e9443419","7ac76824d3","e80d9195c5","53f87e157d","964c604995","4018540c53","5f27855494","20517620a3","1da4ceb3ce","61849ae1cb","d291b3a64b","01f4857038","b36c9adf58","74ba9f4c4b","8c17364989","8592c48b1a","2d234bc988","d0b92eef84","5e748010fa","bcf24c2a1b","a9c2ed4e9a","80c4eab49a","b2487f42de","70473ecab1","59a2722972","33d52fab2d","d39511c649","38d959822f","42ff0c6131","f1e23a4e6d","e59cda726c","30cabdc12d","0c612d8113","290504551c","aa0a43e9c5","f359bdb336","2a44909bd1","df91c8147c","931589d6f9","f97412cec2","c986562c9c","2793b173ee","928493d7e9","f98378bd23","efc89bea1d","2bfcd79a98","7613aa3843","e92a00536f","f01a4aab67","cbc27edb1d","7f7066886b","24ba45c0e9","a3de3a7a9b","697c6d0009","f92f6e1e94","19ce5449a2","cdc727e8a2","cb4eacafa7","2295589440","4898927232","ef4939234e","fd9e7bf4a9","9d00479381","3787216be4","9c465e92db","f4e12cad17","637aa00500","f9e16bb667","7e24f50ea9","b47f8a8ae4","41529bc468","2f45d5c384","a291dfb6a4","f5761976ac","f1997c797a","ddcc507587","8f9192f02a","52515782ce","e0abda8180","709d41bea3","f43315cbef","cae8b92c10","f1d58435d7","7f09524901","c277447f1b","402708ffb5","6ec4a96185","4f71d2d063","609698c97d","95917f67e8","ce94358f05","fc34de4ee4","7216fe3381","2eb71495d1","9bfaeadc62","d59a605bbf","7655357fcd","9f762be5ad","29a3746219","73fe263366","25002d5019","43dcf69d09","5d4d5bca4b","67217cc6f1","d994982d19","29a3746219","73fe263366","25002d5019","43dcf69d09","5d4d5bca4b","67217cc6f1","d994982d19","5104e558b8","797c5ecd32","9e2b66bdb9","08ed240aad","504cfb7ec1","3986e3fa23","e3733a767e","4eadcd7f61","b51890247d","dca43a07db","950f9c97f7","b0633748f0","02c0a824ab","6f6846b73d","8b27532990","95048fb6b2","d7de2dd248","3ca05a3929","e5044437c0","a7376e1eb4","b3acafff2a","3c70bddf28","bb52fab9e2","0278147fb6","61a30d8b92","0ff0513795","949adc51fc","e718952674","3f3abde0c5","5d5b77304f","ecc27f6d93","0d2316a5c4","ccbc742924","a79e811340","6cf99fa674","f81d3f6b37","9332e8d208","3862923974","d0c235e66f","6d3894d15e","fc6df6fb56","6474c21e19","d55f50acfd","0f6b385cc0","3605a3f239","2f68275e21","1292e11b98","39022b0481","ef7bbd51b9","ee400caf87","be96c44525","3c4d2aa937","4a0a7fd166","de2cc5f156","6a29adcaa8","ffaa8e8d82","9cbde424d3","ed0b537c2e","63723dab65","1813fb9f5a","edec4f0b62","35ec52ee46","830482b427","3e22671690","7dca27655f","631bf698d6","44494f6fd6","7553a4334b","319ccdfa12","b29f53be52","bc04a049de","90ec7ac949","1c36d037eb","52ed6fa6d9","93cda2cc9b","9baa8379ca","d2063fe57f","88a885d23a","9d46e34b10","7cc3afcfd1","a2584b83ae","fd13f865c3","fe308ac571","a4dc063586","c1c6c0eda1","71b6d30eef","183bb08f5c","ac47fd1184","d5dcc7e35a","b66e020060","1567f0921d","cb7fbbb885","060620da35","19ce199087","01ab1cc31a","9d9f44f570","cdf2259219","97bd137d89","d73174fab5","ec9e919f50","209e3b7f5f","726cf9b1a7","531de9ee0d","7182e4b361","8200457691","baad49582c","cc80116680","097447979b","ddd68438e0","bcdf17b0e6","0be2111fca","c83c59c1b6","d73174fab5","ec9e919f50","209e3b7f5f","726cf9b1a7","531de9ee0d","7182e4b361","8200457691","65a1bee6a2","4fed10bee6","6b86b51c3d","eb32c5c4b8","efefdeda03","55088c780d","1e607bc8c8","42f4ca5152","9a0cbe4408","86567ca37b","f3e46b1727","87b1d84227","c5de1b9380","d8721b4999","1fdf0ebe20","544bcf8171","4dd62b0182","545a2ecfd3","dc98cc552a","180865e5fd","f0661ac3d5","a564c3ceb5","308221b0c4","df6594ff6e","3c85e5ae3e","f321457af4","af35787dd7","dfd8a11954","a1325ec823","a316113f62","a2910cbafd","5e590c8e8e","0470960c60","6eac405aaf","9878c087aa","5254c3e501","c4f44492b1","986a66a1f3","0e658efcbf","89fbd496f7","97f6d87ac0","d38c5c1a51","a564c3ceb5","308221b0c4","df6594ff6e","3c85e5ae3e","f321457af4","af35787dd7","dfd8a11954","b085f31251","f84fa7067e","d634e028e8","4bfc51eab0","52271431dd","05011f9f24","729b0dc56d","b0f0dbbc17","3b0235fd10","1f721b4298","85e89a068d","8dc733f785","77b563d8cb","647550fceb","442caf8700","e59778b22a","50d8aaf391","53f29ee3cf","b37d424f33","ec9292a866","21d0327f79","531362896e","22703e5360","fe0098f6f8","a531dd4c65","0ef4ebf65d","3efbab9b2d","b9443cca8e","58965ff0cd","c358e256d4","145606bcd9","fe7fc6d833","8a3041bb09","00b04cf283","1fb26cff9f","1e8cca856b","8493d22857","ac936847d3","1f97421633","b8fe9f34bc","ec18908de8","244405a2a1","b02c0203c2","22594a5550","7f07d9b409","0c86a9416b","29a2392134","b94072e22a","214c7c55df","5189915507","37b35a8374","cd783e78f7","d2edc1d695","7b75dc705c","8b7359aa89","c0b67ef89b","3a190a3ad6","798afe4533","61800fc210","141ad2f2d4","3888b94141","d283365db0","bc220c69b2","472707672e","5e0e02fceb","e6f45427a0","4549b4a4c7","8d185922e6","95e80a01e3","9bb8465bc8","ac151b10ad","a26e6bed40","58dd8ac7cd","a5c97aee13","ef21a34042","011de00782","5a23a0f029","67b8d106c6","7deaad7e28","7597ac3ddd","d10eab897d","df9753b372","ee130665f2","c93e5d8967","4dc440c6db","58bf103d6c","a68fe2fa70","1e8eadef74","06e6fbed94","45a4c87248","ba2d528807","0eb9c03caa","63b4f31754","79c4d13dfd","247fa83449","1ff4794316","b1c57f638f","c9e2d5baec","eef719f5e7","9797936921","92d57d17f5","60aa7cbf1e","df3f813643","b80da0cd56","f117f4572d","2818784683","b3c9f46d99","2a7024a7e5","79876b5c1e","4bc803a87b","ab354f2c13","f56b9c6fa4","8a9f17a8cd","b4d44e6e9e","50728b8c3d","741f0b4964","13c088409d","521ce18a8a","97a67fd944","1abf7b3699","8188fa4c51","daee23cf0e","97fb9b35a7","aaaefa820f","58f0033fe0","97928ce6aa","1b7d624947","d7a72ed368","c7eee56d2c","8f4f3f800d","5cbb0f0622","0e025952fc","2e0c366f56","04ce0623ad","5315d9c2bf","ed5c89efc6","ed72af7ca0","b989123ba2","91f8035e16","c6424269f3","7b6a773098","b907d59408","a2716921ba","05c745d240","164c379be4","0530c76cf4","b63ac731ae","43117865f9","702732ffbd","0ec2df83d5","b458e6e941","073624ac81","4665cbdecd","6d1c4b9c4c","87af039fa9","59ddc585a7","2552a7f11f","9398f36fbf","5de04a5019","c08134a027","9fce79ae48","28f1c18226","8d2dfc50c1","5d9c8523f9","1adeaf30bb","5bc8d4ebe9","b043c78f01","21c31d7091","68ac0daa60","4745b9c921","930326f3e4","607820f528","004988e227","36469d0c29","6090f65bef","30811290a2","c3f88d3f9c","252244f249","28f921d693","438fad17b2","cfd24c5d9f","1076af274c","cf09af027b","3a66fa81a7","78fed7e171","a00cafef35","b26c96adae","d92518f138","d640ba2de8","91c3432427","af2d66d611","77f70c3f31","1e48425629","9881e9554e","7c1f8eb746","b38de103f2","34bd34b08f","4a448a0d26","be354955b7","d829c1b46c","6c357cc472","330b609d2c","7daa8b9d9b","e3bca99b20","2430892394","925358e457","b7e03bbb68","676ba766a5","8b657fc505","7692b685f5","7cd550e09b","c9fc6354b7","dcc39f4f91","e0a7a03610","9254454c29","d052bce240","0165ef2a26","91c3432427","af2d66d611","77f70c3f31","1e48425629","9881e9554e","7c1f8eb746","b38de103f2","5e3826d3b9","361aa6543d","6c03287ad3","f8ba5c3718","ef7d339549","4fd365d6a0","554f2ff6b8","bd92b75e54","6ddb1224d2","b5366e3fbf","5811fb8f60","593768bcdb","f7ee90efc5","bff93d00d5","4026463a04","7fee1e402e","65c378f451","a54de30c7b","4361b24da0","c7e30af8a8","8401b4eb81","90fcd46a35","a9e6e7aeed","46af9f1254","4e950038d6","95e47008ea","0d241d26e1","abc1e721c4","324b37b24b","c3c46c46ab","11141f083c","62f2211f7b","0356a7ae71","6db8062055","2cbb7073da","324b37b24b","c3c46c46ab","11141f083c","62f2211f7b","0356a7ae71","6db8062055","2cbb7073da","d80c922c35","79ef770409","140213f6a3","c2a5e4feef","4a110afa53","b927ced292","d8757314a0","7f5c58cbdc","3979a61e5f","4136ea300e","b19d09b271","b62aaf2551","91b58e7cc5","0853d446ae","e127b6b69d","91b346dc89","e5049c2012","8e1980ecd2","fa285358b4","9cdd841077","5975374677","97cb2ade03","6009916f00","1eccd53f64","1c4d65fa06","05e4756215","3f8b8e9df2","ce1b57bdaf","005029e8ed","a990f7365b","c6acbcf89f","fed5a496a0","eb29dc3195","ad40a0cc37","c9bac1b7d8","5e847f2c9f","c39f6d30e3","de89a20d95","c7d9df4be9","395c77d022","81e64a33dc","766a5a7f1e","3924fbe589","067793669a","c7186b9db6","bbacfe9579","4f76b60048","5846b48d56","2c7eeca859","bc361c6118","07a4c21cbd","bad4fa3fe8","d4d1a8fed1","5945c6dec7","a438975d12","de19490c2e","1096e75509","f329033189","5fafd82813","74a26bc0cb","b9433dba8f","d58b90131a","10e067ee94","78cb5d4dcf","82f1266dba","54f758f85b","ff8a5042ec","2156516221","e4fcbbf837","fc0bbf65dc","f20d75361d","027286aa91","a7716c21b5","f195bcb723","61947a7085","ade7363aa8","abb74ab9d2","32ec8acc1d","60035e4d9b","f6249ca14a","5209423315","1c344c4f13","7a11d60a95","ea5b1c4c04","224c1b85ed","4745c82f80","b3f106cb4b","f0f8a18359","65271de1f9","9879f92d3e","8336e46ed4","fb38175416","b5e9cceff0","1471f386fd","0d8ad22cc3","af581164fb","0074e99f0b","8f9601381b","7b307de43f","be7890073a","e99ae77f13","e9dc12305d","a93d63bef7","7f79307d56","a0e630b7ea","543a607bc2","4bff7629b0","b3b76da752","d62903ba05","d3563c0141","844951e6aa","5a679dcd5d","224c1b85ed","4745c82f80","b3f106cb4b","f0f8a18359","65271de1f9","9879f92d3e","8336e46ed4","3be1e86e6b","bd3a14695c","4cb061efc7","0ecdc5f183","0282fb00ac","fe8fd79085","d0608e0e2f","c9c66b7a01","fd06f69bf3","e0cc05b6d0","0a9e7dd973","8a734a1b03","700fb39c14","3ced3c7072","a9b2883909","cab29faf8c","a4520a0587","b0ce134f6d","0f3e86e71e","40ac234e39","8a13e4b2c8","e9260384b9","2c52864eb8","c88fe0ff91","ac7c7d13f2","b80c97ed85","cbc24481e9","bfd588fe7d","3288c219ce","b59e69bcae","ab7932e99c","65125da984","7314b9dd0b","4aed31df64","d2f3f4975e","950266ccc6","eab9a5507e","e4767bf626","c16bd75d28","0c261f8816","81c68a5b49","e4ba6504a6","6c37360cdf","0bc1cd1e3f","b588332165","3ab191b838","b8a6175849","9a77f92c9b","dd58edd05f","7b307de43f","be7890073a","e99ae77f13","e9dc12305d","a93d63bef7","7f79307d56","a0e630b7ea","20ab20720b","562dcf5813","fba3997b1f","016a5653a1","d29af97ef7","55fcd48ee1","e493a60d5f","df0d750931","f255504e9b","ea424c7a0d","be7476ab05","abd2a90043","469239a2a7","4f01618742","f979995ce5","4243ba9c9f","88c0e4cc5a","149ba7eb77","80c9553420","6e44137714","09e72ead41","46e8014770","15e0ab052d","b4779001f8","349e17b732","7596d65ed3","2c64037a9a","3f5c658306","602acd0d92","cfded1d8b5","094f9e117c","cb40ac0d56","662dfbc209","27a17c8311","8ffe0c5f27","a3aeb96bb9","9d9e85b88e","e9e2b7c59f","ff428ee904","91f4dde3e7","e5b170c621","af7c7059f0","7916fceff9","6047282211","7d1c9276e7","96e0d44c79","a03a1fb0de","0116ba719b","4ae9e34e79","e25e0987cb","0a072128e5","0317ed36c2","f86d8c7760","35bd290592","5bbeaaf23a","39933029cb","700a6ca399","07107cc8a7","77d232925b","94b61ad33d","b60c5377ea","cc667f330f","19fecb0898","d7c6b237c4","b32469aa57","1d34b32485","07997bcafc","63d1535209","46d8fd7eac","47ac1c9d74","6919c4b964","7d1e35340c","a2f7bde424","a98799a953","f944422846","11531d8c4e","29efaa0315","d6874cc6b9","3a17fe64be","cce9203754","f3ee9ee03a","524364e37d","70023642e8","0b043ae8a0","0ad7b4c523","6ed6ad1fb8","775fbb6817","4e0160c1bd","4cbc8435ef","950e6de16a","88a3c8b4c7","7d217b9d49","4b4970ff92","aaf88f7623","93846c9d70","115368891e","3e887b0b6b","eb83a3f018","1fb8568afc","6099465e8c","64e525ac08","689e1f74cb","a8f9d13c30","e39c0432d4","2f70a5cbf1","63f08b0292","b564d0444d","40c1ca1099","aaae7d4a71","10574f1d3e","1a91e15b34","3702ec020d","00c5be5f85","2d77d5f63d","4410c53714","6de5c8c8de","d49a25f624","e1debf83de","d80daa09ec","99c83addfe","98fda9fbdd","78e350b925","21a626ed64","3b32c19962","62b1b1db4d","22631ff6b9","3e300d79ac","8f999ca316","b426f729a8","ff00da2fc5","7ab990a9fa","2f9d42f299","ff0787976e","99c83addfe","98fda9fbdd","78e350b925","21a626ed64","3b32c19962","62b1b1db4d","22631ff6b9","d1991610b9","5941a3073d","6d1fe83d56","f450a0586f","2ce6bca73f","59ab59ad80","ea47e37071","1bcc1ab0f0","8c143bc915","4ceb6e7f20","98f8a4183f","8a6af30535","d223519655","da7d056d25","c93adac0f5","301050f4bb","aa256004ea","fd9e031c30","badbb3aafb","1e75bd4b35","6af1d8112c","f250fa3fad","3be5a43e08","b56fbbf1e8","4d5bbd6a92","28a4900cbf","ae03199288","c84d2638d2","d4836785a1","8c1c2f594a","b2618501ab","36164caf8e","1565caff7b","8634e79355","08af5b5423","34d876f73b","ad42aa89f5","aa3903cf57","7992d4835c","fa1fed83b4","4b69a25d1b","183cab797d","4844e1421c","458120881b","d85d046cc1","2c5d5cf9c6","df6719213a","aeaa2689cb","29d953e23f","f5c43e77f3","642b8f0422","fd6c2af3a8","312fec8a55","f0cd6ecc61","0790b705b5","a8191a123c","f250fa3fad","3be5a43e08","b56fbbf1e8","4d5bbd6a92","28a4900cbf","ae03199288","c84d2638d2","429052fcb6","5682f5ed1a","ebc95bdbfa","c5164e1fd3","7c417327e8","f0b22d2b8d","214dbcefba","41782669d4","32ebc59e6a","5e1f6ab617","0078121ddf","3e867d22fa","e3a04fa48c","e7e458ef59","f3bd25308a","f503452469","38bec8aa06","31b301487c","77284a6fe7","463b7355dc","16bbd3aafa","3f268c6d2b","4823ce815d","e26969ea4f","98071cc088","587afedc25","efc947b4a8","42a2b0a46c","3d7cf1716e","3d67925fca","8a9b599e7a","010ad48f43","93de27d298","55915800de","598d07776e","3d7cf1716e","3d67925fca","8a9b599e7a","010ad48f43","93de27d298","55915800de","598d07776e","9573b58fee","812311ccf8","99871c4bd1","3a90f1027d","574fe951f4","4690be81c5","10787a5843","cf785684f1","de2e0fdf78","3c26c4ce5a","31f2ad0c25","5a46f8b897","e6d7e8846d","cf0debf5a9","15d44f0e79","562c5801f7","46b42efbe7","5792e7c919","f01ad37446","e343a83ec8","d4350d2c3b","267b7dc7fd","4348f83fcc","fc378c7041","25a015f458","088347ca99","11d9a16f08","4e364ca386","22165d6baa","3b31dca645","1a211afc82","cb7aa3ec03","c337894221","6a92fe2ba6","1e21c8d155","2047116380","86d4189ae9","1172a474e5","1256128316","17db02dbb9","dd01ac4f23","00c0689e44","3281a2dfcd","2add44974b","3652d40f88","15d3ca9986","7fc16a3fbc","3943bb38a5","8d4d2249b2","90635d27ed","6c3f4c4e2d","5e9c2f7c23","b626b0cd50","8ab7a7acad","0109c34369","9da8f9f656","3281a2dfcd","2add44974b","3652d40f88","15d3ca9986","7fc16a3fbc","3943bb38a5","8d4d2249b2","97a39e0d5b","e895a18c10","1c67e7f91c","ab79af91b2","29c3e2c225","ed899af4bd","3e3f33bcd4","7d3872c5f0","a5cdd18637","c928555ca8","ace7ffb081","fe95bd6a10","b09167bb53","d2a2ae2665","16c3fd27fa","2cdca7f210","4437540f06","28c2f41701","1be53e3fb3","892fa26760","0214e3dd34","16c3fd27fa","2cdca7f210","4437540f06","28c2f41701","1be53e3fb3","892fa26760","0214e3dd34","9a91430775","5c8881e5da","467dcfc6a8","21be4c5f50","5f92c42a2d","55846b0321","932544ac60","4df270f0b9","6cc3fe7c7e","26a6549708","450f60e1b3","3c2a5559ee","cf0ed90adb","ba853a9c0a","d13042537b","33111f8bed","3a8fd55325","b88b896e61","209fb6ab0e","4a8afd645c","a97919d585","f90e09fde3","6f8f9d16d1","a83139f14e","1b93935548","c1ecf6364d","e4e51af096","90af89af75","63ee4eee2d","e0287c5ec7","bd2a485998","f3cd86680c","983ccc2bb1","0ea546e5ba","36f44cfa83","b8a1c28a5e","11eca79d3a","1411fc533c","9bbbecf702","c9c2312d6b","9a82b75551","a825f985ad","08d2aff270","c4acca1d53","08207081ff","4c2bc0690a","404bef4be5","23604b3892","7f52450e1e","6007de4ab3","981883f89f","c7452f6c80","c6e167ace2","8a6cb3ba20","880b6affdf","d2c1b88f24","1a3a90a8d2","ea526def03","0a37fab884","fec9b5f511","53960ede4a","2902af2b09","664bad0636","a28a1ffe77","7f3868256b","7b01ab398c","87fc71f7ce","67b40c97e5","e61eaae9a9","97924d858c","e97b38e936","88d4bd41aa","6bc2a2bb72","03d885ef84","55dff62b5e","ff949b55e5","c20d9aed92","990411cfbe","a19ae3146b","c3524e6a51","471fe40392","883fbeb0af","20685d9dd9","c27da1c74f","b234752adc","aea7b76cf5","2bb4a4e554","e04543b825","1f5789e012","fead068702","cd74802ffc","d61001814c","8e6c4d6b1a","85a2147d29","9982be662e","31a5f8ad60","b7463adc1c","2e79d3ff64","3658e7cccb","b9aad27109","f18485f58a","a035c2048e","1fd3165adb","633f5c300b","862473a471","a969abc61a","717a028a54","065c13c481","22f4bc0cb6","cfa8d7b4b1","74fe33ab69","e74021e1b7","936ade4db5","48bc2b34f6","961ca59d5b","a17d9d8e5e","0dce9c2524","3bdf467e73","d634b58433","faa9c6e0b5","0fc6f92e8a","92e8393ecb","7d7a21f019","4a9d4c67f2","879ad822aa","45c2118273","ba7e6e888c","e1c29efee5","72687cf2d7","d81b5ac295","f9fe52ebd5","4e232206da","8d51c7e937","10ea7e52c3","56496cef6a","60b868ccfd","d7afcd5283","8ab1e6bef7","11d587eb97","7df2b9d0ba","003e117f7b","10928af827","3fb0827be4","87154f89e4","2649a97ea5","0dcf79bddb","dd830d9e84","fc3e9a0b6b","631021f7e4","f5d5ccf549","8ae29d6248","3a0bbed272","255ba2c7bc","3891e852b2","aef69846d6","551faa1e58","979c074eb6","82e1f291b6","bb9cb2270d","fd1f629df5","104d702248","bf7e88e03f","8f0b57fae0","d368400ec2","94810eaa2e","2a54083d95","8aae39a8bf","f6f184a724","452ca67b5a","6321844ca8","6e1c7f6a3e","5da8258b42","b7e9ba448c","999269c49d","46822ef5f0","8a79e0623f","a6d44c3d4e","f0a31a30fd","b5e68ab441","5d040290cb","234cc49660","4936693af5","7fa4633282","fc3116725c","71822de658","e7164bf0fc","e92f4f4ad0","90c854ea49","bfee6245ff","7fa4633282","fc3116725c","71822de658","e7164bf0fc","e92f4f4ad0","90c854ea49","bfee6245ff","aa2308ae0c","519cd4675e","f153b83870","a8164d41ee","64e5bb61e2","cf4122a722","38508e2760","bf7e88e03f","8f0b57fae0","d368400ec2","94810eaa2e","2a54083d95","8aae39a8bf","f6f184a724","4f8dac5965","3b0503a7b7","29a3b6b27c","eba2483b0a","8d1b42807a","9bc435a542","5b25e31ad4","21f861a46e","734bcafd3f","c5a2e17c90","0e02d36cd0","71efd1a4ac","409863bd0a","e276823ac0","a0c6e0f8cf","aa707a759c","8820a602ef","74c6715a0a","886f2df07e","1c6cad0b09","00c98e296a","91b138c058","32bd82a044","9faad11fc3","42ae072cc0","4eba40f6cf","3f785a9061","6ca6d38667","ecbc0f7c77","bdddba7e0d","a249ba56ec","024f9edfda","52b4395afa","30ddf69af1","e9c93cf3b4","225e5dbf98","00f0a249fb","53f7924f04","84c46098ce","7b4b2341b3","b7002e552b","365413744b","d92ed6a422","8bc254b45e","86c465f38f","b20c5ac055","10bb2e3981","23cb4962b3","1b20029145","5767abb8a0","dabb2b22ae","12536b42e9","2b713e2d15","79b5f60f52","f8f454024a","080ffb51ad","f125c54c91","f60ff2ca7b","d83eba923b","9d03fa9b25","97c8c783b6","4e9f5513fd","34d12f608c"]}
+```
