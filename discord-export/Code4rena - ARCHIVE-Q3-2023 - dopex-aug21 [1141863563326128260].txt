@@ -1,0 +1,6811 @@
+==============================================================
+Guild: Code4rena
+Channel: ARCHIVE-Q3-2023 / dopex-aug21
+==============================================================
+
+[08/18/2023 14:00] kartoonjoy (pinned)
+👋 Hello and welcome to the audit channel for the $125,000 USDC **Dopex** audit!
+
+📆 Audit opens 08/21/2023 20:00 (20:00 UTC) and runs through 09/06/2023 20:00 (20:00 UTC) (16 days).
+
+Please give a warm welcome to the Dopex team, particularly @psytama, who will be available for questions either here in the channel or via DM in the `UTC +4` timezone(s).
+
+We'll be posting relevant links, documentation, etc. here, so if you intend to participate in this audit, consider enabling notifications for this channel. 🐺 ⏰
+
+Audit Page: https://code4rena.com/contests/2023-08-dopex#top
+
+{Embed}
+https://code4rena.com/contests/2023-08-dopex
+Code4rena
+Code4rena is a competitive audit platform that finds more high-severity vulnerabilities, more quickly than any other auditing method.
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/c4-og-banner-1D676.png
+
+{Reactions}
+👍 (12) 🫡 (8) DopexProteinToast (3) 
+
+[08/18/2023 15:07] kartoonjoy
+Pinned a message.
+
+
+[08/21/2023 21:46] 0xtendency
+I felt this might be helpful, forge build will be unable to resolve some imports due to wrong capitalization.
+ I have corrected them below:
+
+In Setup.t.sol:
+``
+import { ReLPContract } from "../../contracts/reLP/ReLPContract.sol";
+// import { ReLPContract } from "../../contracts/relp/ReLPContract.sol";
+``
+
+In Periphery.t.sol:
+``
+// import { UniV2LiquidityAMO } from "../../contracts/amo/UniV2LiquidityAMO.sol";
+
+import { UniV2LiquidityAMO } from "../../contracts/amo/UniV2LiquidityAmo.sol";
+
+
+// import { UniV3LiquidityAMO } from "../../contracts/amo/UniV3LiquidityAMO.sol";
+
+import { UniV3LiquidityAMO } from "../../contracts/amo/UniV3LiquidityAmo.sol";
+``
+
+In MockRdpxEthPriceOracle.sol
+``
+import { IUniswapV2Pair } from "../uniswap_V2/IUniswapV2Pair.sol";
+// import { IUniswapV2Pair } from "../uniswap_v2/IUniswapV2Pair.sol";
+``
+
+{Reactions}
+👍 (28) 
+
+[08/21/2023 22:45] reentrant
+Anyone getting `Discovered incompatible solidity versions in following` errors re:
+
+```
+Discovered incompatible solidity versions in following
+: contracts/amo/UniV2LiquidityAmo.sol (0.8.19) imports:...
+
+Discovered incompatible solidity versions in following
+: contracts/amo/UniV3LiquidityAmo.sol (0.8.19) imports:...
+
+```
+
+etc etc?
+
+my current solc is set to 0.8.19, running `forge build`, `forge test`
+
+
+[08/21/2023 23:04] 0xfave
+thank you for this
+
+{Reactions}
+👍 (3) 
+
+[08/22/2023 05:17] 0x11singh99
+what is the use of slither.txt  is it considered to be know issues  ,it is not mentioned in known issues
+
+
+[08/22/2023 06:53] lourenslinde
+This happens to me when I try to run build and am not in the main dir of the repo.
+
+
+[08/22/2023 07:05] 0xg03.14
+only mainnet or any other chains...? @psytama
+
+
+[08/22/2023 07:32] talfao
+i saw in docs arbitrum
+
+{Reactions}
+🫡 
+
+[08/22/2023 12:03] 0k_sec
+hey, what AMOs refers to please ?
+
+
+[08/22/2023 12:17] gkrastenov
+@psytama Can you accept my friend request
+
+
+[08/22/2023 12:19] 0xpsytama
+Done
+
+{Reactions}
+👍 
+
+[08/22/2023 12:26] 0k_sec
+who is DEFAULT_ADMIN_ROLE ? is it a timelock or a specific contract ?
+
+
+[08/22/2023 12:26] 0xg03.14
+Algorithmic market operation I guess
+
+{Reactions}
+❤️ 
+
+[08/22/2023 13:11] 0k_sec
+did all contracts deployed only on ethereum chain ?
+
+
+[08/22/2023 13:31] 0k_sec
+@psytama  just Dmed, hope you check it sir
+
+
+[08/22/2023 14:09] reentrant
+yeah, weird tho that I'm in the top level dir `2023-08-dopex/`, double checked just in case
+
+
+[08/22/2023 14:59] parsely.
+just out of interest if you run a foundryup command does the error remain?
+
+
+[08/22/2023 15:56] reentrant
+on a different pc today, will try this again
+
+
+[08/22/2023 15:57] reentrant
+works off the bat
+
+
+[08/22/2023 15:59] parsely.
+Glad it's working
+
+
+[08/22/2023 17:14] 0k_sec
+@parsely
+
+
+[08/22/2023 17:19] parsely.
+Apologies I am not sure, my guess from the tests is that it will be on arbitrum, but not sure if other chains will also be used.
+
+{Reactions}
+👍🏻 
+
+[08/22/2023 17:20] 0k_sec
+Great. Thanks for answering 🙏🏻
+
+
+[08/22/2023 18:42] parsely.
+Just to confirm @0xkazim I am not on the sponsor team, in case perhaps anyone thought so
+
+
+[08/22/2023 18:42] viraz4331
+hi,
+why can't I submit multiple gas optimization findings on the ui ?
+
+
+[08/22/2023 18:42] parsely.
+you need to put all GAS findings into one report
+
+
+[08/22/2023 18:43] 0k_sec
+@parsely  Oh sorry sir
+
+
+[08/22/2023 18:44] viraz4331
+I didn't know that
+
+
+[08/22/2023 18:44] 0k_sec
+@psytama  he is the sponsor
+
+
+[08/22/2023 18:44] parsely.
+No problem, just did not want you to think I did not want to be helpful
+
+
+[08/22/2023 18:44] parsely.
+Yes
+
+
+[08/22/2023 18:45] viraz4331
+@kartoonjoy | C4 🎇🎇 tagging you here
+ can you make an exception and let me submit a 2nd report where I would include all gas optimisations  ?
+
+
+[08/22/2023 18:45] viraz4331
+I didn't know that for gas optimisations we can only submit one time
+
+
+[08/22/2023 18:46] parsely.
+you can edit your first one, by going to the UI and clicking on "my findings" , if you are logged in it will allow you to edit
+
+{Reactions}
+thankyou 👍 (2) 
+
+[08/22/2023 18:46] 0k_sec
+No it’s ok thanks 🙏🏻
+
+
+[08/22/2023 18:47] viraz4331
+oh okay thanks
+
+{Reactions}
+💯 
+
+[08/22/2023 19:30] mangoeth
+Kinda unrelated question. Does it matter the time when you submit vulnerability findings? Or is it advised to wait until the end to send a complete report of all findings? Didnt find much on this in the documentation. Just that wardens with the same findings share the bounty.
+
+
+[08/22/2023 19:34] parsely.
+That is a good question, I am not 100% sure, but I am of the opinion (PLEASE NOTE THIS IS JUST A PERSONAL OPINION) that is does not really matter when I submit my findings, I personally hold on to them , in case I find a way to either chain them or perhaps as I delve into the code more I invalidate them so I dont need to submit them.
+
+{Reactions}
+👍 
+
+[08/22/2023 20:07] Message Wolf#0225 (pinned)
+**Automated Findings / Publicly Known Issues**
+
+Automated findings output for the audit can be found [here](https://gist.github.com/code423n4/3c6507b76ca940e11c287862cb4a1fd3).
+
+*Note for C4 wardens: Anything included in the automated findings output is considered a publicly known issue and is ineligible for awards.*
+
+
+[08/22/2023 20:14] thebrittfactor
+Pinned a message.
+
+
+[08/22/2023 20:32] saint6704
+@parsely Just so you know you are very helpful to others 
+And I appreciate it so much
+
+{Reactions}
+🫡 (2) 🙏 
+
+[08/22/2023 21:32] mangoeth
+Your approach is sound & better for the sponsor i think. Otherwise we just get rushed reports. Ill proceed as you suggest, thx.
+
+{Reactions}
+🙏 
+
+[08/23/2023 02:10] poneta_
+afaik, it does not matter when you submit your findings as long as they're valid, I'd personally also prefer @parsely 's method, just to be sure and validate the findings one more time before submitting them.
+
+{Reactions}
+ty 🔥 
+
+[08/23/2023 05:26] parsely.
+Thank you for the kind words
+
+
+[08/23/2023 05:33] 0xjuntao
+@psytama   Dmed please check
+
+{Reactions}
+👍🏽 
+
+[08/23/2023 07:45] 0xtendency
+@psytama Just Dm'd
+
+{Reactions}
+👍🏽 
+
+[08/23/2023 09:16] mogiblack
+@psytama DMed you sir
+
+
+[08/23/2023 09:18] pep7siup_
+@psytama pls check DM
+
+
+[08/23/2023 09:27] catscanaudit
+Maybe a stupid question but which contract is the uni v2 pool
+
+
+[08/23/2023 09:33] mogiblack
+https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol
+
+{Reactions}
+👍 
+
+[08/23/2023 09:33] catscanaudit
+Ty, thought so
+
+{Reactions}
+👌 
+
+[08/23/2023 10:48] 0x3b
+is `ReLPContract` gonna work **only** with WETH as a tokenB or it can use other tokens?
+
+
+[08/23/2023 11:13] saint6704
+did anyone find any good docs ?
+
+
+[08/23/2023 11:38] 0k_sec
+their docs on their website is helpful i think
+
+
+[08/23/2023 11:38] saint6704
+I wanted to know the flow of the contracts
+
+
+[08/23/2023 11:39] saint6704
+there is very less info about that in readme as well as on the website
+
+
+[08/23/2023 11:45] 0xnevi
+With their notion page, i crafted the flow in roughly 30 minutes. More than enough information imo.
+
+
+[08/23/2023 11:46] saint6704
+before you edited this comment I literally felt how can you craft the flow with just a few lines
+
+
+[08/23/2023 11:47] saint6704
+I felt dumb for a min
+
+
+[08/23/2023 11:47] 0xnevi
+Ya correction haha tho i took about 5 hours to understand the protocol fully so take ur time
+
+
+[08/23/2023 11:47] 0xnevi
+Dont rush slow and steady
+
+
+[08/23/2023 11:48] saint6704
+I understand what the protocol is all about and what it is doing but I am digging up on the flow rn
+
+
+[08/23/2023 11:48] saint6704
+I got much time for this
+
+
+[08/23/2023 11:48] 0xnevi
+My advice is like any other protocol, start from the core contract and branch out
+
+
+[08/23/2023 11:49] saint6704
+Seems a good advice ser 
+I'll do that
+
+{Reactions}
+✅ (2) 
+
+[08/23/2023 12:18] mrosas
+How many address have erc20 tokens? Cant find in the documentation
+
+
+[08/23/2023 13:09] escrow1337
+@psytama sent fr
+
+
+[08/23/2023 13:56] saint6704
+@psytama sent you a request
+
+
+[08/23/2023 13:57] 0xpsytama
+Hey i will be replying to all the dm’s soon thanks for waiting
+
+
+[08/23/2023 14:54] oualidpro#8727
+is there any issue with issues submit system ?
+
+
+[08/23/2023 15:49] proxy1967
+@psytama what are typical amounts for `reLPFactor` in `ReLPContract.sol` ?
+
+
+[08/23/2023 15:57] 0xpsytama
+.09 is one example for the reLP amount but it will depend on the amount of liquidity in the pool and the liquidity owned by the AMO.
+
+
+[08/23/2023 16:41] alymurtazamemon
+What does disputed findings means in Automated Report?
+
+
+[08/23/2023 16:48] stormreckson
+Rejected finding...I think
+
+
+[08/23/2023 17:18] rokinot
+@psytama dm
+
+{Reactions}
+👍 
+
+[08/23/2023 18:22] 0x3b
+Do we have the code for `RdpxV2ReceiptToken`, I can only see the `MockRdpxV2ReceiptToken` contract
+
+
+[08/23/2023 18:28] 0x3b
+so it is ment for it to be changed often? 
+And is 0.09 in 1e8 scale (like the rest of the units) => 0.09e8 => 9e6?
+
+
+[08/23/2023 18:46] 0xpsytama
+I wont say often but mainly when we add liquidity using the backing reserves
+
+
+[08/23/2023 20:21] 836541#7294
+**// Need to transfer before minting or ERC777s could reenter.
+    collateral.transferFrom(msg.sender, address(this), assets);** (In Vault LP, why the concern about ERC777 if collateral is ERC20 and shares too ?)
+
+
+[08/24/2023 02:38] 0x11singh99
+@psytama  Do we have the code for RdpxV2ReceiptToken ?
+
+
+[08/24/2023 06:30] 0x3b
+For what is bondID used in `bondWithDelegate` and `bond`, is it a way to provide your previous bondID and increase the amount on that bond or...?
+
+
+[08/24/2023 06:31] 0x11singh99
+reply @psytama
+
+
+[08/24/2023 06:32] 0x3b
+give him some time, we don't know his timezone, he may be asleep
+
+
+[08/24/2023 06:32] 0x11singh99
+no
+
+
+[08/24/2023 06:34] 0x11singh99
+utc+4
+
+
+[08/24/2023 06:52] coffiasd
+assume Contract A inherited Contract B , Since A is in scope will B be inside the slope ?
+
+
+[08/24/2023 07:56] mrosas
+Is it me or I didn't find any vulns -.-
+
+
+[08/24/2023 08:16] chiadika99
+Hello guys, if one found a bug by reading the code what tool should they report when filing a submission
+
+
+[08/24/2023 08:16] 0xnirlin
+what is perpetual atlantic vault?
+
+
+[08/24/2023 08:30] lourenslinde
+Manual review
+
+{Reactions}
+🤝 
+
+[08/24/2023 08:57] 0x11singh99
+@psytama fr and dm'd  you
+
+
+[08/24/2023 08:59] chiadika99
+@LokiThe5th any idea how to add an image?
+the markdown style is not showing the image
+
+
+[08/24/2023 09:04] molecula451
+`[caption](url-to-image)`
+
+
+[08/24/2023 09:06] lourenslinde
+For markdown it's usually `![text](url)` (the same as a link but with an `!` in front of it), but I'm not 100% sure that it's supported in code4rena submissions.  
+
+If you're trying to add a code block you can do that with three ` symbols to start the block and again to end the block. ```This gives this format```
+
+
+[08/24/2023 09:32] chiadika99
+can the url be external ?
+cc: @LokiThe5th @Cypher
+
+{Reactions}
+👍🏽 
+
+[08/24/2023 09:40] saint6704
+```AtlanticPerpetualPool: This contract is ERC721 which mints option tokens as NFTs to the Core contract.```
+
+as far as I understood
+
+
+[08/24/2023 09:40] saint6704
+AtlanticPerpetualPool is actually AtlanticPerpetualVault
+
+
+[08/24/2023 10:05] alymurtazamemon
+@psytama just sent you a friend request and message.
+
+
+[08/24/2023 10:10] deth2814
+@psytama sent a DM
+
+
+[08/24/2023 12:24] viraz4331
+@psytama sent dm
+
+
+[08/24/2023 12:49] gr34t.l4k3#1626
+@psytama sent you a DM
+
+
+[08/24/2023 12:57] 0k_sec
+can someone explain this line in  `writing call options ` in the docs to me ?
+```
+Call option writers receive an upfront premium but pay call option buyers if the price of an asset increases beyond the strike price. If the difference in price exceeds the premiums earned, writers may incur a loss.
+```
+how the writers may incure a loss ?
+
+
+[08/24/2023 12:57] 0k_sec
+https://docs.dopex.io/option-fundamentals/option-parameters#writing-call-options
+
+{Embed}
+https://docs.dopex.io/option-fundamentals/option-parameters
+Option Parameters
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/https%253A%252F%252F3368698341-files.gitbo-57CED
+
+
+[08/24/2023 12:58] 0k_sec
+is that mean when someone write(sell or become writer)  a call option it mean he expect the price to become lower than the ` premium`?
+```
+Writing call options is useful for liquidity providers who expect the price of an asset to decrease or remain stable. It is not a risk-free strategy since losses are technically uncapped.
+```
+
+
+[08/24/2023 12:59] rafaelnicolau.eth
+https://twitter.com/DegenShaker/status/1693630294199280033
+
+I think the answer to your question can be found in this thread
+
+{Embed}
+BlockChomper (@DegenShaker)
+https://twitter.com/DegenShaker/status/1693630294199280033
+5/ The writer will receive a premium from buyer for the ability to purchase the contract. The writer will be at risk and can incur financial loss if the settlement price of the asset is lower than their written strike price at expiration and the buyer exercises the right to buy.
+Twitter
+
+{Reactions}
+❤️ (2) 
+
+[08/24/2023 13:30] 0k_sec
+Thank u sir🫡
+
+{Reactions}
+💪 
+
+[08/24/2023 13:49] escrow1337
+sent dm @psytama
+
+
+[08/24/2023 14:23] 0x11singh99
+Hey everyone psytama replying to anyone,   I am waiting 🙂
+
+
+[08/24/2023 14:33] 0xnevi
+Dmed @psytama
+
+
+[08/24/2023 14:33] 0xpsytama
+Hey i will be replying to everyone soon
+
+
+[08/24/2023 14:34] 0xpsytama
+Sorry for making you guys wait
+
+{Reactions}
+🙏 
+
+[08/24/2023 14:52] talfao
+no prob @psytama , we understand you are the only one here, so we will gladly wait
+
+{Reactions}
+👍 
+
+[08/24/2023 15:07] 0x11singh99
+👍
+
+
+[08/24/2023 15:24] tamayonft
+Sorry for the question but what is the decimals of the rdpx
+
+
+[08/24/2023 15:25] 0xtendency
+18 dp
+
+
+[08/24/2023 15:30] tamayonft
+And what is the precision of the oracle when return de rdpx value to eth
+
+
+[08/24/2023 15:31] 0xtendency
+the oracle returns the price in 1e8 dp
+
+
+[08/24/2023 15:43] tamayonft
+Thanks
+
+{Reactions}
+👍 
+
+[08/24/2023 16:38] mike_bello90
+@psytama  which tokens are going to be used in the system? and who's gonna be the admin role?
+
+
+[08/24/2023 16:45] 0xpsytama
+Weth, rdpx and dpxEth
+
+
+[08/24/2023 16:45] 0xpsytama
+the admin will be the dopex treasury
+
+{Reactions}
+🤝 (2) 
+
+[08/24/2023 17:01] viraz4331
+@psytama in which token is the funding for option pool paid ? the doc mentions crv is that correct ?
+
+
+[08/24/2023 17:02] 0xpsytama
+the funding will be paid in weth but that can be provided by swapping other tokens like crv to weth and sent to the treasury.
+
+{Reactions}
+👍 
+
+[08/24/2023 17:12] alymurtazamemon
+@psytama On which network will it be deployed?
+
+
+[08/24/2023 17:13] 0xpsytama
+Arbitrum
+
+
+[08/24/2023 17:13] alymurtazamemon
+only Arbitrum? Or you have future plans for other networks?
+
+
+[08/24/2023 17:54] 836541#7294
+@psytama The collateral for the ERC-4626 Yield Farming will be WETH ?
+
+
+[08/24/2023 18:02] 0xpsytama
+The main contracts will be on arbitrum
+
+
+[08/24/2023 18:02] 0xpsytama
+As of now we have no plans for other chains
+
+
+[08/24/2023 18:02] 0xpsytama
+The receipt token contract or the perpetualAtlanticVaultLp contract?
+
+
+[08/24/2023 18:02] 836541#7294
+the perpetualAtlanticVaultLp
+
+
+[08/24/2023 18:03] 0xpsytama
+Both of them are similar to 4626 but don’t use 4626
+
+
+[08/24/2023 18:03] 0xpsytama
+Ya the collateral is weth
+
+{Reactions}
+❤️ 
+
+[08/24/2023 18:11] viktor_cortess
+Hello everyone. I have a question about the bond function. 
+There is a comment: * @param  _amount The amount of DpxEth to bond for
+is it the amount of DpxEth that we wish to mint bonding? 
+And where do we get rdpxBondId?
+
+
+[08/24/2023 18:20] deth2814
+@psytama Sent a DM
+
+{Reactions}
+👍 
+
+[08/24/2023 20:44] saint6704
+Is anyone active here?
+
+
+[08/24/2023 21:38] reentrant
+I second this question
+
+
+[08/24/2023 21:54] 0xubermensch
+@psytama Sent a DM!
+
+{Reactions}
+👍 
+
+[08/24/2023 22:04] 0xpsytama
+hey so that is a little outdated since they mint only half the amount if DpxEth but the amount is more like the Weth value of the bond since half is weth and half is Dpxeth when liquidity is added
+
+
+[08/24/2023 22:16] mike_bello90
+Hi  @psytama send you a FR
+
+{Reactions}
+👍🏽 
+
+[08/25/2023 01:32] coffiasd
+where i can find some detail about the  `getRdpxPriceInEth` in `IRdpxEthOracle` ?
+
+
+[08/25/2023 01:33] coffiasd
+@psytama  send A dm
+
+
+[08/25/2023 03:38] mangoeth
+Would be happy if i could dm. 👋
+
+{Reactions}
+👍 
+
+[08/25/2023 05:46] tamayonft
+Sorry for the question but how a user mint a rodxdevayingBonds
+
+
+[08/25/2023 08:08] 0xnirlin
+what exactly is the role of latestFundingPaymentPointer
+
+
+[08/25/2023 08:39] csjaybit
+cant seem to find files in dopex
+
+
+[08/25/2023 08:43] parsely.
+Which files are you looking for?
+
+
+[08/25/2023 08:46] csjaybit
+I mean I cant run tests
+
+
+[08/25/2023 08:46] csjaybit
+throwing errors
+
+
+[08/25/2023 08:46] parsely.
+what error you getting?
+
+
+[08/25/2023 08:53] csjaybit
+Error: 
+Compiler run failed:
+Error (6275): Source "contracts/uniswap_v2/IUniswapV2Pair.sol" not found: File not found. Searched the following locations: "/home/csbyte/dopex/2023-08-dopex".
+ --> contracts/mocks/MockRdpxEthPriceOracle.sol:5:1:
+  |
+5 | import { IUniswapV2Pair } from "../uniswap_v2/IUniswapV2Pair.sol";
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Error (6275): Source "contracts/amo/UniV2LiquidityAMO.sol" not found: File not found. Searched the following locations: "/home/csbyte/dopex/2023-08-dopex".
+  --> tests/rdpxV2-core/Periphery.t.sol:10:1:
+   |
+10 | import { UniV2LiquidityAMO } from "contracts/amo/UniV2LiquidityAMO.sol";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Error (6275): Source "contracts/amo/UniV3LiquidityAMO.sol" not found: File not found. Searched the following locations: "/home/csbyte/dopex/2023-08-dopex".
+  --> tests/rdpxV2-core/Periphery.t.sol:11:1:
+   |
+11 | import { UniV3LiquidityAMO } from "contracts/amo/UniV3LiquidityAMO.sol";
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Error (6275): Source "contracts/relp/ReLPContract.sol" not found: File not found. Searched the following locations: "/home/csbyte/dopex/2023-08-dopex".
+  --> tests/rdpxV2-core/Setup.t.sol:33:1:
+   |
+33 | import { ReLPContract } from "contracts/relp/ReLPContract.sol";
+   | ^^^^^^^^^^^^^^^^^^
+
+
+[08/25/2023 08:54] parsely.
+try running this command in the root directory of "dopex" ```git submodule update --init --recursive```
+
+
+[08/25/2023 08:57] csjaybit
+okay
+
+
+[08/25/2023 09:01] csjaybit
+git submodule update --init --recursive
+fatal: not a git repository (or any parent up to mount point /)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+
+
+[08/25/2023 09:02] parsely.
+did you initially download as `git clone` ?
+
+
+[08/25/2023 09:02] max10afternoon
+Some of the caps in the imports are wrong, there was a comment somewhere in this channel addressing it
+
+
+[08/25/2023 09:04] parsely.
+You are correct I totally forgot about that , @TK | csjaybit  @max10afternoon is 100% correct.. check out https://discord.com/channels/810916927919620096/1141863563326128260/1143300097124343828
+
+{Reactions}
+👍 
+
+[08/25/2023 09:04] 0xtendency
+@TK | csjaybit I experienced a similar issue, which I showed a fix here
+
+
+[08/25/2023 09:05] parsely.
+Thanks for posting the fix, the link I posted is to your fix, much appreciated
+
+
+[08/25/2023 09:06] csjaybit
+yeah I thought it to be case
+
+
+[08/25/2023 09:07] 0xtendency
+Glad I could help ser
+
+{Reactions}
+🙏 
+
+[08/25/2023 09:13] csjaybit
+thank you very much
+
+{Reactions}
+🙏 
+
+[08/25/2023 09:13] csjaybit
+I did remapping gymnastics
+
+{Reactions}
+😃 (3) 
+
+[08/25/2023 09:16] csjaybit
+but your solution was right
+
+
+[08/25/2023 09:50] block_chomper
+@psytama - DM sent would appreciate your feedback when possible
+
+
+[08/25/2023 11:57] zaevlad
+@psytama hey, just want to be sure that I got it right: is reLP is for rDPX/ETH pool? Or it is smth else?
+
+
+[08/25/2023 13:38] 0k_sec
+in the whole docs we mentioned that dpxETH is backing by eth and rdpx, in the contract we backing dpxEth with weth, did this change any information in the docs ?
+
+
+[08/25/2023 13:47] saint6704
+Docs are old
+
+
+[08/25/2023 14:13] tamayonft
+Sorry for the question but how a user mint a rodxdevayingBonds
+
+
+[08/25/2023 14:23] 0xnevi
+Source? Im assuming u are not referring to the notion page
+
+
+[08/25/2023 14:42] saint6704
+I'm referring to them only
+
+
+[08/25/2023 14:46] saint6704
+@0xnev sent you fr
+
+
+[08/25/2023 15:15] chris0xff
+that shit is embarassing and it makes me wonder how it could have happened. if it has to do with people running mac or windows and some case sensitivity quirks. or some unhinged use of symbolic links on someones box at 3AM. or just no one ever testing their shit before they push it
+
+
+[08/25/2023 15:18] csjaybit
+well yeah casesensitive issue
+
+
+[08/25/2023 15:19] chris0xff
+yeah but which sloppy ass utility lead to that. case insensitivity is not really built into ascii encoding or anything like that so it has to be a 'feature' of some garbage someone was running
+
+
+[08/25/2023 15:20] chris0xff
+maybe someone with FAT32
+
+
+[08/25/2023 15:22] chris0xff
+theres other good signs in this repo
+
+
+[08/25/2023 15:26] 0k_sec
+@psytama is the docs contains old version details ?
+
+
+[08/25/2023 15:49] chris0xff
+nah i didnt read that shit
+
+
+[08/25/2023 15:49] chris0xff
+but that is also a good sign
+
+
+[08/25/2023 15:50] chris0xff
+tbh i feel like reading the docs is going to pollute my mind with false ideas about what this code does
+
+
+[08/25/2023 16:30] 0xpsytama
+its only for the rDPX/ETH
+
+
+[08/25/2023 16:34] viraz4331
+@psytama sent u a dm too
+
+
+[08/25/2023 16:55] tamayonft
+Sorry for the question but how a user mint a rodxdevayingBonds
+
+
+[08/25/2023 16:57] 0xnevi
+They don't. The minter_role (presumably protocol itself) needs to mint it to them before they can bond
+
+
+[08/25/2023 16:57] 0xnevi
+Check the tests files
+
+
+[08/25/2023 16:58] tamayonft
+Ah ok thanks mate
+
+{Reactions}
+👍 
+
+[08/25/2023 17:16] chris0xff
+yeah but on launch the minter role is granted to the sender
+
+
+[08/25/2023 17:23] 0xnevi
+Is this true? @psytama seems true if user deploy decaying bonds themselves, but dosent make sense at all since they can mint however many they want
+
+
+[08/25/2023 17:26] 0xpsytama
+hey sorry about the inconvenience caused since pushing to git on a mac has some case sensitivity issues and was not caught earlier. we should have standardized this.
+
+
+[08/25/2023 17:28] 0xpsytama
+the contracts that get deployed will be by the admin and all the roles and permissions will be granted to a mutisig and the admin will revoke all the unnecessary role.
+
+
+[08/25/2023 17:28] 0xpsytama
+the docs are new a few parts of them are copied from old docs so were not updated correctly but most of the it is up to date.
+
+
+[08/25/2023 17:28] 0xnevi
+Makes sense thanks!
+
+
+[08/25/2023 17:56] klau5_
+@psytama Sent a DM!
+
+
+[08/25/2023 18:09] chris0xff
+thats good to hear man. the multi sig. there are definitely some features in these contracts that are ripe for disaster in the event of administrative irregularities.
+
+
+[08/25/2023 19:09] tamayonft
+@psytama send a request for friend
+
+{Reactions}
+👍 
+
+[08/25/2023 20:18] 0k_sec
+did the `MINTER_RULE` refers to the all users or to specific users/contracts ?
+
+
+[08/25/2023 20:26] 0xnevi
+https://discord.com/channels/810916927919620096/1141863563326128260/1144684643371716658
+
+
+[08/25/2023 20:27] 0xnevi
+Trusted admin role, controlled by a multisig
+
+{Reactions}
+❤️ 
+
+[08/25/2023 20:27] 0k_sec
+i mean did multisigs belong to the protocol team (devs for example)?
+
+
+[08/25/2023 20:27] 0k_sec
+oh i get it now, thanks sir 🙂
+
+{Reactions}
+👍 
+
+[08/25/2023 20:28] 0xnevi
+To further clear your doubt, makes no sense to let all users have minter_role if not anybody can mint any amount of decaying bonds to themselves
+
+{Reactions}
+👍🏻 (3) 
+
+[08/25/2023 20:29] 0k_sec
+true, thanks sir
+
+
+[08/26/2023 01:06] tamayonft
+Sorry what kind of oracle the project has ?
+
+
+[08/26/2023 04:44] blckhv
+@psytama sent you dm
+
+{Reactions}
+👍 
+
+[08/26/2023 08:21] 0xjuntao
+what exaclty is rdpxBondId?  https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L823
+
+
+[08/26/2023 08:59] pep7siup_
+@psytama pls check dm
+
+
+[08/26/2023 09:15] .satyam_
+@psytama told me this, rdpxBondId is for the user bonding to pass its the decaying bond owned by the user
+
+
+[08/26/2023 09:38] praise95
+Hello boss @psytama, i sent you a fr
+
+{Reactions}
+👍🏽 
+
+[08/26/2023 10:35] 0xjuntao
+hmm can you expand on this?
+
+
+[08/26/2023 10:42] 0xnirlin
+pricce is in 10e8 precision?
+
+
+[08/26/2023 11:05] 0xtendency
+1e8 is == 10** 8
+
+
+[08/26/2023 11:05] 0xtendency
+Price is in 1e8 dp
+
+
+[08/26/2023 11:29] 0xnirlin
+Yeah i meant that
+
+
+[08/26/2023 11:57] 0k_sec
+hey, what wrt mean here :
+`price of underlying wrt collateralToken` ?
+
+
+[08/26/2023 11:58] 0xtendency
+with regard to
+
+{Reactions}
+❤️ (2) 
+
+[08/26/2023 12:01] 0k_sec
+thanks 🙂
+
+
+[08/26/2023 12:03] coffiasd
+PerpetualAtlanticVault is hard to understand is there any related  document about it ?
+
+{Reactions}
+👍 
+
+[08/26/2023 12:37] koolexc
+Heyy, which docs are up to date? is it https://dopex.notion.site/rDPX-V2-RI-b45b5b402af54bcab758d62fb7c69cb4 ?
+
+
+[08/26/2023 12:39] 0k_sec
+i think its their notion page
+
+{Reactions}
+👍🏻 (2) 
+
+[08/26/2023 12:39] 0k_sec
+did the `uint256 public genesis` refers to the time that the contract deployed at ?
+
+
+[08/26/2023 12:55] 0xjuntao
+no, it is when the epoch starts
+
+
+[08/26/2023 12:56] 0k_sec
+did it update for each epoch ? or its set just once for the epoch 0 ?
+
+
+[08/26/2023 13:00] 0xjuntao
+set just once
+
+
+[08/26/2023 13:12] 0xnevi
+None i confirmed with sponsor the docs is mostly up to date but not fully updated. I encourage anybody with doubts to directly dm @psytama
+
+{Reactions}
+👍🏻 (2) 
+
+[08/26/2023 14:03] 0k_sec
+why we div 4 in this line please?
+` uint256 strike = roundUp(currentPrice - (currentPrice / 4));`
+
+
+[08/26/2023 14:06] 0xtendency
+This sets the strike price at 25% below the current price, it basically subtracts 25% off the current price
+
+{Reactions}
+👍🏻 (3) 
+
+[08/26/2023 14:07] 0xtendency
+500 / 4 == 500 * 25%
+
+
+[08/26/2023 14:24] csjaybit
+additional docks for dopex
+
+
+[08/26/2023 14:33] csjaybit
+same question any additional docs
+
+
+[08/26/2023 15:09] 0k_sec
+i know but why we do this, is it for the bond discount or for the put protections ?
+
+
+[08/26/2023 15:13] 0xnirlin
+Its the strike price for the put option
+
+{Reactions}
+👍🏻 
+
+[08/26/2023 15:13] 0xnirlin
+25 percent below current
+
+
+[08/26/2023 15:15] 0k_sec
+oh so if the price was 10 for example, this would be 10/4 ?
+
+
+[08/26/2023 15:15] 0xtendency
+No 10 - 10/4
+
+{Reactions}
+👍🏻 
+
+[08/26/2023 15:16] 0k_sec
+i get it now, thanks guys🙏🏻
+
+{Reactions}
+🙏 
+
+[08/26/2023 15:37] aba1842
+@psytama I also DMed you, whenever you have time
+
+
+[08/26/2023 16:06] viktor_cortess
+After calling  deposit function it sends some amount of the receiptToken back to the caller? 
+receiptTokenAmount = IRdpxV2ReceiptToken(addresses.rdpxV2ReceiptToken)
+      .deposit(_amount / 2);
+
+
+[08/26/2023 18:05] 0k_sec
+Can you set the repo for it please?
+
+
+[08/26/2023 18:06] viktor_cortess
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L566-L583
+
+{Embed}
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol
+2023-08-dopex/contracts/core/RdpxV2Core.sol at eb4d4a201b3a75dd4bdd...
+Contribute to code-423n4/2023-08-dopex development by creating an account on GitHub.
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/1f4fe4dd-5091-4ee1-8206-306b1928c41e-750AA
+
+
+[08/26/2023 18:56] blckhv
+https://docs.google.com/document/d/1005YPC8-tUJhuhzTZK__3KZss0o_-ix4/edit
+can we depend on this documentation also
+
+
+[08/26/2023 19:01] 0k_sec
+i think it deposit to the `rdpxV2ReceiptToken ` and not to the caller directly
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L577
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol#L561
+
+{Embed}
+https://github.com/code-423n4/2023-08-dopex/blob/eb4d4a201b3a75dd4bddc74a34e9c42c71d0d12f/contracts/core/RdpxV2Core.sol
+2023-08-dopex/contracts/core/RdpxV2Core.sol at eb4d4a201b3a75dd4bdd...
+Contribute to code-423n4/2023-08-dopex development by creating an account on GitHub.
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/1f4fe4dd-5091-4ee1-8206-306b1928c41e-750AA
+
+
+[08/26/2023 19:01] lsaudit
+hey @psytama  - I've DM'd you, could you please take a look at your DMs?
+
+
+[08/26/2023 19:02] 0k_sec
+according to @0xnev  all docs contains some old details and need to get update
+
+
+[08/26/2023 19:03] blckhv
+thanks
+
+{Reactions}
+🫡 
+
+[08/26/2023 19:30] 0k_sec
+where i can find the `IStableSwap` contract ?
+
+
+[08/26/2023 20:29] 0xtendency
+It would be nice if there could be another supporting sponsor @psytama
+
+
+[08/26/2023 20:39] viktor_cortess
+Does anybody know where the rdpxBondId comes from? Looks like if it's zero amounts are calculated with discounts and if not without discounts. But maybe somebody knows for sure?
+
+
+[08/26/2023 20:56] 836541#7294
+@psytama The protocol will always be the writer of an option and user the Buyer ? And the funding payments to PerpetualAtlanticVault aims to pay users that exercises the options, which expires in each epoch (1 week) ?
+
+
+[08/26/2023 22:30] 0xsl1
+i may be wrong,  but when the bondId != 0, it means  that we are dealing with decayingbond that is already minted, but when bondid is 0, it mints a normal bond
+
+{Reactions}
+👍 
+
+[08/26/2023 22:33] woolcentaur
+I believe you’re correct on this
+
+{Reactions}
+👍 
+
+[08/27/2023 02:10] bean.eth2
+@psytama  is it true to say  1 rDPX = cost of having 1 atlantic put of ETH (strike at 25% discount of current price)
+
+
+[08/27/2023 04:29] 0xpsytama
+hey so the perpVault will be the writer and the core contract will be the buyer and the options are perpetual the expiry is a epoch which is weekly based this is used to calculate the funding to pay options. the funding is paid by the core contract to hold the options.
+
+{Reactions}
+👍 (3) 
+
+[08/27/2023 04:30] 0xpsytama
+rdpx is a token so i am not sure what you mean by this.
+
+
+[08/27/2023 04:30] 0xpsytama
+you can DM me if you have any doubts.
+
+
+[08/27/2023 04:30] 0xpsytama
+i will check with the team if we can add one more person to help you guys.
+
+{Reactions}
+❤️ 
+
+[08/27/2023 04:51] 0xtendency
+That will be nice ser
+
+
+[08/27/2023 05:25] 0xnirlin
+dacaying bonds can only be minted by minter role? why what is the reasoning for that
+
+
+[08/27/2023 05:25] 0xnirlin
+sorry if have been asked before
+
+
+[08/27/2023 06:28] blckhv
+aren't you talking about delegated bond
+
+
+[08/27/2023 06:56] viraz4331
+both follow the same paradigm
+
+{Reactions}
+👍 
+
+[08/27/2023 06:56] viraz4331
+hey guys
+
+
+[08/27/2023 06:56] viraz4331
+this is the doc link
+
+
+[08/27/2023 06:56] viraz4331
+https://dopex.notion.site/rDPX-V2-RI-b45b5b402af54bcab758d62fb7c69cb4
+
+{Embed}
+https://dopex.notion.site/rDPX-V2-RI-b45b5b402af54bcab758d62fb7c69cb4
+rDPX V2 RI
+rDPX V2 is a new system which involves a series of changes and additions to the current utility of the rDPX token.
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/https%253A%252F%252Fs3-us-west-2.amazonaws-AA66C.png
+
+{Reactions}
+🙏 
+
+[08/27/2023 06:56] viraz4331
+we need to refer to right ?
+
+
+[08/27/2023 07:07] viraz4331
+cc @psytama
+
+
+[08/27/2023 07:18] 0xpsytama
+so when bondId is 0 it means the user has to transfer rdpx but if it has a non 0 value then they want to use the id of decaying bondable rdpx NFT the only way a user receives this is if they face a loss using one of our other products then as a rebate a decaying bondable rdpx bond is minted for the user with a expiry after which it is no longer valid and a amount based on the loss.
+
+{Reactions}
+👍 (5) 
+
+[08/27/2023 07:19] 0xpsytama
+the delegate id is the case where a user wants to bond but does not have weth to use so they can use weth from one or more of the delegates who delegated their weth to be used for bonding for a fee. this is only possible with bondWithDelegate and a user can still use a decayingRdpxBond while bonding with a delegate by passing a ID or use 0 to use their own rdpx balance.
+
+
+[08/27/2023 07:25] viraz4331
+can u confirm the above please @psytama
+
+
+[08/27/2023 07:25] viraz4331
+the doc link
+
+
+[08/27/2023 07:28] 0xpsytama
+yup this is the doc which was last updated.
+
+
+[08/27/2023 11:04] koolexc
+@psytama Heyy, DMed for a question
+
+{Reactions}
+👍🏽 
+
+[08/27/2023 12:33] evokid
+dmed @psytama
+
+
+[08/27/2023 13:25] 0k_sec
+what is delegate.amount and delegate.activeCollateral ? what the differenece between them please ?
+
+
+[08/27/2023 13:32] 0xnevi
+amount: total amount of eth delegated by delegate. (Fixed for specific delegateID)
+activecollateral: amount of eth delegated by delegate currently used for bonding by delegatee
+
+{Reactions}
+👍🏻 (3) 
+
+[08/27/2023 13:33] 0k_sec
+clear enough now, thanks @0xnev
+
+
+[08/27/2023 13:51] supernovahs
+What is the expected value of bonddiscountfactor to be?
+
+
+[08/27/2023 13:51] supernovahs
+5 % = 5e5?
+
+
+[08/27/2023 13:59] saint6704
+```RDPXV2CORE_ROLE``` what is this role?
+
+
+[08/27/2023 14:01] saint6704
+5e5 at 1e8 precision is 0.5% and not 5%
+
+{Reactions}
+👍 
+
+[08/27/2023 14:01] supernovahs
+thanks.
+
+
+[08/27/2023 14:02] saint6704
+it is to be decided by admin and it can be any value above 0
+
+
+[08/27/2023 14:02] saint6704
+```function setBondDiscount(
+    uint256 _bondDiscountFactor
+  ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    _validate(_bondDiscountFactor > 0, 3);
+    bondDiscountFactor = _bondDiscountFactor;
+
+    emit LogSetBondDiscountFactor(_bondDiscountFactor);
+  }```
+
+here @supernova
+
+
+[08/27/2023 14:02] supernovahs
+yup , I want to know what's the expected precision to confirm
+
+
+[08/27/2023 14:03] supernovahs
+@py
+
+
+[08/27/2023 14:03] supernovahs
+@psytama  Can u confirm discount factor is intended as discussed above?
+
+
+[08/27/2023 14:03] saint6704
+I believe 1e8 but @psytama can you confirm
+
+
+[08/27/2023 15:24] 0k_sec
+did `latestFundingPaymentPointer` refers to the number of the epoch ?
+
+
+[08/27/2023 15:27] 0xnirlin
+yes
+
+{Reactions}
+👍🏻 
+
+[08/27/2023 15:38] mogiblack
+why isn't `RDPXV2CORE_ROLE` not set in the constructor of PerpetualAtlanticVault.sol?
+
+
+[08/27/2023 15:40] 0xsl1
+it is RdpxV2Core.sol
+
+
+[08/27/2023 16:39] kawaicho
+does anyone have a diagram for the protocol?
+
+
+[08/27/2023 16:44] 0xpsytama
+yup the discount factor will be determined on the target discount percentage and reserves and will be in 1e8 precision
+
+
+[08/27/2023 16:52] 836541#7294
+The purpose of the VaultLP is that Users can deposit to give liquidity to protocol and in exchange they can redeem rewards or the idea is staking options premiums while the epoch doesnt end ?
+
+
+[08/27/2023 16:56] 0xpsytama
+they would be able to collect funding which is paid by the treasury for all the active options and the initial premium a user pays while bonding.
+
+
+[08/27/2023 16:57] 0xpsytama
+if we need we would further incentivize this by giving dpx rewards for users who stake their vaultLP shares.
+
+
+[08/27/2023 16:58] 836541#7294
+Thank you!
+
+
+[08/27/2023 17:50] jaimebarrancos
+what is the purpose of the sync function? in rdpxV2Core
+
+
+[08/27/2023 19:54] 0k_sec
+i think its used to sync the reserve asset in the rdpx v2 contract, same idea as uniswap v2.
+
+
+[08/27/2023 20:06] 0xsl1
+In perpetualAtlanticVaultLP what will be the collateral token?
+
+
+[08/27/2023 20:10] 0xsl1
+oh its weth nvm then
+
+
+[08/27/2023 22:29] sovaslava9
+Why deadline has blocktimestamp and Plus some number? IUniswapV2Router(addresses.ammRouter)
+      .removeLiquidity(
+        addresses.tokenA,
+        addresses.tokenB,
+        lpAmount,
+        tokenAAmountMin,
+        tokenBAmountMin,
+        address(this),
+        block.timestamp + 1
+      );
+
+
+[08/27/2023 22:30] sovaslava9
+swap will be done in the same tx.. there is no need deadline..
+
+
+[08/27/2023 22:54] sovaslava9
+best natspec))   /**
+   * @notice redeem ERC4626 token
+   * @param shares shares
+   * @param receiver receiver
+   * @param owner owner
+
+{Reactions}
+goose 
+
+[08/28/2023 00:15] 836541#7294
+@psytama In AtlanticVault, latestFundingPaymentPointer value is supposed to be the value of the next epoch  ? (Last Time the funding was paid = epoch 5, so latestFundingPaymentPointer  = 6).
+
+
+[08/28/2023 00:32] mangoeth
+In what precision or ratio is the price of rdpx returned?
+From rdpxV2Core.getRdpxPrice(), which further down the line gets it from the mock oracle.
+
+
+[08/28/2023 02:22] 0xnirlin
+What tokens are in treasury reserves?
+
+
+[08/28/2023 05:04] leth_l
+@psytama sent dm for a question.
+
+
+[08/28/2023 06:03] saint6704
+what if I find a bug outside the scope ?
+
+
+[08/28/2023 06:03] saint6704
+@psytama
+
+
+[08/28/2023 06:10] blckhv
+afaik 8 decimals
+
+
+[08/28/2023 07:43] jaimebarrancos
+How is money put into RpdxReserve?
+
+
+[08/28/2023 07:57] jaimebarrancos
+or tokens*
+
+
+[08/28/2023 10:10] jvorex
+Is there anyone related to or on the Dopex team here that I could chat and get answers to some questions?
+
+
+[08/28/2023 10:13] jvorex
+Nvm
+
+
+[08/28/2023 10:39] kaveyjoe
+@psytama
+
+
+[08/28/2023 10:40] 0xtendency
+Is @Viraz a dopex sponsor?
+
+
+[08/28/2023 10:45] jaimebarrancos
+```      uint256 bondDiscount = (bondDiscountFactor *
+        Math.sqrt(IRdpxReserve(addresses.rdpxReserve).rdpxReserve()) *
+        1e2) / (Math.sqrt(1e18)); // 1e8 precision```
+This piece of code says 1e8 precision, but I don't understand why. Anyone?
+
+
+[08/28/2023 10:48] viraz4331
+no
+
+{Reactions}
+🙏 (3) 
+
+[08/28/2023 11:00] jvorex
+Thanks!
+
+
+[08/28/2023 11:04] 0xflaming0
+Which contract is the treasury contract?
+
+
+[08/28/2023 11:46] lourenslinde
+@psytama sent you a friend request
+
+{Reactions}
+👍🏽 
+
+[08/28/2023 11:48] .ke1cam
+where can i find RdpxV2ReceiptContract? not the mock one
+
+
+[08/28/2023 14:16] 0x3b
+Do we have any approximations for what the `premium` on a bond should be
+In the tests it is 0.05 ETH for a bond of 0.7 ETH and 25 RDPX ( counted for 10% discount ) with real prices and bond quantity of 1e18
+@psytama  Can this be a correct approximation or at least to be close to the real value of a `premium` as it's 1/14 of it?
+
+
+[08/28/2023 14:17] 0x3b
+Or should  a premium be 1/4 or 1/2 of a bond value?
+
+
+[08/28/2023 14:21] 0xnevi
+Haha u will have to go to the Black Scholes equation if u want a estimate
+
+{Reactions}
+😩 
+
+[08/28/2023 14:21] zaevlad
+@psytama can you tell how big `gensis` for time value is planned?
+
+
+[08/28/2023 14:35] 0x3b
+I... 
+I just wanted the shortcut
+
+
+[08/28/2023 14:43] 0xnevi
+Thats why i laughed, not sure if there is a shortcut 🤣🤣
+
+
+[08/28/2023 14:44] 0x3b
+F in the chat for **0x3b**
+
+{Reactions}
+🇫 (7) 
+
+[08/28/2023 15:06] evokid
+@psytama dmed
+
+{Reactions}
+👍🏽 
+
+[08/28/2023 15:34] 0k_sec
+I talked to the sponsor and said it’s set to the next Friday
+
+
+[08/28/2023 15:35] 0k_sec
+for epoch 0 the end timestamp would be the coming friday 8AM UTC as we want to keep the epochs at standard options expiry.
+
+
+[08/28/2023 15:35] 0k_sec
+This is his answer for the epoch 0
+
+
+[08/28/2023 15:36] 0k_sec
+“genesis will be the expiry timestamp of the first epch.”
+
+
+[08/28/2023 15:36] supernovahs
+What will. be the collateral token in vault?
+
+
+[08/28/2023 15:41] supernovahs
+@psytama
+
+
+[08/28/2023 16:00] 0xpsytama
+no the pointer would be 5
+
+
+[08/28/2023 16:00] 0xpsytama
+i am not sure what the rules are about that on c4.
+
+
+[08/28/2023 16:03] 0xpsytama
+the premium will depend on the IV currently the premium for 25% OTM put option is $0.00206105
+
+
+[08/28/2023 16:04] 0xpsytama
+the genesis will be the expiry of the 0th epoch so based on when we launch it would be the coming friday 8AM UTC to keep it stadard with the options market.
+
+
+[08/28/2023 16:04] 0xpsytama
+weth
+
+
+[08/28/2023 16:42] supernovahs
+Can u give me an example of price of dpx in eth?
+
+
+[08/28/2023 16:42] supernovahs
+@psytama
+
+
+[08/28/2023 16:43] supernovahs
+/**
+   * @notice Returns the price of rDPX against ETH
+   * @dev    Price is in 1e8 Precision
+   * @return rdpxPriceInEth rDPX price in ETH
+   **/
+  function getRdpxPrice() public view returns (uint256) {
+    return
+      IRdpxEthOracle(pricingOracleAddresses.rdpxPriceOracle)
+        .getRdpxPriceInEth();
+  }
+
+
+[08/28/2023 16:43] supernovahs
+It says it has 1e8 precision
+
+
+[08/28/2023 16:43] supernovahs
+How will price in eth be in 1e8 ?
+
+
+[08/28/2023 17:26] 0xpsytama
+if price is 0.050000000000000000 it will be 0.05000000
+
+
+[08/28/2023 18:45] viraz4331
+@psytama option buyers basically get dpx yields depending on strike price at end of each epoch ?
+
+
+[08/28/2023 18:47] 0xpsytama
+The buyer will only be the core contract and the core will pay funding to the writers in weth at the beginning of every epoch
+
+
+[08/28/2023 18:49] viraz4331
+and who is the writer in this case the admin ?
+
+
+[08/28/2023 18:49] viraz4331
+so where does dpx come in the picture ?
+
+
+[08/28/2023 18:50] 0xpsytama
+The option writers will be the users who deposit weth in the perpVault
+
+
+[08/28/2023 18:52] viraz4331
+so where does dpx come into play as mentioned here 
+` The liquidity for this will be provided via the open market and will be incentivized via DPX`
+
+
+[08/28/2023 18:53] 0xpsytama
+So the writers can stake the shares they get for depositing in the perpVault and we will incentivize this with dpx
+
+
+[08/28/2023 18:55] viraz4331
+cool thanks
+
+
+[08/28/2023 19:14] 0k_sec
+hey folks, i created a structure/graph that explain which function call the other functions and it explains the flow between rdpxV2 contract and vaults and reLP and AMO contracts, this is my first time doing these things so feel free to leave comment/note in the graph, hope this help you all WARDENS 😊 
+note: view functions not included 
+https://miro.com/welcomeonboard/QTB0eEFubGRiRUsxOTlndVhaemp5UnhMcjBhRUt1MGU5QVlaYUhrbDdlTVJ2RzNzU1U2NFRHbTdYMzNtZTVFanwzNDU4NzY0NTUxMDE4NDU0MTc2fDI=?share_link_id=117027102687
+
+{Embed}
+https://miro.com/welcomeonboard/QTB0eEFubGRiRUsxOTlndVhaemp5UnhMcjBhRUt1MGU5QVlaYUhrbDdlTVJ2RzNzU1U2NFRHbTdYMzNtZTVFanwzNDU4NzY0NTUxMDE4NDU0MTc2fDI=?share_link_id=117027102687
+Sign up | Miro | Online Whiteboard for Visual Collaboration
+Scalable, secure, cross-device and enterprise-ready team collaboration whiteboard for distributed teams. Join 30M+ users from around the world
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/og-image-445A8.png
+
+{Reactions}
+🙌🏻 (22) 🫡 (9) 🔥 
+
+[08/28/2023 20:12] 0k_sec
+i think someone asked what is the receipt token, the receiptToken refers to the LP token on curve pool that the users get by bonding rdpx and eth on the rdpxV2 contract.
+bond rdpx and eth on rdpxV2 --> get receiptToken on dpxETH/eth curve pool.
+
+if its not true hope the sponsor correct it 🙂
+
+
+[08/28/2023 20:13] mangoeth
+Well you get the bond nft first. And after the maturity time passes (5days default i think) you can call redeem() where the nft gets burned and your receive the receipt token. But its only a mock currently.
+
+{Reactions}
+👍🏻 
+
+[08/28/2023 20:14] 0k_sec
+this is the deep details so yes true i think
+
+
+[08/28/2023 20:15] mangoeth
+Do you happen to know if the put options created when bonding, if they are straight up sold to gmx leverage traders? Also if one were to be used up, would you stop earning rewards on each epoch??
+
+
+[08/28/2023 20:17] 0k_sec
+when we call bonds function we have a `boolean` which it decide if we need to create a put options or not, for other questions not sure but @psytama  may know the answer
+
+
+[08/28/2023 20:19] 0xtendency
+put options can be turned ON and OFF by the admins, it's turned ON on deployment
+
+{Reactions}
+👍🏻 
+
+[08/28/2023 20:22] mangoeth
+Well i mean in the scenario the put option bool is on. The documentation on the vaults, stated that these options would be further sold to gmx leverage traders as a form of insurance for them not to get liquidated. So i was wondering if the options from this bonding from rdpxV2Core.sol were used for that,
+
+
+[08/28/2023 20:23] mangoeth
+Because besides premiums and weth each epoch, whats the incentive to write put options? 
+The dpxETH-weth lp you get after 5 days?
+
+
+[08/28/2023 20:24] 0k_sec
+i think its not these options as these options are puts only and used as protection as i know
+
+{Reactions}
+🫡 
+
+[08/28/2023 20:24] aba1842
+this is the moment 0x3b evovles to 0x3bf :D?
+
+{Reactions}
+😂 
+
+[08/28/2023 20:46] elderberrylind
+Fyi, the receipt token represents dpxEth/Eth LP in a curve pool and not rDPX/eth. The dpxEth itself is backed by rDPX/eth LP along with the right to exercise the puts if eth/rDPX ratio drops
+
+{Reactions}
+👍🏻 
+
+[08/28/2023 20:48] 0k_sec
+true thanks for correction, will edit it now
+
+{Reactions}
+🤝 
+
+[08/28/2023 21:39] aba1842
+it's very interesting to think about MEV on Arbitrum, while on other contests MEV related issues would be valid, I doubt those would be valid here (if present in the codebase I mean)
+
+
+[08/28/2023 21:51] 0xpsytama
+ya the receipt token represents your share of the LP tokens in the contract
+
+{Reactions}
+👍🏻 
+
+[08/28/2023 21:51] 0xpsytama
+the put options are held by the rdpxV2Core contract
+
+
+[08/28/2023 21:53] 0xpsytama
+currently on arb it wont be possible but in the future they might develop the chain for MEV's to be possible so i guess you can add those issues in the report but i will have to confirm this.
+
+
+[08/28/2023 21:55] aba1842
+please do, if you as sponsor deem valuable such issues and agree with judges on it, we can provide them as auditors, if existing. Long term it will help the protocol. What we, as a community, would like to avoid is dedicating hours finding a nich MEV scenario only to get "On Arbitrum there is no MEV, ignore" type of situation.
+
+
+[08/28/2023 21:59] 0xnevi
+Only admin can exercise options correct via settle?
+
+
+[08/28/2023 21:59] 0xpsytama
+yup
+
+{Reactions}
+👍 
+
+[08/28/2023 21:59] 0xpsytama
+i will ask the team and let you guys know.
+
+{Reactions}
+👍🏻 (3) 
+
+[08/28/2023 22:00] aba1842
+thank you!
+
+
+[08/28/2023 22:43] mike_bello90
+these contracts are live? or hasn't been deployed yet?
+
+
+[08/29/2023 02:35] Deleted User
+Is the Vault contract expected to be called by anyone?
+
+
+[08/29/2023 06:08] stryder1496
+can someone tell me what oracles are used in the PerpetualAtlanticVault contract
+
+
+[08/29/2023 06:09] stryder1496
+they have used setAddresses to set the address of the oracle but i am not sure its specified exactly what oracle is used
+
+
+[08/29/2023 06:45] glcanvas
+Hello!
+Who and where can mint `RdpxDecayingBonds`?  I Found only usage already created bonds
+
+
+[08/29/2023 07:01] 0xsl1
+that what the sponsor said 
+so when bondId is 0 it means the user has to transfer rdpx but if it has a non 0 value then they want to use the id of decaying bondable rdpx NFT the only way a user receives this is if they face a loss using one of our other products then as a rebate a decaying bondable rdpx bond is minted for the user with a expiry after which it is no longer valid and a amount based on the loss.
+
+{Reactions}
+❤️ 
+
+[08/29/2023 07:33] 0xsl1
+I agree that it would be great to know for sure, but there is also this issue in know findings from bot race, so i would guess that those issues will be valid. Still waiting for sponsor to confirm
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/image-3B978.png
+
+
+[08/29/2023 07:42] aba1842
+this issue is valid regardless of lack of Arbitrum MEV, since it is unknown when the Sequencer will process it, real word prices may vary too much
+
+
+[08/29/2023 07:43] 0xsl1
+oh i see now
+
+
+[08/29/2023 07:45] 0xsl1
+there is also no mempool on arbitrum, right ?
+
+
+[08/29/2023 07:56] aba1842
+yep, from what I know the sequencer decides the order, and I think it's FIFO for now, don't quote me on this
+
+{Reactions}
+❤️ 
+
+[08/29/2023 08:53] kawaicho
+where is the function that you can write options?
+
+
+[08/29/2023 08:56] viraz4331
+I think it happens during bonding only both writing and buying happens in 1 tx seems like
+cc @psytama can you clarify this
+
+
+[08/29/2023 08:59] saint6704
+I think purchase() in PerpetualAtlanticVault.sol does that
+
+
+[08/29/2023 09:01] kawaicho
+this is for purchasing the options
+
+
+[08/29/2023 09:02] kawaicho
+i could me wrong i don't know
+
+
+[08/29/2023 09:05] 0xsl1
+in rdpxV2Core _purchaseOptions is called, which in turn calls purchase in PerpetualAtlanticVault where the option is minted, so the buyer is rdpxV2Core, while the write is the vault itself. At least that's how i understood it
+
+
+[08/29/2023 09:14] saint6704
+so we give eth and get rdpx when we purchase options ?
+
+
+[08/29/2023 09:14] saint6704
+@sl1
+
+
+[08/29/2023 09:15] 0xsl1
+i am not at the pc rn, but as far as i remember, the option is on rdpx, so essentially it’s buying rdpx with eth at the predetermined strike price
+
+
+[08/29/2023 09:15] saint6704
+sent you a fr @sl1
+
+{Reactions}
+👍 
+
+[08/29/2023 09:44] strausses
+Will UniV2LiquidityAMO and UniV3LiquidityAMO work with any tokens except rdpx and weth ?
+
+
+[08/29/2023 11:35] 0xnevi
+Afaik, From the docs the amos is only meant for the rdpx/ETH pools
+
+
+[08/29/2023 12:17] excalibor
+Hey guys is anyone having problems running the tests?
+
+
+[08/29/2023 12:17] excalibor
+I am seeing the following:
+
+```
+2023-08-29T12:17:31.529376Z ERROR forge::multi_runner: error=Unrecoverable error: Err(Eyre(
+backend: failed while inspecting: Transaction(CreateInitcodeSizeLimit)))
+2023-08-29T12:17:31.529375Z ERROR forge::multi_runner: error=Unrecoverable error: Err(Eyre(
+backend: failed while inspecting: Transaction(CreateInitcodeSizeLimit)))
+2023-08-29T12:17:31.529375Z ERROR forge::multi_runner: error=Unrecoverable error: Err(Eyre(
+backend: failed while inspecting: Transaction(CreateInitcodeSizeLimit)))
+2023-08-29T12:17:31.529393Z ERROR forge::multi_runner: error=Unrecoverable error: Err(Eyre(
+backend: failed while inspecting: Transaction(CreateInitcodeSizeLimit)))
+2023-08-29T12:17:31.529375Z ERROR forge::multi_runner: error=Unrecoverable error: Err(Eyre(
+backend: failed while inspecting: Transaction(CreateInitcodeSizeLimit)))
+2023-08-29T12:17:31.529390Z ERROR forge::multi_runner: error=Unrecoverable error: Err(Eyre(
+backend: failed while inspecting: Transaction(CreateInitcodeSizeLimit)))
+2023-08-29T12:17:31.529398Z ERROR forge::multi_runner: error=Unrecoverable error: Err(Eyre(
+backend: failed while inspecting: Transaction(CreateInitcodeSizeLimit)))
+
+Running 1 test for tests/RdpxDecayingBondsTest.t.sol:RdpxDecayingBondsTest
+[PASS] testMint() (gas: 205469)
+Test result: ok. 1 passed; 0 failed; finished in 15.83ms
+```
+
+
+[08/29/2023 12:37] kawaicho
+where you write an option
+
+
+[08/29/2023 12:44] 0k_sec
+hey @psytama  did the %50 in the lines below mean the 50% of the %25 rpdx that we send to process a bond ?
+```
+50% of the rDPX provided for bonding is burnt from the Treasury Reserve and another 50% is sent as emissions to veDPX holders.
+```
+
+
+[08/29/2023 12:46] 0k_sec
+first we say the full amount of rdpx will be sent to the reserve and then we say we burn %50 rdpx in treasury reserve, how treasury reserve contains the rdpx if we send it all to the backing reserve ?
+
+
+[08/29/2023 12:46] 0k_sec
+```
+- The full amount of rDPX and 33% of the ETH provided (33% of 75% = 25%) is sent to the [Backing Reserve](https://www.notion.so/rDPX-V2-RI-b45b5b402af54bcab758d62fb7c69cb4?pvs=21) and used to mint dpxETH which is then paired with the rest of the ETH to LP on curve.
+- 50% of the rDPX provided for bonding is burnt from the [Treasury Reserve](https://www.notion.so/rDPX-V2-RI-b45b5b402af54bcab758d62fb7c69cb4?pvs=21) and another 50% is sent as emissions to veDPX holders. These percentages are variable and can be controlled by governance.
+
+```
+
+
+[08/29/2023 12:50] 0xnirlin
+what is latestFundingPerStrike
+
+
+[08/29/2023 12:54] 0k_sec
+the last time we update the funds per a strick, in the `calculateFunding` we update this value as i know.
+
+
+[08/29/2023 13:26] elderberrylind
+Double check with psy but afaik the way it works is there is some amount of rDPX in the Dopex treasury right now (prior to any bonding occuring). When someone bonds, let's say $100 worth of value, $25 worth is rDPX. That bonded rDPX value is paired with $25 of bonded Eth and becomes LP for the rDPX/eth pool(backing reserve). Then, $25 worth of Treasury rDPX is taken from Treasury holdings and $12.5 dollars worth is burnt. And $12.5 worth of rDPX is given out to vedpx holders as rewards.
+
+{Reactions}
+🔥 
+
+[08/29/2023 13:29] 0k_sec
+clear enough, thanks for that sir🫡
+
+
+[08/29/2023 13:43] sovaslava9
+How many decimals have price, which return by PerpetualAtlanticVault.getUnderlyingPrice() ?
+
+
+[08/29/2023 14:11] 0k_sec
+8 i guess
+
+
+[08/29/2023 14:42] klau5_
+I understood that Core is option caller(buyer) and users who deposit their tokens at perpVault are option writer(seller). 
+But at the docs, `To mint a bond carrying approx. 1 Receipt Token you will deposit 25 rDPX (25%) & 0.75 ETH (75%) + the premium for the size of the rDPX provided for an rDPX Atlantic Perpetual PUT option which is 25% out of the money.` and at the `bond` function, bond caller's WETH is used for paying premium.
+I thinks this means that user who call `bond` should pay the premium of the option. Do I understand right?
+
+
+[08/29/2023 14:46] 0k_sec
+users will pay the premium at the initial time only, when creating bond and then for each epoch the protocol will pay the premium, thats how i understand the workflow of the bonding mechaism
+
+
+[08/29/2023 14:48] klau5_
+thank you!
+
+{Reactions}
+🫡 
+
+[08/29/2023 14:55] 0xnevi
+Not sure this is accurate. Option buyers are always users bonding, so users bonding will always be the one paying the premium. Can u confirm @psytama.
+
+The protocol admin simply assist in exercising options
+
+
+[08/29/2023 14:58] 0k_sec
+i read that the premium will be payed by the protocol after the first time in their docs:
+`Beyond the initial epoch, perpetual puts will be renewed with premiums paid as a funding rate by the v2 Treasury` 
+https://docs.dopex.io/tokenomics/usdrdpx/rdpx-eth-perpetual-put-pool
+
+{Embed}
+https://docs.dopex.io/tokenomics/usdrdpx/rdpx-eth-perpetual-put-pool
+rDPX-ETH Perpetual Put Pool
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/https%253A%252F%252F3368698341-files.gitbo-57CED
+
+
+[08/29/2023 15:02] 0k_sec
+i think this refers to the put options but idk if its old and this logic is changed now ! 😦
+
+
+[08/29/2023 15:04] qbs_sec
+@psytama Are you planning to directly add or remove liquidity using UniV2/V3LiquidityAmo, or will these functions always be used only by ReLP?
+
+
+[08/29/2023 15:06] 0xnevi
+Ohh seems like you’re right might have misunderstood some stuff here. Will revisit code logic
+
+{Reactions}
+❤️ 
+
+[08/29/2023 15:14] 0k_sec
+hey @psytama  you look too busy with answering wardens private DMs so it will be helpful and nice if you add another dev to the sponsor team for this contest, thanks a lot ☺️
+
+
+[08/29/2023 15:46] 0xnirlin
+these are perpetual vault, my understanding was that premium would be one time up front. As general options work
+
+
+[08/29/2023 15:48] 0xnevi
+Yes correct it is one time upfront from initial epoch of bonding @0xkazim is right. Subsequent premiums paid is by treasury
+
+
+[08/29/2023 16:04] 0xnirlin
+Wait, why would there be any subsequent premium anyways. As i understand options there is only one time premium.
+
+
+[08/29/2023 16:32] mert_eren#2527
+hey @psytama i dont get it the purpose of the RdpxDecayingPool.sol aim. Also how users can mint nfts ?
+
+
+[08/29/2023 16:33] mert_eren#2527
+moreover, is rDPX tokens and RdpxV2Recepient tokens are differant right?
+
+
+[08/29/2023 16:34] elderberrylind
+It's essentially a 1 week put option that gets rolled over every week...unless ratio drops by 25% in which case it is exercised
+
+{Reactions}
+👍 
+
+[08/29/2023 17:07] 0xnirlin
+user will not mint nfts, minter role will and than give those to users as compensation for loss on protocol
+
+
+[08/29/2023 17:40] lsaudit
+@psytama  - hey, please check DMs in your free time
+
+{Reactions}
+👍🏽 
+
+[08/29/2023 18:30] 836541#7294
+@psytama The VaultLP is supposed to get paid (fundingRate * fundingDuration) only once (end of epochs) ?
+
+
+[08/29/2023 19:09] 0k_sec
+why in this line below we div the bondDiscound on two ?
+
+
+[08/29/2023 19:09] 0k_sec
+```
+ rdpxRequired =
+                ((RDPX_RATIO_PERCENTAGE - (bondDiscount / 2)) *
+                    _amount *
+                    DEFAULT_PRECISION) /
+                (DEFAULT_PRECISION * rdpxPrice * 1e2);
+
+```
+
+
+[08/29/2023 19:36] 0k_sec
+and why we multiple by 1e2 ?!
+
+
+[08/29/2023 19:55] evokid
+Kindly to not discuss code over here it might lead to an issue discussion which will not be into warden's interest 🙏
+
+
+[08/29/2023 20:00] viktor_cortess
+it's a way to calculate percents. Try it with some numbers and you will see
+
+{Reactions}
+👍🏻 
+
+[08/29/2023 20:08] 0k_sec
+true thanks
+
+
+[08/29/2023 20:10] zzebra83
+Makes sense, the whole point of the audit is to understand and review code. It’s counter intuitive  to keep asking the sponsor to clarify every nitty gritty thing in the code.
+
+{Reactions}
+hi5 
+
+[08/29/2023 20:25] 0xnevi
+True plus this is a competition. Competitors dont work together unless they are in a team. Will cut down on discussions and if im willing to help will do it via dm
+
+{Reactions}
+👀 🫡 
+
+[08/30/2023 03:17] coffiasd
+who will deposit to vaultLp to hold shares  normal user ?
+
+
+[08/30/2023 04:17] kawaicho
+where i can see the function of dpxEthCurvePool in RdpxV2Core.sol
+
+
+[08/30/2023 04:56] blckhv
+since I can't find it in the code can a normal user mint or be approved to spend collateralToken, there is `redeem` function in vaultLp which seems to do this job but if someone can clarify what it does exactly
+
+
+[08/30/2023 05:15] 0xpsytama
+hey so depositing into the perp vault is writing options and purchase happens during bonding
+
+
+[08/30/2023 05:16] 0xpsytama
+yes
+
+
+[08/30/2023 05:16] 0xpsytama
+we withdraw rdpx from the reserve not send.
+
+
+[08/30/2023 05:17] 0xpsytama
+the users pay premium for the inital purchase basically funding for the option untill the end of the ongoing epoch but the treasury pays funding as long as the option is active
+
+{Reactions}
+👍 
+
+[08/30/2023 05:17] 0xpsytama
+we would use them to directly add and remove liquidity.
+
+
+[08/30/2023 05:18] 0xpsytama
+its paid in the start and get sent to the vaultLP in a drip sustem
+
+
+[08/30/2023 05:23] coffiasd
+@psytama ser , please check DMs in your free time
+
+{Reactions}
+👍🏽 
+
+[08/30/2023 06:05] 0x3b
+@psytama  what is `calculateFunding` for exactly?
+As combined with `payFunding` effectively increasing  (with `_updateFundingRate`) `fundingRates` 2x on the premium and paying the LP vault 2x?
+
+
+[08/30/2023 06:05] 0x3b
+Or I got something wrong...
+
+
+[08/30/2023 06:09] 0xpsytama
+its used to calculate the funding amount for all the active options at the beginning of a epoch for the epoch duration and payFunding sends the amount from the core contract then its paid out through a drip system throughout the epoch.
+
+
+[08/30/2023 06:11] 0x3b
+so after an epoch has ended admins call `calculateFunding` then `payFunding` to send weth from core to vault and slowly drip it to LP vault?
+
+
+[08/30/2023 06:13] 0xpsytama
+yup
+
+{Reactions}
+❤️ 
+
+[08/30/2023 09:03] mrudenko
+@psytama DM sent
+
+{Reactions}
+👍🏽 
+
+[08/30/2023 11:05] pks7323
+can this project support other chain like arbitrum or optimism?
+
+
+[08/30/2023 11:09] 0x3b
+It is on ARB, but for now nothing else
+
+
+[08/30/2023 11:14] viraz4331
+by depositing you mean calling `deposit` in the lp contract ?
+
+
+[08/30/2023 11:47] mrosas
+Hi can explain Bonding via rDPX Decaying Bond? Why people want to use this instead of regular bonds
+
+
+[08/30/2023 12:07] t1moh
+Who is the minter of RdpxDecayingBonds.sol?
+
+
+[08/30/2023 12:09] 0xpsytama
+yup
+
+
+[08/30/2023 12:10] 0xpsytama
+if you use decaying bonds you don't have to send the rdpx from your balance as it will use the rdpx balance from the decaying bonds and this is the only way to use decaying bonds.
+
+
+[08/30/2023 12:11] 0xpsytama
+there are no regular rdpx bonds.
+
+
+[08/30/2023 12:11] 0xpsytama
+other products on dopex will mint decaying bonds to users who face a loss using the product as a rebate.
+
+{Reactions}
+👍 
+
+[08/30/2023 12:58] evokid
+@psytama dmed
+
+
+[08/30/2023 12:58] 0k_sec
+who are the MINTER_ROLE ? are they the devs team or trusted users ?!
+
+
+[08/30/2023 13:01] 0k_sec
+can someone tell me which reserves are treasury reserve and backing reserves ?
+
+
+[08/30/2023 13:05] evokid
+I believe RdpxV2Bond deployer as you see in constructor the _setupRole is called by msg.sender L26. (team or so), but for DEFAULT_ADMIN_ROLE == governance  I think so if am not mistaken
+
+{Reactions}
+👍🏻 
+
+[08/30/2023 13:06] evokid
+is this https://docs.dopex.io/ docs reliable ?
+
+
+[08/30/2023 13:06] 0k_sec
+true, thanks ser
+
+{Reactions}
+🫡 
+
+[08/30/2023 13:07] 0k_sec
+its useful and explained the whole picture but i thinks its not the current update(version)
+
+{Reactions}
+💜 
+
+[08/30/2023 13:07] evokid
+ask the sponsor to confirm friend.
+
+
+[08/30/2023 13:08] 0k_sec
+i know most of rules are set to the deployer  or the protocols team for now, but the minter rule was a bit confused to me, thanks sir ☺️
+
+{Reactions}
+🫡 
+
+[08/30/2023 13:29] dimulski
+rDPX is 18 decimals right?
+
+
+[08/30/2023 13:31] evokid
+YES you can check it in the contract address
+
+
+[08/30/2023 13:31] evokid
+https://arbiscan.io/token/0x32eb7902d4134bf98a28b963d26de779af92a212
+
+
+[08/30/2023 13:33] dimulski
+ty
+
+{Reactions}
+🫡 
+
+[08/30/2023 13:48] 0k_sec
+but we return the price of it in 1e8 decimals i think
+
+
+[08/30/2023 14:00] evokid
+yes the precision that's right
+
+{Reactions}
+🫡 (2) 
+
+[08/30/2023 15:02] mrosas
+^ Why return 1e8
+
+
+[08/30/2023 16:51] 0xpathfindr
+@psytama Sent you a request
+
+
+[08/30/2023 16:52] 0xsurena
+chainlink CEO should answer this 👀
+
+{Reactions}
+😆 
+
+[08/30/2023 16:54] 0xsurena
+check `Price Feed Contract Addresses` from chainLink docs.  for assetUSD 1e8 and for assetETH 1e18
+
+
+[08/30/2023 16:59] ladboy233
+does uniswap V3 Relp being implemented? no?
+
+
+[08/30/2023 17:00] ladboy233
+never mind
+
+
+[08/30/2023 17:00] ladboy233
+saw it
+
+
+[08/30/2023 17:00] evokid
+according to the docs. only uniswap v2
+
+
+[08/30/2023 17:04] ladboy233
+ok ty
+
+{Reactions}
+🫡 
+
+[08/30/2023 18:11] dimulski
+@psytama sent a FR
+
+
+[08/30/2023 18:26] evokid
+dmed @psytama
+
+{Reactions}
+👍🏽 
+
+[08/30/2023 19:29] t1moh
+What does reLP mean? Is it reserve LP?
+
+
+[08/30/2023 19:52] 0k_sec
+remove liquidity pool i think
+
+{Reactions}
+👍 
+
+[08/30/2023 19:53] 0k_sec
+it used to remove the liquidity in the pool
+
+
+[08/30/2023 21:10] 0k_sec
+i can't understand this line in the doc `33% of the ETH provided (33% of 75% = 25%)` did we use 33% to mint dpxETH or we use 25 ? can someone explain it please? @psytama
+
+
+[08/30/2023 21:54] audityourcontracts
+`1 Receipt Token you will deposit 25 rDPX (25%) & 0.75 ETH (75%) + the premium` then out of that 0.75E or 75% of the initial spend, 33% of the ETH (33% of the 0.75) or 0.25 is sent to the backing reserve. The `(33% of 75% = 25%)` relates to the initial spend of ETH.
+
+
+[08/31/2023 04:19] magu1225
+how can I embed code on report?
+
+
+[08/31/2023 05:55] blckhv
+by surrounding the code with ```
+
+
+[08/31/2023 05:56] blckhv
+https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code
+
+
+[08/31/2023 06:47] anirruth
+the subtractloss used in settle function of perpetualatlanticvault.sol is using the subtractloss function from perpetualatlanticvaultLP.sol?
+
+
+[08/31/2023 06:50] kodyvim
+Yes
+
+
+[08/31/2023 07:12] magu1225
+thank you! I resolved.
+
+{Reactions}
+👍 
+
+[08/31/2023 10:01] fulum
+Anyone know what is the contract of the `IRdpxV2ReceiptToken` interface ?
+
+
+[08/31/2023 10:03] fulum
+I dm you @psytama
+
+
+[08/31/2023 11:36] dimulski
+@psytama would it be possible to add another team member to whom we can direct part of the questions
+
+
+[08/31/2023 12:16] tztokchad
+It's re-LPing, like re-starting. It's meant to adjust the ratio of rdpx/eth
+
+
+[08/31/2023 12:18] 0xtendency
+@tztokchad  are you a dopex sponsor?
+
+
+[08/31/2023 12:19] tztokchad
+Yes
+
+
+[08/31/2023 13:07] evokid
+Dmed
+
+
+[08/31/2023 13:21] dimulski
+@tztokchad sent a fr
+
+
+[08/31/2023 13:31] 0xpsytama
+if there are MEV related vulnerability that can extract value from the product then it will be considered as a valid issue.
+
+{Reactions}
+🫡 (9) 
+
+[08/31/2023 13:42] 0k_sec
+if a issue is valid only on other EVM chains, is it valid too ? lets say on OP chain
+
+
+[08/31/2023 13:43] asui0944
+where do I find the rdpxV2ReceiptToken contract?
+
+
+[08/31/2023 14:42] 0k_sec
+i'm kind confused why we set the amount as array in the bondWithDelegate function:
+```
+function bondWithDelegate(
+        address _to,
+        uint256[] memory _amounts,
+        uint256[] memory _delegateIds,
+        uint256 rdpxBondId
+```
+
+
+[08/31/2023 14:43] 0k_sec
+as i understand this function we can bond using more than one delegateID so that why we have an index for the amount right ?
+
+
+[08/31/2023 14:51] asui0944
+yes I think thats right but I dont understand it fully yet also inside the for loop it bonds for every delegate and then finally bond for the user
+
+{Reactions}
+👍🏻 
+
+[08/31/2023 14:52] mlome
+@psytama @tztokchad Who will have the `DEFAULT_ADMIN_ROLE` of the `RdpxV2Core` ?
+
+
+[08/31/2023 14:53] asui0944
+The deployer of the contract. Its in the constructor
+
+
+[08/31/2023 14:54] mlome
+Yeah but I mean is it a DAO or an EOA?
+
+
+[08/31/2023 14:58] 0k_sec
+for now its admin/multi sig wallet they change it to DAO later as the sponsor said
+
+
+[08/31/2023 14:58] asui0944
+they dont have a factory contract which will deploy this contract so i guess it is an EOA. if they have it they would probably include in the scope of the contest so
+
+
+[08/31/2023 14:59] mlome
+ok let's say it an EAO/multi sig then!
+
+
+[08/31/2023 15:00] 0k_sec
+for now yeah
+
+
+[08/31/2023 15:05] sovaslava9
+For which purpose we add in core contract in costructor zeroAsset sturct in reserveAsset array?
+
+
+[08/31/2023 15:10] 0xpsytama
+if you try to index a asset that does not exist egs "BTC" it would return 0 since its a mapping so if we had a normal asset instead of zero asset it would lead to incorrect values.
+
+
+[08/31/2023 15:36] cosine_function
+@psytama  What is the reason for the maturity timestamp in bonds?
+
+
+[08/31/2023 15:47] 0xpsytama
+the rdpxV2Bonds ?
+
+
+[08/31/2023 15:47] 0xpsytama
+users can only redeem after maturity
+
+
+[08/31/2023 16:01] cosine_function
+Yes I know, but is there a reason why users need to wait till they can redeem?
+
+
+[08/31/2023 16:07] 0xpsytama
+yes its to make sure there is no immediate arb oppurtunity where a user can keep bonding and redeeming to take advantage of the discount.
+
+{Reactions}
+👍 
+
+[08/31/2023 16:10] cosine_function
+Thank you!
+
+
+[08/31/2023 16:11] inspecktor
+Does the PerpetualAtlanticVault.sol contract only use dpxETH as the collateralToken parameter? Or maybe another ERC20 token?
+
+
+[08/31/2023 16:43] carrotsmuggler
+@psytama dmd you
+
+{Reactions}
+👍🏽 
+
+[08/31/2023 17:26] Deleted User
+Anyone knows why divinding the discount here:
+```
+rdpxRequired = ((RDPX_RATIO_PERCENTAGE - (bondDiscount / 2)) * _amount * DEFAULT_PRECISION)
+                / (DEFAULT_PRECISION * rdpxPrice * 1e2);
+```
+
+
+[08/31/2023 17:52] 0k_sec
+Imo the discount is applied for both rdpx and weth, for example discount is 0.3 and if we div 2 then we set 0.15 for rdpx and weth which in this way the sum of  discount is 0.3
+
+
+[08/31/2023 17:54] 0k_sec
+In another meaning the 0.3 should be the discount for the rdpx/weth together, that how i understand it @psytama  and @tztokchad  can correct it if I’m wrong
+
+{Reactions}
+👍 
+
+[08/31/2023 18:16] mangoeth
+The _amounts has to be an array here, because not everyones delegated weth balance will satisfy every amount. If a specific id has enough remaining weth to bond said amount, another id could possibly not satisfy the same amount. This way a user can bond many times using up many delegatees remaining weth, disregarding their active collateral.
+
+{Reactions}
+🙏🏻 👍🏻 
+
+[08/31/2023 18:50] asui0944
+in the bond function we can pass an argument rdpxBondId but this bondId is not the actual token id that is to be minted. And  if 0 is passed as the rdpxBondId it seems to have a discount
+can someone explain this please?
+
+
+[08/31/2023 18:55] 0k_sec
+i don't get it what you mean by tokenID, but this is used for the decaying bond, if users have decay bond which they will get it only of they face a loss in the protocol projects, if the bondID is non zero then the user use this decay bond to pay the rdpx required.
+
+
+[08/31/2023 18:56] 0k_sec
+decay bond contain rdpx which the protocol mint it to users who face loss in one of the dopex projects
+
+
+[08/31/2023 18:56] 0k_sec
+thanks ser
+
+
+[08/31/2023 19:52] Deleted User
+Yeah, that's what I understand, but then again if you put it like discount = 30% and then divide it it's not really 30%
+
+
+[08/31/2023 23:42] cluna80
+man i got the forge going, did the forge test, but i cant figure out how to do a mythril scan on this repo. i already did the slither scan..
+
+
+[09/01/2023 02:04] gjaldon
+@psytama @tztokchad I don't see any logic in the contracts-in-scope that handle adding liquidity to dpxETH pool in Curve. Is this manually being handled by Admin? Core only seems to go as far minting dpxETH
+
+
+[09/01/2023 02:04] tztokchad
+It's on the rewards contract which is out of scope for this comp
+
+{Reactions}
+🙏🏼 
+
+[09/01/2023 02:05] mangoeth
+Hi could i dm you?
+
+
+[09/01/2023 03:35] 0xding99ya
+@psytama What's the approximate value of bondDiscountFactor in RdpxV2Core? Could you give a rough range?
+
+
+[09/01/2023 03:35] mrosas
+Are we allowed to audit the libraries used?
+
+
+[09/01/2023 03:44] 0xding99ya
+@psytama  Also could you give the range of reLPFactor?
+
+
+[09/01/2023 05:28] mrosas
+Documentation in https://docs.dopex.io/ is it on version 1? Is it updated or outdated?
+
+
+[09/01/2023 05:50] 0xnevi
+@tztokchad is this done by adding liquidity from the deposited amounts in the receipt token contract to the curve pool?
+
+
+[09/01/2023 08:43] magu1225
+Do the users deposit eth directly? Or do they deposit WETH?
+
+
+[09/01/2023 08:43] 0xpsytama
+in test we use 1e5 but this would depend on the reserve and target discount.
+
+
+[09/01/2023 08:44] 0xpsytama
+for reLP i think 9e4 was used
+
+
+[09/01/2023 08:45] 0xpsytama
+this afaik does not have details about rdpx v2.
+
+
+[09/01/2023 08:45] 0xpsytama
+yes
+
+{Reactions}
+👍 
+
+[09/01/2023 11:51] akshaysrivastav
+Which contract is  `IRdpxV2Core.Addresses.rdpxV2ReceiptToken`?
+
+
+[09/01/2023 11:52] auditsea
+There isn't, you can just assume that it exists because it's like an ERC20 token that represents bonds
+
+
+[09/01/2023 11:53] auditsea
+only WETH
+
+
+[09/01/2023 11:54] akshaysrivastav
+It needs to have a `deposit` function. Is it erc4626?
+
+
+[09/01/2023 11:55] auditsea
+It doesn't have to be ERC4626. In fact, it will be just LP token for dpxETH/ETH
+
+
+[09/01/2023 11:56] akshaysrivastav
+cool thanks
+
+{Reactions}
+👍 
+
+[09/01/2023 12:22] magu1225
+so,do the users need to wrap their eth to weth before using this protocol?
+
+
+[09/01/2023 12:22] auditsea
+Sure they do
+
+
+[09/01/2023 13:19] fulum
+in which scenario `isReLPActive` is set to true and trigger reLP function ?
+
+
+[09/01/2023 13:22] fulum
+I think this is the most recent doc https://dopex.notion.site/rDPX-V2-RI-b45b5b402af54bcab758d62fb7c69cb4
+
+{Embed}
+https://dopex.notion.site/rDPX-V2-RI-b45b5b402af54bcab758d62fb7c69cb4
+rDPX V2 RI
+rDPX V2 is a new system which involves a series of changes and additions to the current utility of the rDPX token.
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/https%253A%252F%252Fs3-us-west-2.amazonaws-AA66C.png
+
+{Reactions}
+🔁 
+
+[09/01/2023 13:23] auditsea
+When rDPX price goes down
+
+
+[09/01/2023 13:28] evokid
+@tztokchad dmed fren
+
+
+[09/01/2023 13:30] 0k_sec
+where can i found the ratio of the Backing Reserve ?
+
+
+[09/01/2023 13:31] auditsea
+There is no ratio, discounted amount goes to the backing reserve
+
+
+[09/01/2023 13:32] 0k_sec
+in the `Redemption` it mentioned that redemption is depend on the current rdpx ratio
+
+
+[09/01/2023 13:33] auditsea
+Yeah, so it will be defined in the implementation of ReceiptToken
+
+
+[09/01/2023 13:33] auditsea
+All the redemption logic I mean
+
+{Reactions}
+👍🏻 
+
+[09/01/2023 13:33] 0k_sec
+thanks sir
+
+
+[09/01/2023 13:34] auditsea
+Welcome. However I am not from protocol team so I might be wrong 😅
+
+
+[09/01/2023 13:37] 0k_sec
+no its clear enough, thanks sir
+
+{Reactions}
+🫡 
+
+[09/01/2023 13:56] asui0944
+what is actually deposited in the rdpxV2ReceiptToken.deposit ( amount / 2 ) ? 
+Is it weth?
+
+
+[09/01/2023 14:03] auditsea
+It's the amount, in the ReceiptToken implementation contract, it will transfer both dpxETH and WETH
+
+
+[09/01/2023 14:05] asui0944
+where  can i find this receiptToken contract
+
+
+[09/01/2023 14:05] 0k_sec
+i think its refers to weth/dpxETH or by another meaning:
+
+
+[09/01/2023 14:06] 0k_sec
+the amount user will stake in the pool and the amount the core contracts using it mint dpxETH as  i know
+
+
+[09/01/2023 14:10] auditsea
+For example, check out ReceiptTokenMock contract
+
+
+[09/01/2023 14:12] asui0944
+oh! so when _stake is called amount/2 is deducted from the reserves of weth and amount / 2 is dpxETH is mint so that weth and dpxEth amount is the same and both the tokens are deposited and the receiptTokenAmount is returned which represents the weth/dpxEth amount ?
+
+
+[09/01/2023 14:12] asui0944
+ok thanks
+
+
+[09/01/2023 14:16] 0k_sec
+i belive the logic is worked like that and @psytama can confirm this if its true
+
+
+[09/01/2023 14:17] 0xpsytama
+yes the receiptTokens will represent the total amount.
+
+{Reactions}
+👍🏻 
+
+[09/01/2023 14:24] ladboy233
+Do we have the code for RdpxV2ReceiptToken, I can only see the MockRdpxV2ReceiptToken contract
+
+
+[09/01/2023 14:24] ladboy233
+this question has been asked several times
+
+
+[09/01/2023 14:24] parsely.
+No not yet
+
+
+[09/01/2023 14:24] ladboy233
+or the logic inside RdpxV2ReceiptToken is not in-scope?
+
+
+[09/01/2023 14:24] auditsea
+Sure it's not
+
+
+[09/01/2023 14:44] magu1225
+thanks!
+
+
+[09/01/2023 14:45] fulum
+Yes after many questions it's out of scope
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/image-795E6.png
+
+
+[09/01/2023 15:22] asui0944
+if putOptionsRequired is ture it purchase an option what is the purpose of this  purchase options and settle
+
+
+[09/01/2023 15:23] asui0944
+i think I came accross a twitter thread about this but i didnt read it properly
+
+
+[09/01/2023 15:24] 0k_sec
+did the rdpxRequired that users send will not return back to the user? i understand it will be burn and send to veDPX holder but want to make sure this is the case.
+
+
+[09/01/2023 15:31] asui0944
+to my understanding when user redeem their bond they will get the receip token which is the token that represents the eth/dpxEth so yeah rdpx will not be returned to the user
+
+{Reactions}
+👍🏻 
+
+[09/01/2023 15:32] 0k_sec
+That what I thought, thanks sir
+
+
+[09/01/2023 15:40] 0x11singh99
+Which contract is Tresury REserves and which is backing reserves
+
+
+[09/01/2023 15:40] 0x11singh99
+??
+
+
+[09/01/2023 16:48] evokid
+they represent the global variable in core contract such as ReserveAsset
+
+
+[09/01/2023 17:38] superman_i4g
+Hey, Quick question; what happens to the token after the emergencyWithdraw is called in UniswapV2 liquidity pool?
+
+
+[09/01/2023 18:47] 0k_sec
+It all send to the msg.sender which they plan to update it to become specific contract
+
+{Reactions}
+✅ (2) 
+
+[09/01/2023 19:35] 0k_sec
+where can i found the StableSwap contract please ?
+
+
+[09/01/2023 19:37] trtrth
+Just trace from curve factory which address is in test files
+
+
+[09/01/2023 19:38] 0k_sec
+which one please ?
+
+
+[09/01/2023 19:38] trtrth
+It is in Setup.t.sol
+
+
+[09/01/2023 19:38] 0k_sec
+thanks ser
+
+
+[09/01/2023 19:43] 0k_sec
+in this line did we say if token0 is  weth then return the  token0:token1 ? 
+```
+address coin0 = dpxEthCurvePool.coins(0);
+        (uint256 a, uint256 b) = coin0 == weth ? (0, 1) : (1, 0);
+```
+
+
+[09/01/2023 20:39] yashar0x
+@psytama Sir would you please accept the friend req?
+
+{Reactions}
+👍 
+
+[09/01/2023 21:23] jaimebarrancos
+@psytama  Dm'd you
+
+
+[09/02/2023 04:24] magu1225
+@psytama Sir would you please accept the friend req?
+
+
+[09/02/2023 06:35] shawon2212
+there is this comment  "// You need to approve 0 every time beforehand for USDT: it resets"
+
+
+[09/02/2023 06:36] shawon2212
+this comment is inside `approveTarget` function of UniV3LiquidityAmo.sol. can someone please explain what it means?I'm new to this so,this may sound a bit stupid
+
+
+[09/02/2023 06:46] shawon2212
+@psytama
+
+
+[09/02/2023 07:14] mrosas
+What are the decimals for rdpx? @psytama send you a friend request too
+
+
+[09/02/2023 07:20] strausses
+Ask somebody again about it. But I've heard that both "Uni" contracts will work only with  rdpx/eth pool.
+https://discord.com/channels/810916927919620096/1141863563326128260/1146045347286749274
+
+{Reactions}
+👍🏻 
+
+[09/02/2023 07:37] superman_i4g
+Good question
+Been hovering around this too
+
+
+[09/02/2023 07:39] superman_i4g
+It’s 18 tho
+
+
+[09/02/2023 07:40] mrosas
+Is it stated in the documentation?
+
+
+[09/02/2023 07:40] t1moh
+It is stated in live contract of RDPX
+
+
+[09/02/2023 07:40] superman_i4g
+No, I don’t think so
+
+
+[09/02/2023 07:40] superman_i4g
+Correct✅
+
+
+[09/02/2023 07:41] mrosas
+Thanks~~
+
+
+[09/02/2023 07:57] mrosas
+Is there a differenc between the mock oracle and the oracle contract?
+
+
+[09/02/2023 10:13] 0xtendency
+@tztokchad please check dm
+
+
+[09/02/2023 10:18] parsely.
+I have a question please, it's more about the tokenomics than the code.
+My understanding is dpxETH is 1:1 with ETH.
+Q1: How is the value of the dpxETH determined? 
+I read the documents about the backing reserves.
+Do the reserves guarantee that the price will remain 1:1? 
+What if the price drops and we've called lowerDepeg and there are no more dpxEth to burn (or can they be minted via another way than upperDepeg function)? 
+
+Q2: What incentive is there besides the fee for a user to `addDelegate`? My understanding (and tests) are that if nobody uses their eth, they just get their ETH back?
+ What is the likelihood of that happening?
+
+DISCLAIMER: This may have been discussed or it may display my lack of understanding of the code base, either way please forgive
+
+
+[09/02/2023 11:14] tztokchad
+1. Since dpxeth is minted against 50% of bonded value in eth that is provided by the bonders, it would always maintain peg unless someone takes up a significant cost by purchasing dpxeth from the curve pool (and facing slippage and getting arbed), dumping it en masse (again facing slippage and getting arbed)
+
+
+[09/02/2023 11:15] tztokchad
+Along with a reasonable A factor it becomes very hard to depeg dpxeth
+
+
+[09/02/2023 11:16] tztokchad
+2. If they delegate their eth, they get to take a % of the bonded value of receipt tokens based on the fee they charge from rdpx holders.
+
+
+[09/02/2023 11:26] parsely.
+Thank you very much for the responses, my understanding is it would happen this way if someone bonded with the delegate id, but if not, the depositor just receives their deposit back.
+Is that a "risk" (not really a risk) they take, that no one will use their ETH and they just withdraw and get their money back (ie there is no gauarantee of any return for depositing unless its used)
+
+
+[09/02/2023 11:28] 0xpathfindr
+What is the denomication of the rdpxReserve 
+
+from this IRdpxReserve(addresses.rdpxReserve).rdpxReserve()?
+
+
+[09/02/2023 11:28] 0xpathfindr
+1e18 ?
+
+
+[09/02/2023 11:49] 0xtendency
+@tztokchad I sent a fr, please check when free
+
+
+[09/02/2023 11:51] 0xpathfindr
+@tztokchad same
+
+
+[09/02/2023 12:09] fulum
+@tztokchad in which scenario isReLPActive is set to true and trigger reLP function ?
+
+
+[09/02/2023 12:12] superman_i4g
+The perfect answer to this; 
+
+1. If use_safe_approve is true, it uses a safe approval method called safeApprove from TransferHelper. This method is used for tokens like USDT and requires resetting the approval to zero before each new approval.
+
+2. If use_safe_approve is false, it uses the standard approve method from the token contract (assumed to implement the ERC-20 standard) to approve the specified address to spend the specified amount of tokens.
+
+{Reactions}
+🫡 
+
+[09/02/2023 12:14] parsely.
+Please correct my understanding if it is incorrect, but just sharing here so it may be helpful to others
+1. User A -> addTodelegate , (NOTE: they can withdraw the unused portion of their deposit at any time -> but they will never get back in the `withdraw` function all their ETH if any was used.)
+
+2. any user -> `bondWithDelegate.` using delegate id  created by step `1`.
+
+3. A new bond id (RdpxV2Bond) is minted to `User A `(and the user but POV is depositor in this scenario).
+
+4. After maturity of bond User A can redeem the receiptTokens from the bond minted in step `3`
+
+Step `3` takes into account the `fee` so the amount of tokens added include the fee portion no need claim it later.
+
+
+[09/02/2023 12:26] mrosas
+is something wrong with the infura node? https://arbitrum-mainnet.infura.io/v3/c088bb4e4cc643d5a0d3bb668a400685
+
+
+[09/02/2023 12:27] mrosas
+unable to run forge test apparently
+
+
+[09/02/2023 12:31] parsely.
+Not sure, I changed the rpc to mine from Alchemy a while back, so been testing using my own.
+
+
+[09/02/2023 12:32] parsely.
+but i can confirm mine still works, if that helps in any way
+
+
+[09/02/2023 12:32] mrosas
+How do you change it? Can you guide me?
+
+
+[09/02/2023 12:32] mrosas
+Im very sure that the node is down
+
+
+[09/02/2023 12:32] mrosas
+No issue earlier
+
+
+[09/02/2023 12:33] parsely.
+In the Setup.t.sol of the tests
+
+
+[09/02/2023 12:34] parsely.
+there is a line ; string internal constant ARBITRUM_RPC_URL =
+
+
+[09/02/2023 12:34] parsely.
+change that to the one you wish to use
+
+
+[09/02/2023 12:38] mrosas
+oh i can just use my own hosted one?
+
+
+[09/02/2023 12:38] mrosas
+Didn't know that
+
+
+[09/02/2023 12:47] parsely.
+You can register for one at any of the RPC providers, Alchemy ,infura etc https://www.alchemy.com/list-of/rpc-node-providers-on-ethereum
+
+{Embed}
+https://www.alchemy.com/list-of/rpc-node-providers-on-ethereum
+List of 21 RPC Node Providers on Ethereum (2023)
+Discover 21 RPC Node Providers on Ethereum with Alchemy's Dapp Store. Also explore related collections including Indexing Tools, Layer 1 Blockchains (L1s), Layer 2 Blockchains. Is your project missing from the list of RPC Node Providers on Ethereum? Submit your project and we'll review it!
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/638397e8c637a19d17173e89_Q-jpX00iIN1-BBNyK-B0D26.png
+
+
+[09/02/2023 12:48] parsely.
+there are free and paid options
+
+
+[09/02/2023 13:33] 0k_sec
+as i understand `provideFunding` will pay the treasury after initial paid by the users right ?
+
+
+[09/02/2023 13:34] mrosas
+@psytama  I have sent you a request
+
+
+[09/02/2023 13:47] 0k_sec
+did we pay the premium to the perp vault at the end of the epoch ? day 7 or day 14 for example ?!
+
+
+[09/02/2023 13:51] fulum
+send dm @tztokchad
+
+
+[09/02/2023 14:15] tztokchad
+It's when the rdpx v2 system is going to be targeting an increased price ratio from every bond
+
+{Reactions}
+👍 
+
+[09/02/2023 14:16] tztokchad
+It's correct
+
+
+[09/02/2023 14:17] mrosas
+What is the erc20 tokens used for premium? when depositing
+
+
+[09/02/2023 14:17] mrosas
+```
+To mint a bond carrying approx. 1 Receipt Token you will deposit 25 rDPX (25%) & 0.75 ETH (75%) + the premium for the size of the rDPX provided for an rDPX Atlantic Perpetual PUT option which is 25% out of the money. You receive a discount on the rDPX & ETH provided.
+```
+
+
+[09/02/2023 14:19] 0k_sec
+rdpx probably, as we set the amount in the purchase function as rdpx, sponser can correct it if i'm wrong
+
+
+[09/02/2023 14:20] mrosas
+@tztokchad Have sent a friend request
+
+
+[09/02/2023 14:21] 0k_sec
+can you explain the last line about the point 3 please , want to understand this better
+
+
+[09/02/2023 14:26] 0xvj
+@psytama sent you a dm
+
+{Reactions}
+👍🏽 
+
+[09/02/2023 15:18] parsely.
+Sure: When a user calls `bondWithdelegate` 
+The flow is:
+`bondWithdelegate`->`_bondWithDelegate` ->which calls `_calculateAmounts` as part of its flow. this sends in the `fee` of the delegate.
+
+`_calculateAmounts` returns 2 values both of which are used to create bonds, one  for the user and one for the depositor.
+
+These return values take into account the fee that is set by the depositor:
+```
+// account for delegate fee
+    amount1 = (amount1 * (100e8 - _delegateFee)) / 1e10;
+
+    amount2 = _amount - amount1;
+```
+So when the bond is created the fee is already taken into account
+
+{Reactions}
+❤️ 
+
+[09/02/2023 15:53] mert_eren#2527
+hey @psytama  can u look at dm
+
+
+[09/02/2023 15:57] maxwell4426
+The addassettotokenreserve function, does it take any asset or token? What are the exceptions?
+
+
+[09/02/2023 16:22] mrosas
+@psytama dmed u
+
+
+[09/02/2023 16:31] 0k_sec
+Thank you ser 🫡
+
+
+[09/02/2023 18:14] evokid
+@tztokchad Dmed friend
+
+
+[09/03/2023 05:46] delerrh
+@psytama Dmed you
+
+
+[09/03/2023 08:34] mrosas
+@tztokchad @psytama Dmed
+
+
+[09/03/2023 09:32] mlome
+What is the goal of the `provideFunding()` function in Core? When is it supposed to be used?
+
+
+[09/03/2023 09:33] 0xnirlin
+At the start of every epoch, admin first calls the calculateFunding() and than provideFunding() to pay the required premium amounts for the epoch from core. And than this funding is slowly dripped during the epoch along with the new premiums.
+
+{Reactions}
+👍 
+
+[09/03/2023 09:37] gjaldon
+Are Analysis Reports required now?
+
+
+[09/03/2023 09:38] kaveyjoe
+Not necessirliy
+
+{Reactions}
+🙏🏼 ✅ 
+
+[09/03/2023 09:38] gjaldon
+I see. Was getting a warning about having to submit an Analysis report when submitting a finding
+
+
+[09/03/2023 09:39] kaveyjoe
+not a warning , just a suggestion
+
+
+[09/03/2023 11:06] dimulski
+@psytama Dmed
+
+{Reactions}
+👍🏽 
+
+[09/03/2023 11:06] dimulski
+@tztokchad please accept my FR
+
+
+[09/03/2023 11:53] qpzm
+What is the precision for `reLPFactor`?  Is it `DEFAULT_PRECISION` 1e8?
+
+
+[09/03/2023 14:56] 0xpsytama
+yes
+
+{Reactions}
+👍 
+
+[09/03/2023 15:12] evokid
+@tztokchad dmed
+
+
+[09/03/2023 17:54] asui0944
+Where can i find the rdpxPriceOracle contract or address (if its already deployed) ?
+
+
+[09/03/2023 18:43] 0k_sec
+what ` bool validate` refers to in the `curveSwap` function please ? why it exist ?!
+
+
+[09/03/2023 19:21] tofunmi
+https://arbiscan.io/address/0xa70bf62578aadb37032c73f01873bcc7dcef1b9c
+
+{Embed}
+https://arbiscan.io/address/0xa70bf62578aadb37032c73f01873bcc7dcef1b9c
+Dopex: Rdpx Price Oracle | Address 0xa70bf62578aadb37032c73f01873bc...
+The Contract Address 0xa70bf62578aadb37032c73f01873bcc7dcef1b9c page allows users to view the source code, transactions, balances, and analytics for the contract address. Users can also interact and make transactions to the contract directly on Arbiscan.
+
+
+[09/03/2023 19:25] asui0944
+this doesn't have getRdpxPriceInEth function? 
+Is this not going to be used by the dpxV2 system? are they deploying a new oracle?
+
+
+[09/03/2023 19:31] tofunmi
+But it has getPriceInUsd ???
+
+
+[09/03/2023 19:33] asui0944
+but the core contract calls the getRdpxPriceInEth function
+
+
+[09/03/2023 19:40] tofunmi
+just tweak the mocks to use real time price from getPriceInUsd, one could have been deployed , who knows
+
+
+[09/03/2023 20:03] asui0944
+Ok thanks
+Just wanted to see if they return the same value or decimals the mock returns 5e8 
+Wanted to check something
+
+
+[09/03/2023 20:07] 0k_sec
+`Rdpx V2 Core can redeem Rdpx/ETH lp tokens ot buy back and burn DpxEth` what ot means in this line please ?
+
+
+[09/03/2023 20:31] aba1842
+it's probably a typo, since r is next to t on the keyboard and the `ot` would be `or`. You can verify this in code
+
+{Reactions}
+❤️ 
+
+[09/03/2023 20:31] 0k_sec
+oh i see, thanks ser
+
+{Reactions}
+👍 🥮 
+
+[09/03/2023 21:52] asui0944
+some mocks have 5e8 or 5e6 for pricing can i assume the real contract will also return the same decimals(if that's what its called) the 0s
+
+
+[09/04/2023 03:30] olanre_waju
+over 1k already:4739_Skeletor:
+
+
+[09/04/2023 03:30] olanre_waju
+una dey para for here o😂
+
+{Reactions}
+😅 
+
+[09/04/2023 04:20] 0x11singh99
+what submissions ?
+
+
+[09/04/2023 05:53] 0xnirlin
+its is in e8, 5e8 means lets say 5$ than 5e6 means 0.05
+
+
+[09/04/2023 06:12] superman_i4g
+Wait, you 9jerian?
+
+
+[09/04/2023 07:14] 0x11singh99
+decimals in rdpx token
+
+
+[09/04/2023 07:28] 0xtendency
+18 dp
+
+{Reactions}
+👍🏻 
+
+[09/04/2023 08:49] asui0944
+When calculating rdpxRequired are we dividing it by the rdpx amount in weth so that the values are both in weth 
+Example. 5 is the amount of  rdpx required before calculating the value in weth and the rdpxAmountInEth is 0.2 then 5/0.2 is 25 hence the rdpxRequired will be 25
+
+
+[09/04/2023 08:55] asui0944
+I was confused cuz the mock oracle rdpx to eth returns 5e8 so when dividing by precision (1e8) we get 5 which doesn't make sense this means rdpx is greater than weth
+If my understanding is correct the real oracle will return value less than 5e8 right? So that when we divide by precision the rdpxAmountInEth become something like 0.05
+
+
+[09/04/2023 11:20] 0xtendency
+@psytama @tztokchad please who is available?
+
+{Reactions}
+👍🏽 
+
+[09/04/2023 12:02] fulum
+dm you @psytama @tztokchad
+
+{Reactions}
+👍🏽 
+
+[09/04/2023 12:59] slavcheww
+dmed u @psytama
+
+{Reactions}
+👍🏽 
+
+[09/04/2023 14:58] evokid
+dmed @psytama
+
+{Reactions}
+👍🏽 
+
+[09/04/2023 15:16] 0xrizwan
+@psytama Please check DM.
+
+{Reactions}
+👍🏽 
+
+[09/04/2023 18:32] anirruth
+will strike be in e8 terms
+
+
+[09/04/2023 20:32] 0k_sec
+weird question, did 5e5 refers to 500000 ? 🫠
+
+
+[09/04/2023 20:46] superman_i4g
+Yes
+
+{Reactions}
+❤️ 
+
+[09/04/2023 20:47] 0k_sec
+thanks ser 🙂
+
+
+[09/04/2023 20:47] superman_i4g
+5 x 10 with power of 5
+
+{Reactions}
+❤️ 
+
+[09/04/2023 20:49] asui0944
+how are you active everywhere i see you on the ondo chat too 
+how do you even keep up with multiple audits simultaneously?
+
+
+[09/04/2023 20:50] asui0944
+leave some bugs for us
+
+{Reactions}
+😂 (3) 
+
+[09/04/2023 20:50] asui0944
+🥲
+
+
+[09/04/2023 20:50] 0k_sec
+great, thanks for explaining ser
+
+{Reactions}
+👏🏽 
+
+[09/04/2023 20:51] 0k_sec
+i'm trying a mechanism and see if it work to manage two contests in same time, lol
+
+{Reactions}
+🔥 
+
+[09/04/2023 20:52] asui0944
+I see 
+good luck with that,  my head is going crazy with just one contest lol👍
+
+
+[09/04/2023 20:54] 0k_sec
+thanks ser, i think you can manage two contest but its hard to be honest and  i never recommend to do that, but if you do then at least try to controll over one of them so you have time for the other contest before it start(different in start-end time have important rule)
+
+{Reactions}
+👍 
+
+[09/04/2023 21:50] 0k_sec
+what this line do please ? 
+`        (uint256 a, uint256 b) = coin0 == weth ? (0, 1) : (1, 0);`
+
+
+[09/04/2023 21:52] 0xtendency
+```
+address coin0 = dpxEthCurvePool.coins(0);
+
+```
+The token at the zero index is set to the variable coin0
+
+
+[09/04/2023 21:54] 0xtendency
+Your above mentioned check, checks if the token at the 0 index is weth, if it is, it sets a to be index 0 and b index 1, else, sets a as index 1 and b as index 0.
+The goal is to keep a to point to weth and b to be any other token, like rdpx
+
+{Reactions}
+❤️ 
+
+[09/04/2023 21:59] 0k_sec
+Thank you sir
+
+{Reactions}
+🙏 
+
+[09/05/2023 06:02] 0xvj
+@psytama sent you a dm
+
+{Reactions}
+👍🏽 
+
+[09/05/2023 06:35] anirruth
+will strike price be in e8
+
+
+[09/05/2023 06:36] delerrh
+Yes
+
+
+[09/05/2023 06:38] anirruth
+thanks
+
+{Reactions}
+👍 
+
+[09/05/2023 11:10] asui0944
+when purchasing options why is there a timeToExpiry
+
+
+[09/05/2023 12:30] 0xffchainx
+That is generally in the nature of options, an option to buy or sell has to expire
+
+
+[09/05/2023 12:38] asui0944
+but i dont see it being used 
+its used to calculate the premium but not used when the option is minted 
+or did i get it wrong
+
+
+[09/05/2023 13:04] 0k_sec
+the `timeToExpiry` is used for the calculating as options did not have expire time but they can be exercised when its ITM.
+
+
+[09/05/2023 13:08] asui0944
+Ok so option doesn't have a time to expire but 
+What can timeToExpire impact does it impact the only the premium calculation
+
+
+[09/05/2023 13:09] 0k_sec
+i think yes, the put option will be exercised when its at ITM.
+
+
+[09/05/2023 13:11] asui0944
+Then this timeToExpire is not an actual expire time? 
+I was confused in the confused because overtime the timeToExpire will become very2 large
+
+
+[09/05/2023 13:12] asui0944
+There's not much time left so I was wondering if the timeToExpire value becomes too big can it affect anything
+
+
+[09/05/2023 13:14] asui0944
+(genesis + ((latestFundingPaymentPointer - 1) * fundingDuration)) 
+here the fundingDuration is 7 so at some point the latestFundingPaymentPointer will become a very large number cuz it is incremented everytime when bond is called
+
+
+[09/05/2023 13:30] 0k_sec
+i don't think latestFundingPaymentPointer  become very large as this point to the epoch i think
+
+
+[09/05/2023 13:30] 0k_sec
+it will updated every time an epoch ended as i understand the code
+
+
+[09/05/2023 13:32] asui0944
+I didn't see any function that would decrease the latestFundingPaymentPointer so 
+Anyways I think I should just skip this 
+Thanks though🫡
+
+
+[09/05/2023 13:33] 0k_sec
+Dm me if you need to understand this as  i think we should not talk about the code in deep in public channel @asui
+
+{Reactions}
+👍 
+
+[09/05/2023 14:15] asui0944
+hello ser!
+
+
+[09/05/2023 14:15] asui0944
+Sorry but just one more question?
+
+
+[09/05/2023 14:17] evokid
+Nice dm over here 😆
+
+{Reactions}
+😅 (2) 🤣 (4) 💀 
+
+[09/05/2023 16:29] 0xvj
+@psytama @here dpxETH/ETH curve pool will be a stableswap pool right?
+
+
+[09/05/2023 16:35] 0xpsytama
+Yes
+
+{Reactions}
+👍 (2) 
+
+[09/05/2023 16:51] 0xnirlin
+can there be more reserve assets except for the rdpx and weth
+
+
+[09/05/2023 16:51] 0xnirlin
+in core?
+
+
+[09/05/2023 16:51] 0xnirlin
+@psytama
+
+
+[09/05/2023 17:18] qiuhaoli
+When I submit report, I get a error says "Internal server error.". Anyone has the same issue? CC @PaperParachute | C4
+
+
+[09/05/2023 17:21] 0xffchainx
+Same here !
+
+
+[09/05/2023 17:23] evokid
+it was working but stopped again now
+
+
+[09/05/2023 17:23] olanre_waju
+Judge and Lookout of this contest, well-done in advance, God will help you 🫡 :4739_Skeletor:
+
+{Reactions}
+👍 
+
+[09/05/2023 17:24] itsmetechjay
+Github has been experiencing some issues today
+
+{Reactions}
+🫡 
+
+[09/05/2023 17:24] qiuhaoli
+Alreadly tried half one hour...
+
+
+[09/05/2023 17:24] 0xnirlin
+wait a minute let me submit everything than will say good luck together.
+
+
+[09/05/2023 17:24] 0xnirlin
+F. I need to submit QA and analysis
+
+
+[09/05/2023 17:24] __141345__
+same "Internal server error."
+
+
+[09/05/2023 17:25] 0xnirlin
+same
+
+
+[09/05/2023 17:25] evokid
+https://www.githubstatus.com/ back to normal
+
+{Embed}
+https://www.githubstatus.com/
+GitHub Status
+Welcome to GitHub's home for real-time and historical data on system performance.
+
+
+[09/05/2023 17:25] 0xnirlin
+internal server error
+
+
+[09/05/2023 17:25] 0xvj
+same
+
+
+[09/05/2023 17:25] 0xnirlin
+
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/image-3DD9A.png
+
+
+[09/05/2023 17:26] evokid
+that's my point, the github issue solved but this issue still on
+
+
+[09/05/2023 17:26] 0xnirlin
+got it
+
+{Reactions}
+hi5 
+
+[09/05/2023 17:27] itsmetechjay
+We are looking into it
+
+{Reactions}
+🫡 (2) 
+
+[09/05/2023 17:29] 0xvj
+I still have some findings that i didn't submit 🙂
+
+
+[09/05/2023 17:29] etherhood
+I am getting this error while submitting the finding
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/Screenshot_2023-09-05_at_10.59.09_PM-3ACCD.png
+
+
+[09/05/2023 17:30] 0xnirlin
+I have many :thisisfine:
+
+
+[09/05/2023 17:30] 0xnirlin
+hamesha dair kr deta hu @DevABDee
+
+{Reactions}
+😂 
+
+[09/05/2023 17:31] 0x11singh99
+Internal server error.    @psytama @thebrittfactor | C4
+
+
+[09/05/2023 17:31] 0xvj
+congrats 😂
+
+
+[09/05/2023 17:31] itsmetechjay
+@🐺wardens We are aware there is an issue submitting findings - please standby while we investigate
+
+{Reactions}
+✅ (9) 
+
+[09/05/2023 17:31] 0xnirlin
+c4 need audit for servers hehe
+
+{Reactions}
+chefskiss (3) 
+
+[09/05/2023 17:38] nethoxa
+and for the website, there are times when my CPU goes up to 95% by da face when I open the C4 website or make a submission @Jay | C4 IDK if it happens to someone else, though
+
+
+[09/05/2023 17:40] evokid
+I have my CPU 95% by default 😆
+
+
+[09/05/2023 17:41] nethoxa
+LOL which CPU are you using xD
+
+{Reactions}
+😂 
+
+[09/05/2023 17:41] nethoxa
+that's awesome
+
+
+[09/05/2023 17:42] nethoxa
+TLDR -> valorant
+
+{Reactions}
+😆 (2) 
+
+[09/05/2023 17:42] 0k_sec
+Please increase time by 1-3 hours at least so we can submit all the reports we have
+
+
+[09/05/2023 17:42] uncle Jeff#4407
+smtg smtg btw I use arch joke
+
+
+[09/05/2023 17:42] nethoxa
+ban
+
+{Reactions}
+😂 
+
+[09/05/2023 17:42] nethoxa
+xD
+
+
+[09/05/2023 17:43] talfao
+I think it is not necessary, just if the shutdown will take too long, but nothing prevents you to write reports to some notebook
+
+
+[09/05/2023 17:44] 0k_sec
+But you can’t just send lot findings in one time if the fix took so long 🙂
+
+
+[09/05/2023 17:44] nethoxa
+@here the servers seems to be working now
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/image-35CF7.png
+
+
+[09/05/2023 17:46] 0xvj
+Noice
+
+
+[09/05/2023 17:46] blutorque
+cool its working
+
+
+[09/05/2023 17:46] viktor_cortess
+I can’t even imagine how many submissions will be if the server is done. More than 2k maybe
+
+
+[09/05/2023 17:46] 0xnirlin
+working
+
+
+[09/05/2023 17:46] nethoxa
+well there are many contests RN, so it should be normal
+
+
+[09/05/2023 17:47] 0xnirlin
+This one have more participation, it started first among all the active ones
+
+{Reactions}
+👍 
+
+[09/05/2023 17:49] itsmetechjay
+Looks like the submission form is working again - we are keeping an eye on things and monitoring the situation.
+
+
+[09/05/2023 17:51] kmanofficial
+Hi, does anyone know how to get VS code to resolve the contract dependencies for this project like openzeppelin etc? Trying to build some foundry tests for submissions - I normally just do manual code review
+
+
+[09/05/2023 17:52] viktor_cortess
+Try yarn install
+
+
+[09/05/2023 17:52] evokid
+Alright guys it is working ty C4 team :code4rena:
+
+{Reactions}
+hi5 
+
+[09/05/2023 17:54] chaduke3730
+@KmanOfficial under the home directory of depex at Github, there is a link to the openZeppelin's code, download the code as a zipfile and unzip it to the lib directory of dopex.
+
+
+[09/05/2023 17:54] chaduke3730
+In this way, we make sure we use the right versio of openZeppelin, newer version might not work sometimes
+
+
+[09/05/2023 17:55] kmanofficial
+Okay thanks @chaduke will do that right now
+
+
+[09/05/2023 17:55] chaduke3730
+@KmanOfficialYou are welcome, good luck
+
+
+[09/05/2023 18:06] 0xffchainx
+well, maybe someone should have told me this before I started. :4739_Skeletor:
+
+
+[09/05/2023 18:08] parsely.
+Just to share I was able to submit and edit a few, with no issues or slow response, so seems to be working fine from my side
+
+
+[09/05/2023 18:08] itsmetechjay
+Appreciate the update!
+
+
+[09/05/2023 18:27] t1moh
+Wow you returned, good to see you in contests!
+
+
+[09/05/2023 18:43] qiuhaoli
+@Jay | C4  It says "Internal server error." again.
+
+{Reactions}
+✅ 
+
+[09/05/2023 18:49] 0xtendency
+yes it is
+
+
+[09/05/2023 18:50] poneta_
+it says that for me as well
+
+
+[09/05/2023 18:50] poneta_
+@Jay | C4
+
+
+[09/05/2023 18:50] 0xtendency
+You can use CTRL + F
+
+
+[09/05/2023 18:50] 0xvj
+its okay the sponsor confirmed it
+
+
+[09/05/2023 18:51] itsmetechjay
+Looking into it @QiuhaoLi and @poneta
+
+{Reactions}
+✅ (3) 
+
+[09/05/2023 18:52] escrow1337
+can also confirm - same here.
+
+
+[09/05/2023 18:58] alymurtazamemon
+Again same issue
+
+
+[09/05/2023 18:59] 0k_sec
+same thing to me @Jay | C4
+
+
+[09/05/2023 19:00] etherhood
+it has started again
+
+
+[09/05/2023 19:05] 0x11singh99
+Internal servr error aggin to me
+
+
+[09/05/2023 19:06] 0xvj
+Internal server error again
+
+
+[09/05/2023 19:07] kartoonjoy
+Thanks for the updates all. We're working on it.
+
+
+[09/05/2023 19:07] 0xta
+@Jay | C4
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/image0-215F0.jpg
+
+
+[09/05/2023 19:07] gkrastenov
+the end date is changed to tomorrow
+
+
+[09/05/2023 19:07] kartoonjoy
+📢 Thanks for the updates all. We're working on it.
+
+
+[09/05/2023 19:08] manchasss.eth
+Audit got an extra day? 😮
+
+
+[09/05/2023 19:09] itsmetechjay (pinned)
+@🐺wardens Important update: since there are some issues with the audit form, we're extending the submission deadline by 24 hours. 
+
+(We're in the process of updating our website, etc. but you should see that change reflected everywhere soon.)
+
+{Reactions}
+10_10 (21) 🫡 (18) 
+
+[09/05/2023 19:09] kartoonjoy
+Pinned a message.
+
+
+[09/05/2023 19:09] poneta_
+thank you
+
+
+[09/05/2023 19:09] ladboy233
+extending by 24 hours maybe too long，but I respect the response
+
+{Reactions}
+👌 (9) 
+
+[09/05/2023 19:09] ladboy233
+😂:10_10: 👀👍
+
+
+[09/05/2023 19:10] __141345__
+should be 24 hr, considering time zone difference, for fairness
+
+{Reactions}
+👍 
+
+[09/05/2023 19:10] 0k_sec
+ser i was dying sending all reports in one hour, come on 😂
+
+{Reactions}
+😂 (11) 
+
+[09/05/2023 19:10] qiuhaoli
+Now I can sleep...
+
+{Reactions}
+hearteyesrobot (2) 🛌 
+
+[09/05/2023 19:11] escrow1337
+true, i didn't view it this way
+
+
+[09/05/2023 19:11] poneta_
+ahahha, I had the same thought
+
+
+[09/05/2023 19:11] 0xta
+It's workin again
+
+
+[09/05/2023 19:11] kartoonjoy
+Ok, lets again reserve this space for auditing questions for Dopex.
+
+
+[09/05/2023 19:11] 0xvj
+me too haha
+
+{Reactions}
+🫡 
+
+[09/05/2023 19:11] ladboy233
+ok
+
+{Reactions}
+thankyou 
+
+[09/05/2023 19:11] poneta_
+sure
+
+{Reactions}
+thankyou 
+
+[09/05/2023 19:12] matin6517
+Now the submission closure date is extended till tomorrow?
+
+
+[09/05/2023 19:14] 0k_sec
+yeah the webiste updated to 1 day
+
+
+[09/05/2023 19:20] 0xnirlin
+Oh damn
+
+
+[09/05/2023 19:20] 0xnirlin
+i am writing report for at least last 7 hours contantly
+
+
+[09/05/2023 19:20] 0xnirlin
+and had only one left and saw extended period lmao
+
+
+[09/05/2023 19:21] 0xnirlin
+excuding the time I put in morning. I am so dead rn. Last submission can wait till next 23 hours now. Going to sleep bye
+
+{Reactions}
+😂 (6) 
+
+[09/05/2023 19:22] viktor_cortess
+Anyway tomorrow right two minutes after the contest's closure we'll see that someone didn't manage to submit on time😂
+
+{Reactions}
+thisisfine (7) 
+
+[09/05/2023 20:09] t1moh
+2k+ already mindblowing. submission per line
+
+
+[09/05/2023 20:11] ladboy233
+idk why there are 2K submission
+
+
+[09/05/2023 20:11] ladboy233
+....
+
+
+[09/05/2023 20:11] aba1842
+tip: if you open the last of your finding in "Your Findings" you see in the URL the Id `?issue=2000`  that means it was the 2000th, for example
+
+
+[09/05/2023 20:13] t1moh
+You saved me from questions:chefskiss:
+
+
+[09/05/2023 20:14] 0xnevi
+dehell my last finding was 788
+
+
+[09/05/2023 20:14] aba1842
+I kind of understand why, there are a lot of "interpretable" corner cases that might happen, plus, the code is written in such a way that makes it hard to actually check the logic at times
+
+{Reactions}
+👍 (2) 
+
+[09/05/2023 20:14] viktor_cortess
+200 participants, 10 for each
+
+{Reactions}
+👀 
+
+[09/05/2023 20:14] 0xnevi
+Haha another one im might be facing pennies but oh well another learning lesson 🤣
+
+
+[09/05/2023 20:15] viktor_cortess
+I'm sure most of them will get to the QA
+
+
+[09/05/2023 20:15] 0xnevi
+Agree with this haha i have so many failing PoCs
+
+
+[09/05/2023 20:16] ladboy233
+yeah that sounds reasonable
+
+
+[09/05/2023 20:16] aba1842
+if we have enough for a shawarma I am happy
+
+
+[09/05/2023 20:16] aba1842
+🤜 🤛
+
+{Reactions}
+🔥 (8) 
+
+[09/05/2023 20:16] 0xnevi
+Yummy 💪
+
+
+[09/05/2023 20:19] viktor_cortess
+Guys, we have 24 hours more. Let's do it 2200 together
+
+{Reactions}
+😂 (2) pepemcdonalds AuraSadge 
+
+[09/05/2023 20:20] aba1842
+I bet it will increase naturally, like, there are a lot of people that submit only a few hours before
+
+
+[09/05/2023 20:25] 0k_sec
+you mean there is more than 2000 reports ? 
+
+high five to judges for now 🙂
+
+{Reactions}
+🫡 👍 
+
+[09/05/2023 20:26] 0k_sec
+https://tenor.com/view/good-lucky-you-gif-24958801
+
+{Embed}
+https://tenor.com/view/good-lucky-you-gif-24958801
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/good-lucky-288EB.png
+
+
+[09/05/2023 20:27] prott00n#2382
+Ye good luck to judges, especially that the code seemed to be a work in progress so judging this will be a nightmare
+
+
+[09/05/2023 20:49] evokid
+This one got me 😆
+
+{Reactions}
+🤍 
+
+[09/05/2023 21:03] 0xnirlin
+also code is at some points hard to follow, things that seem vulnerable initially are not that vulnerable on second look
+
+
+[09/05/2023 21:03] aba1842
+yeah, had like 3 or 4 "issues" invalidated when I made the POCs ... was like "ha? really? ... oh, yeah, there ... darn"
+
+{Reactions}
+✅ (2) 
+
+[09/05/2023 21:04] 0xnirlin
+:thisisfine: I have a very solid final high in mind that i think will end up like this most probably. But that case is very hard to test too 🥲
+
+
+[09/05/2023 21:05] aba1842
+you don't lose nothing by trying, give it your best!
+
+
+[09/05/2023 21:06] aba1842
+and if it is hard to test for you, it most definatelly is hard to test for anybody, so then it might be an obscure case
+
+
+[09/05/2023 21:06] 0xnirlin
+🫡 will do
+
+{Reactions}
+🫡 (2) 🥮 (2) 
+
+[09/05/2023 21:11] cluna80
+i have a question if someone can be so kind to help me really?
+
+
+[09/05/2023 21:11] cluna80
+its about the audit
+
+
+[09/05/2023 21:13] 0xnevi
+Solid until u go backstage and then 🇫😢
+
+
+[09/05/2023 21:16] cluna80
+if we are able to scan the whole directory after compiling it with forge and get a visual of all vulnerabilities.. whats the use of doing slither analysis on individual solidity contracts when you already have all vulnerabilities lised from doing slither . on the whole directory and just list them on the report.. am i getting something wrong?
+
+
+[09/05/2023 21:25] chris0xff
+different settings and stuff
+
+
+[09/05/2023 21:25] ladboy233
+feel you bro. typical auditing day haha
+
+{Reactions}
+NODDERS 
+
+[09/05/2023 21:29] chris0xff
+nothing gives you a visual of all vulnerabilities. some of the features on forge are newer than the lifetime of slither. results have to be rep[roducible so why would i trust the dev team's run of slither. also there are different settings
+
+
+[09/05/2023 21:30] chris0xff
+the point of having the shared automated scans is just so everyone has a common picture of the situation with the basic tools to start iwht
+
+
+[09/05/2023 21:30] 0xnirlin
+yeah, for one of my submission I am expecting 70+ dups lolll
+
+
+[09/05/2023 21:30] cluna80
+i see, so just go ahead and run slither on each of the scoped .sol file individually?
+
+
+[09/05/2023 21:30] chris0xff
+for what
+
+
+[09/05/2023 21:31] cluna80
+to find vulnerabilites
+
+
+[09/05/2023 21:31] 0xtendency
+I think I know what this issue is lol
+
+
+[09/05/2023 21:31] chris0xff
+yeah if u have the clock cycles
+
+
+[09/05/2023 21:31] 0xnirlin
+😂 will see your submissions first
+
+{Reactions}
+😂 
+
+[09/05/2023 21:32] jovi6132
+And those take 2 hours each 😭
+
+
+[09/05/2023 21:32] chris0xff
+ive had trouble writing about this codebase in a professional tone
+
+
+[09/05/2023 21:33] chris0xff
+i keep drifting back to angry neckbeard math olympiad serial-killer sentiments
+
+{Reactions}
+😂 (4) 
+
+[09/05/2023 21:36] jovi6132
+angry neckbeard math olympiad sounds like the avg sherlock pseudonym to me, you're probably on the right track haha
+
+
+[09/05/2023 21:42] t1moh
+Oops seems I missed something
+
+
+[09/06/2023 04:54] josephdara
+Fr😭😭
+
+
+[09/06/2023 05:27] 0xdalla
+hey I am just wondering why the audit got extended by one day
+
+
+[09/06/2023 06:02] mitko1111
+where can i find "your findigs", i couldnt find it anywhere
+
+
+[09/06/2023 06:09] bytes032
+https://discord.com/channels/810916927919620096/1141863563326128260/1148696302947938324
+
+{Reactions}
+thankyou (2) 
+
+[09/06/2023 10:14] .kim8222
+how does one "Link to all referenced sections of code in GitHub"
+
+
+[09/06/2023 10:56] fulum
+Just here
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/Screenshot_20230906_125629_Opera-69159.jpg
+
+
+[09/06/2023 11:03] VaRuN#2791
+does these issues account for high/medium only?
+
+
+[09/06/2023 11:24] t1moh
+They account all submission: withdrawn, H/M, QA, analysis, gas
+
+{Reactions}
+👍 
+
+[09/06/2023 11:50] dev0cloo
+You use the GitHub repo of the project. For any code you want to reference, you go to where it is in the repo, click the line the referenced code starts at and copy the url in your browser. It would look something like this "https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L109"
+
+If the referenced code spans multiple lines, you just look for the line it ends at and modify the url to include those by adding "-L<line number code ends at>" to the end of the GitHub url. So the above example would be "https://github.com/code-423n4/2023-08-dopex/blob/main/contracts/amo/UniV2LiquidityAmo.sol#L109-L112" for some code that spans 4 lines
+
+
+[09/06/2023 12:50] .kim8222
+what about the poc and details about the finding how do you atach that to the issue
+
+
+[09/06/2023 12:53] .kim8222
+do you have to use markdown
+
+
+[09/06/2023 13:00] jovi6132
+
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/image-74CD1.png
+
+
+[09/06/2023 13:00] jovi6132
+It helps a lot imho
+
+{Reactions}
+👏🏿 
+
+[09/06/2023 13:14] 0xvj
+@psytama please check your dm
+
+
+[09/06/2023 13:36] 0xumarkhatab
+Hi , in rdpxV2Core , does this mean 50% will be bonded ?
+
+```solidity
+  /// @notice The % of rdpx to burn while bonding
+  uint256 public rdpxBurnPercentage = 50 * DEFAULT_PRECISION;
+```
+
+
+[09/06/2023 14:08] olanre_waju
+
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/image-3F409.png
+
+{Reactions}
+🫡 
+
+[09/06/2023 15:52] 0xumarkhatab
+thanks @Olanrewaju
+
+{Reactions}
+🚀 
+
+[09/06/2023 17:34] 0xvj
+@psytama can you please check your dm?
+
+{Reactions}
+👍 
+
+[09/06/2023 19:09] kartoonjoy
+📢 Everyone please start wrapping up your submissions. Your audit closes in less than an hour. Thanks!
+
+{Reactions}
+❤️ (8) 
+
+[09/06/2023 19:53] 0k_sec
+as the contest will be end after 8 min i want to thank @psytama  for answering all my questions and helping me to understand the codebase much better 🫡 
+
+special thanks to @0xnev  too who helped a lot of wardens  and me in this contest :hi5:
+
+{Reactions}
+👏🏿 (5) 🙏 
+
+[09/06/2023 20:01] olanre_waju
+closed!!!
+
+
+[09/06/2023 20:01] t1moh
+@0xkazim should we expect to see you in leaderboard?
+
+{Reactions}
+👍🏻 (2) 
+
+[09/06/2023 20:01] olanre_waju
+@psytama big thanks man!!!🫡
+
+
+[09/06/2023 20:02] C4
+**🚨 AUDIT ALERT**
+
+@🐺wardens The **Dopex** audit is now closed! Huge thanks to everyone who participated 🔍, whether you submitted a finding or not.
+
+What's next: The sponsor team and judge will review the findings over the next couple of weeks. Keep an eye on #📢announcements for regular updates on how the audit is progressing through awarding 🤑🏆, judging 🧑‍⚖️ and reporting 📜. Feel free to ping a Contest-Admin if you have questions along the way!
+
+{Reactions}
+💪 (2) ❤️ 
+
+[09/06/2023 20:02] lsaudit
+how many issues have been reported?
+
+{Reactions}
+👀 
+
+[09/06/2023 20:03] olanre_waju
+probably 6k+ who knows...lol
+
+{Reactions}
+👀 😆 (3) 
+
+[09/06/2023 20:03] 0xvj
+2.5k ig
+
+
+[09/06/2023 20:04] lsaudit
+😮
+
+
+[09/06/2023 20:04] 0k_sec
+I hope so ser 🙏🏻
+
+{Reactions}
+🫡 
+
+[09/06/2023 20:04] 0k_sec
+2103 something like that
+
+{Reactions}
+😮 
+
+[09/06/2023 20:09] uncle Jeff#4407
+was it that vulnerable or what?
+
+
+[09/06/2023 20:12] olanre_waju
+lol....number of submissions does not determine this, most will be invalidated anyways...lol
+
+{Reactions}
+👍🏻 (7) 
+
+[09/06/2023 20:57] prott00n#2382
+ofcourse it does, historically signifficant amount of vulnerabilities was exposing terrible code, probably many remember golom with 1k+ vulns, the protocol that was not even compiling
+
+{Reactions}
+👎 (9) 
+
+[09/06/2023 21:29] minh___
+he is talking about number of submissions here though, you are mixing things up
+
+
+[09/06/2023 22:35] kartoonjoy
+Started a thread.
+
+
+[09/07/2023 01:32] kaveyjoe
+2060
+
+{Reactions}
+😮 (5) 
+
+[09/07/2023 06:01] talfao
+ooomg
+
+
+[09/07/2023 20:45] akrios47
+I submitted 2 reports where can I see if it's valid?
+
+
+[09/07/2023 20:51] t1moh
+Wait until they are judged with the other 2k reports
+
+{Reactions}
+🙀 (3) 🤣 
+
+[09/08/2023 04:58] banditx0x
+2 valid findings 40 dupes. 1c prize
+
+{Reactions}
+😂 (13) 
+
+[09/08/2023 06:06] akrios47
+?
+
+
+[09/08/2023 12:55] lukejohn_
+How many people participated?
+
+
+[09/12/2023 15:59] uncle Jeff#4407
+the sheer urge to say "updates?" every 5 minutes
+
+
+[09/12/2023 15:59] uncle Jeff#4407
+i guess C4 teaches u patience more than anything else
+
+{Reactions}
+💯 (7) 
+
+[09/12/2023 17:16] aba1842
+Auditors have no updates, only dates ❤️
+
+{Reactions}
+😳 (6) 
+
+[09/13/2023 05:15] 0x3b
+Wait what? I thought it was the opposite
+Maybe I am still not good enough to be an auditor
+
+{Reactions}
+😂 (7) 
+
+[09/13/2023 05:15] 0x3b
+Will stick to "security researcher" then
+
+
+[09/18/2023 15:28] talfao
+What is common period on code4arena for results?, when there were this huge amount of issues
+
+
+[09/18/2023 16:56] 0x3b
+well I think this protocol beated the highest submisions count
+
+
+[09/18/2023 16:56] 0x3b
+so it will probably take some time
+
+
+[09/18/2023 21:34] 0k_sec
+i think lookout guys will make the process a bit easier to judges and i guess it took 30-40 days as other contests imo 🙂
+
+lookout doing this job right ?
+
+
+[09/19/2023 04:11] 0x3b
+well lookouts help in every contest, not just the big ones
+
+{Reactions}
+💯 (2) 
+
+[09/19/2023 04:12] 0x3b
+recently c4 has been improving on the speed
+
+{Reactions}
+cyberheart (4) 
+
+[09/20/2023 10:36] mrosas
+Im really excited on this protocol
+
+
+[09/21/2023 15:32] 0x4ka5h
+when can we expect the results?
+
+
+[09/21/2023 16:23] 0xnirlin
+In a month at least
+
+{Reactions}
+4739_Skeletor (10) 
+
+[09/27/2023 09:12] block_chomper
+Will we be notified when the contest is in QA and we can respond to sponsor feedack?
+
+
+[09/27/2023 10:12] 0xsorrynotsorry
+Yes, just monitor the backstage channel.
+
+{Reactions}
+🫡 
+
+[09/27/2023 16:48] tapir31
+how to be in backstage sers?
+
+
+[09/27/2023 21:16] parsely.
+Hi @tapir here is the website link https://docs.code4rena.com/roles/certified-contributors/backstage-wardens
+
+{Embed}
+https://docs.code4rena.com/roles/certified-contributors/backstage-wardens
++Backstage wardens
+
+
+[09/28/2023 11:04] VaRuN#2791
+When can we expect the results?
+
+{Reactions}
+🤷🏻‍♂️ (2) 
+
+[09/28/2023 13:19] lourenslinde
+It's still going to be some time; huge contest with a lot of submissions.
+
+
+[10/01/2023 20:15] tamayonft
+hey guys i just wanna ask if all the issues have to be sponsor confimed to qualify as a valid?
+
+
+[10/02/2023 09:58] cloudellie
+No, the judge has the final say.
+
+
+[10/08/2023 13:10] zabihullahazadzoi
+When will be the results out for this contest?
+
+
+[10/08/2023 17:03] 0xffchain
+Probably third week this month.
+
+{Reactions}
+🔥 
+
+[10/08/2023 17:58] talfao
+So let's say that in two weeks?
+
+
+[10/08/2023 22:28] 0xffchain
+Probably, just a guess to be honest
+
+
+[10/08/2023 22:28] 0xffchain
+But I would say just give it the entire month.
+
+
+[10/12/2023 12:37] _paperparachute
+Can the following wardens please check DMs:
+
+@chaduke, @qpzm, @Toshii, @peakbolt, @0xkazim, @volodya, and @ABA
+
+{Reactions}
+👍 (4) 
+
+[10/13/2023 03:39] uncle Jeff#4407
+please check dms, pleaae check dms
+
+
+[10/13/2023 03:40] uncle Jeff#4407
+can the following wardens please check dms
+
+
+[10/13/2023 03:40] uncle Jeff#4407
+please check dms, please check dms
+
+
+[10/13/2023 06:14] chaduke3730
+@PaperParachute | C4I send you the POC
+
+{Reactions}
+thankyou (2) 
+
+[10/15/2023 04:10] 0xnirlin
+month more
+
+
+[10/15/2023 16:09] tamayonft
+i alreay know what was the best ones
+
+
+[10/15/2023 16:25] _paperparachute
+My DM was simply asking for further information on findings. Was unrelated to quality of findings, or severity 🙂
+
+
+[10/15/2023 16:47] tamayonft
+👍 Thanks
+
+
+[10/15/2023 17:35] zabihullahazadzoi
+@PaperParachute | C4 
+How long more it will take? 🙃
+
+
+[10/17/2023 15:13] visualbits
+https://tenor.com/view/love-languages-hearts-of-happiness-gif-25122173
+
+{Embed}
+https://tenor.com/view/love-languages-hearts-of-happiness-gif-25122173
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/love-languages-937DE.png
+
+{Reactions}
+😂 
+
+[10/17/2023 17:22] 0k_sec
+Maybe next week 🫠
+
+
+[10/17/2023 18:17] 0xnevi
+I think people forget this had 2k+ submissions. Be patient friends 😄
+
+{Reactions}
+goose (2) 👍🏻 
+
+[10/17/2023 19:03] visualbits
+We are all waiting to find out why this contest has +2k submissions 😄
+
+{Reactions}
+🥲 (3) 😂 (3) 
+
+[10/17/2023 22:30] uncle Jeff#4407
+kek
+
+
+[10/19/2023 04:29] lourenslinde
+Hi fren,
+
+It's not appropriate to criticize the sponsor/devs/code in this way.
+
+Getting an audit is already nerve-wracking for any protocol and any dev that's willing to put their code into the arena for us to tear apart deserves to be respected.
+
+{Reactions}
+☝️ (20) 💯 (3) hi5 (12) 
+
+[10/19/2023 04:37] sockdrawermoney
+Exactly what @LokiThe5th said. We don’t talk this way here. This is a professional environment and we treat each other and our customers with respect.
+
+{Reactions}
+❤️ (38) gummy_bear 
+
+[10/20/2023 09:00] chris0xff
+My comment was crude and unprofessional in tone but this was meant to provide some levity to a serious situation. That code was not ready to be audited.  The devs should be given the same leniency that you would give a construction company if they built an apartment building that would fall down at half of its specified load rating. There is more at stake than feelings here. It is more than nerve-wracking to deal with the adversaries that exist in the wild, it is deadly. and they are more numerous, better skilled, and better funded than any type of auditors. If someone sees you responsible for losing millions of dollars of their money, they will be ready to hurt more than your feelings.
+
+{Reactions}
+👀 (2) wtf 
+
+[10/20/2023 12:01] lourenslinde
+imho it comes down to the fact that we are here to help any protocol/team secure their project. 
+
+Yes, we do operate in an adversarial space. 
+
+But we don't want the way we conduct ourselves to become a barrier to projects seeking C4's services. Acting unprofessionally only serves to deter teams from approaching us and ultimately harms our industry. 
+
+Code quality is a subjective measure and we should assume positive intent from any team approaching C4. Have comments about code quality or think a codebase needs more extensive testing? Add it to your analysis; do it well enough and you will get paid for it. 
+
+Once the contest is over we leave it all in the arena.
+
+{Reactions}
+👍 (7) thankyou 
+
+[10/20/2023 12:50] chris0xff
+I dont agree that code quality is subjective or that such a sentiment is compatible with the premise needed to see a security audit as a thing of value. Codebase is not ready for an audit when problems are so pervasive that fixing one will create and destroy many others. That codebase needed something else. If it were my decision i would have turned them around and refunded them and asked them to use the funding to pursue whatever that something else is
+
+
+[10/20/2023 12:51] chris0xff
+that is what i meant by my comment initially. but i didnt think i needed to spell it out so carefully
+
+
+[10/20/2023 12:52] 0xtendency
+I don't think you know what you are saying, those who audited this codebase knows that it was tough, but just like every other contest issues were found.
+
+You don't have the right to bring this up here, this should be your mere thoughts and yours alone
+
+{Reactions}
+👆🏽 (6) 🧑‍🍳 
+
+[10/20/2023 12:52] chris0xff
+maybe that something else is somesort of dominatrix for the dev team to put them in line.
+
+
+[10/20/2023 12:59] chris0xff
+sorry man its a matter of professional integrity. even my first comment was an attempt at a censored and temperate approach to expressing my overall reaction to the codebase.
+
+
+[10/20/2023 13:01] 0xtendency
+This is why there is a section for Analysis report
+
+
+[10/20/2023 13:01] chris0xff
+is there a plasant way for a doctor to deliver a cancer diagnosis?
+
+
+[10/20/2023 13:02] 0xtendency
+Are you a doctor?
+
+Submit your reports and be done with it
+
+
+[10/20/2023 13:02] chris0xff
+yes i am a doctor
+
+
+[10/20/2023 13:03] 0xnevi
+Can you guys move this discussion somewhere else. This channel is meant for contest info/queries  😄, not to hurl personal opinions at something. There is a place for everything.
+
+{Reactions}
+💯 (5) 
+
+[10/20/2023 13:05] chris0xff
+k sorry i only wanted to leave my initial comment here as a brief piece of relevant info i am sorry about engaging in a discussion on practices
+
+{Reactions}
+👍 (2) 
+
+[10/20/2023 13:07] 0xnirlin
+Imagine having this audacity after submitting two invalid issues in a contest. Do better.
+
+{Reactions}
+😂 (15) 🔥 
+
+[10/20/2023 13:07] bytes032
+https://discord.com/channels/810916927919620096/851883682470166558/851891396255940618
+
+
+[10/20/2023 13:07] chris0xff
+there isnt much of a thing you could call a valid issue if the codebase is not ready to audit
+
+
+[10/20/2023 13:08] bytes032
+Please start by reading the code of conduct of C4
+
+{Reactions}
+👆 (3) 💯 
+
+[10/20/2023 13:08] chris0xff
+when the codebase needs to be overhauled it makes further analysis invalid because its on code that isnt going to be there later
+
+
+[10/20/2023 13:09] bytes032
+Looks like you could benefit from reading the code of conduct as well
+
+{Reactions}
+👀 (2) 
+
+[10/20/2023 13:09] bytes032
+Especially that you are both certified and backstage member
+
+
+[10/20/2023 13:09] chris0xff
+bugs are not the same thing as ubiquitous design flaws and pervasive malpractice
+
+
+[10/20/2023 13:09] 0xnirlin
+I will
+
+
+[10/20/2023 13:10] chris0xff
+you cant fix something if what its doing is the flaw, and the way it is doing it is flawed
+
+
+[10/20/2023 13:10] bytes032
+@mark0v
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/IMG_8104-6A646.png
+
+{Reactions}
+🕵️‍♂️ 
+
+[10/20/2023 13:10] dadekuma
+just stop pls. if you want to discuss, do it in DMs, not here
+
+{Reactions}
+👆🏽 (2) 
+
+[10/20/2023 13:10] bytes032
+If you have any concerns feel free to raise them at c4’s org repo.
+
+
+[10/20/2023 13:11] bytes032
+https://github.com/code-423n4/org/issues
+
+
+[10/20/2023 13:12] chris0xff
+whys that
+
+
+[10/20/2023 13:12] bytes032
+Thats how this community works. I advise you again to read the rules here:
+
+https://discord.com/channels/810916927919620096/1141863563326128260/1164912793087127672
+
+{Reactions}
+👆🏽 
+
+[10/20/2023 13:13] chris0xff
+i read them months ago
+
+
+[10/20/2023 13:14] emerald7017
+This misconduct from the warden is not acceptable, the warden clearly didn't follow the rule, and it shouldn't go unpunished.
+
+
+[10/20/2023 13:14] bytes032
+@kartoonjoy | C4 🎇🎇 @Jay | C4 @thebrittfactor | C4 @PaperParachute | C4
+
+{Reactions}
+👍 (5) 
+
+[10/20/2023 13:17] 0xsorrynotsorry
+I removed the wardens badge  till the staff is here. Fyi @PaperParachute | C4 @Jay | C4
+
+{Reactions}
+👍 (4) 
+
+[10/20/2023 13:19] _paperparachute
+No one is saying not to share your opinions. But as several people have said, you need to at the very least create a thread, if not have the conversation privately.
+
+
+[10/20/2023 13:20] _paperparachute
+Any further discussion from anyone regarding this, please take it to a thread.
+
+{Reactions}
+👍 (3) 
+
+[10/20/2023 13:25] _paperparachute
+Warden role replaced
+
+{Reactions}
+👍 (2) 
+
+[10/20/2023 13:48] d3e4
+Started a thread.
+
+
+[10/21/2023 08:04] coffiasd
+:thankyou:
+
+
+[10/22/2023 04:59] mrosas
+Hi friends, I'm just a warden here. I think we all should just chill and let the judges do their work. I'm sure that they will update us once completed, no point rushing, we already waited for 2 months, why not just wait for a few more days  😆
+
+{Reactions}
+👍🏻 (3) 
+
+[10/22/2023 07:15] lourenslinde
+Started a thread.
+
+
+[10/22/2023 07:15] 0xjuntao
+why not just wait for a few more ~~days~~ months
+
+{Reactions}
+4739_Skeletor (9) 
+
+[10/24/2023 14:06] visualbits
+https://tenor.com/view/waiting-kid-bored-wait-patient-gif-10331897
+
+{Embed}
+https://tenor.com/view/waiting-kid-bored-wait-patient-gif-10331897
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/waiting-kid-7ADE5.png
+
+
+[10/24/2023 14:13] nethoxa
+Escalations have ended, so results are coming!!!
+
+
+[10/24/2023 14:13] nethoxa
+https://tenor.com/view/weekend-spinning-baby-wont-stop-spinning-gif-13968589
+
+{Embed}
+https://tenor.com/view/weekend-spinning-baby-wont-stop-spinning-gif-13968589
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/weekend-spinning-baby-C19EA.png
+
+
+[10/24/2023 20:10] 0xrebelo.eth
+👀
+
+
+[10/24/2023 20:43] yashar0x
+Unfortunately it was my first ever contest 😐
+
+
+[10/25/2023 13:46] lsaudit
+today, this week, this month?  ;>
+
+{Reactions}
+👍 
+
+[10/25/2023 14:43] uncle Jeff#4407
+this year
+
+
+[10/25/2023 14:44] uncle Jeff#4407
+(hopefully)
+
+{Reactions}
+😂 (11) 
+
+[10/25/2023 15:10] talfao
+how long does it take in general? when the escalations are resolved?
+
+
+[10/26/2023 01:55] josephdara
+:4739_Skeletor:
+
+{Reactions}
+🫡 (2) 
+
+[10/26/2023 02:04] olanre_waju
+👀
+
+{Reactions}
+🫡 
+
+[10/27/2023 07:13] josephdara
+:4739_Skeletor:
+
+
+[10/27/2023 13:19] mike_bello90
+we gonna get the results by next year jajaja 😄
+
+{Reactions}
+😂 (2) 
+
+[10/27/2023 14:04] coffiasd
+take it  ez just focus on the latest contest 🫡
+
+
+[10/27/2023 14:46] lsaudit
+would be nice to get some info at least, like how many escalations haven't been resolved yet
+
+{Reactions}
+🫡 
+
+[10/27/2023 14:53] visualbits
+Due to the DailyWarden escalations ended🤔
+
+
+[10/27/2023 14:56] wahedtalash77#8433
+3 days ago escalations was ended.
+
+{Reactions}
+👍 
+
+[10/27/2023 14:57] uncle Jeff#4407
+the results are usually out after 3 days after the escalations has ended
+
+
+[10/27/2023 14:58] uncle Jeff#4407
+so I guess it's right around the corner
+
+
+[10/27/2023 15:34] lsaudit
+isn't the escalation - a period when warden can escalate the issue? When escalation-period ends, judges still need some time to resolve those escalations? I thought it works that way.
+
+
+[10/27/2023 15:34] lsaudit
+So rn noone can escalate more issues, but the ones which had been escalated - still need to be resolved?
+
+
+[10/27/2023 15:46] sp1cymeatball
+Dude, your `about me` note 🤣
+
+
+[10/27/2023 15:48] lourenslinde
+You are right: when escalations are marked as ended on the Daily Warden, it means the allocated time to raise issues has closed. Thereafter only the escalated issues are dealt with.
+
+{Reactions}
+👍 (2) 
+
+[10/27/2023 15:48] lsaudit
+any chance to spot how many issues were marked as escalated in this contest?
+
+
+[10/27/2023 15:52] 0xhelium
+Backstage i guess
+
+
+[10/27/2023 15:55] uncle Jeff#4407
+lmfao
+
+
+[10/27/2023 15:55] uncle Jeff#4407
+it cracked me up when I read it
+
+
+[10/27/2023 15:56] uncle Jeff#4407
+i couldn't but to put it there
+
+
+[10/28/2023 00:23] xyzbtchunt
+When
+
+
+[10/28/2023 09:12] josephdara
+:4739_Skeletor:
+
+
+[10/29/2023 10:26] saint6704
+https://tenor.com/view/depressed-bored-boredom-swing-head-gif-17224602
+
+{Embed}
+https://tenor.com/view/depressed-bored-boredom-swing-head-gif-17224602
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/depressed-bored-EEEF7.png
+
+{Reactions}
+😅 (17) 4739_Skeletor (3) 
+
+[10/29/2023 12:46] nethoxa
+https://tenor.com/view/sad-cat-sunakook-tired-exhausted-gif-24687868
+
+{Embed}
+https://tenor.com/view/sad-cat-sunakook-tired-exhausted-gif-24687868
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/sad-cat-6BE7C.png
+
+{Reactions}
+😂 (9) 🦁 
+
+[10/30/2023 02:02] 0xwsingh_63970
+https://tenor.com/view/tired-sleepy-gif-27609170
+
+{Embed}
+https://tenor.com/view/tired-sleepy-gif-27609170
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/tired-sleepy-FFD49.png
+
+{Reactions}
+😅 (2) 🥵 (2) 
+
+[10/30/2023 09:14] talfao
+https://tenor.com/view/waiting-patiently-waiting-skeleton-bored-gif-12757056
+
+{Embed}
+https://tenor.com/view/waiting-patiently-waiting-skeleton-bored-gif-12757056
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/waiting-patiently-waiting-5598B.png
+
+{Reactions}
+4739_Skeletor (7) 
+
+[10/30/2023 16:38] 0xnirlin
+Dopex do something
+
+{Reactions}
+😂 (2) 
+
+[10/30/2023 16:40] 0k_sec
+Hope the results worth all this time we waiting for it 🫠🫠
+
+
+[10/30/2023 16:43] 0xnirlin
+:bongo:
+
+{Reactions}
+👀 (2) 
+
+[10/30/2023 17:08] 0x3b
+This is not a pokemon
+
+{Reactions}
+😂 (7) 
+
+[10/30/2023 17:18] nethoxa
+There must be someone arguing his "High - Centralization risk" is correct and he deserves to be paid
+
+{Reactions}
+😂 (4) 
+
+[10/30/2023 17:18] nethoxa
+https://tenor.com/view/bruh-gif-20733430
+
+{Embed}
+https://tenor.com/view/bruh-gif-20733430
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/bruh-1EE75.png
+
+{Reactions}
+4739_Skeletor (5) 
+
+[10/30/2023 17:31] josephdara
+Results would ``probably`` be out in a bit. Let's hope
+
+
+[10/30/2023 17:35] 0xnirlin
+Maybe a month more:KEKgif:
+
+{Reactions}
+😂 (5) 
+
+[10/30/2023 17:41] olanre_waju
+The result is dropping today, keep calm. @🦙 liveactionllama | C4  will post in few minutes.
+
+{Reactions}
+wot (2) 🦙 🤔 
+
+[10/30/2023 17:58] 0xnirlin
+Source: trust me bro :catsmile:
+
+{Reactions}
+kewk (8) 10_10 
+
+[10/30/2023 18:05] nethoxa
+knows things
+
+
+[10/30/2023 18:05] nethoxa
+https://tenor.com/view/hmm-sure-catbruh-gif-21408636
+
+{Embed}
+https://tenor.com/view/hmm-sure-catbruh-gif-21408636
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/hmm-sure-672B9.png
+
+
+[10/30/2023 18:13] 0xnirlin
+No one knows beside brit :bongo:
+
+
+[10/30/2023 18:14] 0xnirlin
+Or paper parachute
+
+
+[10/30/2023 18:37] thebrittfactor
+Alright, y'all are killing me with these gifs 🤣 😂 
+
+Update: We've hit a little road bump with the extension due to the amount of submissions. We're actively working to wrap up Post-Judging QA and get this pushed to awarding. We appreciate your patience 😁
+
+{Reactions}
+hi5 (4) 
+
+[10/30/2023 18:39] nethoxa
+https://tenor.com/view/sad-gif-7523306793289960933
+
+{Embed}
+https://tenor.com/view/sad-gif-7523306793289960933
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/sad-87CD1.png
+
+
+[10/30/2023 18:39] nethoxa
+I had to do it
+
+
+[10/30/2023 18:40] nethoxa
+It was a lonely bouncing ball
+
+{Reactions}
+😂 🏀 
+
+[10/30/2023 19:45] reentrant
+O no, now my dopamine is out of wack thinking this was coming out 🥵 lol got ‘em 💀
+
+
+[10/30/2023 20:02] nethoxa
+Reenter your dopamine where it was then, fren
+
+
+[10/30/2023 20:02] nethoxa
+Sorry, I'm sorry
+
+{Reactions}
+🫂 
+
+[10/30/2023 20:02] nethoxa
+xD
+
+
+[10/30/2023 20:02] reentrant
+Is ok 👍
+
+
+[10/30/2023 20:02] nethoxa
+🏀
+
+
+[10/30/2023 20:02] nethoxa
+hahahahahahahaha
+
+
+[10/30/2023 20:02] reentrant
+https://tenor.com/view/ball-is-life-basketball-is-life-lets-play-ball-game-on-let-start-gif-12303344
+
+{Embed}
+https://tenor.com/view/ball-is-life-basketball-is-life-lets-play-ball-game-on-let-start-gif-12303344
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/ball-is-life-basketball-is-life-1F899.png
+
+{Reactions}
+😆 praisethesun (4) 
+
+[10/31/2023 09:26] xyzbtchunt
+https://tenor.com/view/plink-cat-plink-cat-gif-1794292671885121408
+
+{Embed}
+https://tenor.com/view/plink-cat-plink-cat-gif-1794292671885121408
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/plink-cat-plink-F1F2A.png
+
+{Reactions}
+😂 (5) cheers_badger praisethesun 🧑‍🍳 🦧 🍻 
+
+[10/31/2023 12:34] pks7323
+
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/hmm-sure-E35D0.mov
+
+{Reactions}
+😂 (3) 
+
+[10/31/2023 12:45] nethoxa
+The best gif by far
+
+{Reactions}
+😂 
+
+[10/31/2023 13:04] pks7323
+Lol
+
+{Reactions}
+🤣 
+
+[10/31/2023 14:19] mike_bello90
+at this point, I don't care for the result anymore, I come here just for the memes jajaja 😄
+
+{Reactions}
+😂 (6) 
+
+[10/31/2023 14:20] mike_bello90
+https://tenor.com/view/waiting-gif-21631787
+
+{Embed}
+https://tenor.com/view/waiting-gif-21631787
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/waiting-837D1.png
+
+{Reactions}
+🦁 
+
+[10/31/2023 14:29] josephdara
+:4739_Skeletor:
+
+{Reactions}
+4739_Skeletor 
+
+[10/31/2023 14:44] pks7323
+Me too, so many interesting memes haha
+
+{Reactions}
+hi5 
+
+[10/31/2023 14:46] thebrittfactor
+https://tenor.com/view/friends-know-phoebe-rachel-gif-7193654
+
+{Embed}
+https://tenor.com/view/friends-know-phoebe-rachel-gif-7193654
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/friends-know-03F23.png
+
+{Reactions}
+NE_PepeRickRoll (6) 😂 (2) endlesscycle bidenjam 
+
+[10/31/2023 14:57] nethoxa
+https://tenor.com/view/bcfd-monkey-confused-gif-5786043144724365138
+
+{Embed}
+https://tenor.com/view/bcfd-monkey-confused-gif-5786043144724365138
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/bcfd-monkey-D6579.png
+
+{Reactions}
+🤣 (2) 
+
+[10/31/2023 14:59] nethoxa
+Let's keep sending gifs even after the results are published, like 2024 and some random guy send this
+
+{Reactions}
+😂 
+
+[10/31/2023 14:59] nethoxa
+https://tenor.com/view/dancing-duck-dance-duck-duck-ooontz-dance-gif-10943740227711557279
+
+{Embed}
+https://tenor.com/view/dancing-duck-dance-duck-duck-ooontz-dance-gif-10943740227711557279
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/dancing-duck-dance-duck-D6389.png
+
+
+[10/31/2023 15:14] 0xnirlin
+Don't tease us. Give me my 4$ :AngryWhat:
+
+{Reactions}
+🤣 (3) 4739_Skeletor 
+
+[10/31/2023 15:15] 0xnirlin
+Btw is the script for calculating results opensource? I want to be independent of this britt guy:GOTTEM:
+
+
+[10/31/2023 15:15] manchasss.eth
+We all have spent more on data checking the channel than what we could get with 10 highs
+
+{Reactions}
+KEKgif 
+
+[10/31/2023 15:26] blckhv
+hopefully our results are not as funny as the memes here :pepehmmm:
+
+{Reactions}
+😂 (2) 
+
+[10/31/2023 15:26] thebrittfactor
+https://tenor.com/view/%E7%9A%849-gif-27299608
+
+{Embed}
+https://tenor.com/view/%E7%9A%849-gif-27299608
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/%25E7%259A%25849-9BE42.png
+
+{Reactions}
+👀 
+
+[10/31/2023 15:44] 0xnirlin
+Today or not:desksmash: :pepebigsweat:
+
+
+[10/31/2023 15:45] 0xnirlin
+Beleive they are gonna be even funnier.
+
+{Reactions}
+😂 (3) 
+
+[10/31/2023 15:45] 0xnirlin
+Not that maybe gif again🤣
+
+{Reactions}
+🫣 
+
+[10/31/2023 15:46] yashar0x
+GIF CONTEST 🤌
+
+{Reactions}
+chefskiss 
+
+[10/31/2023 15:47] nethoxa
+https://tenor.com/view/sad-gif-7523306793289960933
+
+{Embed}
+https://tenor.com/view/sad-gif-7523306793289960933
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/sad-87CD1.png
+
+{Reactions}
+😬 
+
+[10/31/2023 15:48] nethoxa
+If C4 puts this gif in the main website i'm giving them my 1$ reward
+
+
+[10/31/2023 15:48] 0xnirlin
+Take mine 4 cents too
+
+
+[10/31/2023 15:48] nethoxa
+Like, in a tiny place
+
+
+[10/31/2023 15:49] nethoxa
+
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/tempFileForShare_20231031-164906-72742.jpg
+
+{Reactions}
+🤣 
+
+[10/31/2023 15:49] nethoxa
+Like there
+
+
+[10/31/2023 15:49] nethoxa
+XD
+
+
+[10/31/2023 15:52] jvorex
+👀
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/Screen_Shot_2023-10-31_at_4.51.59_PM-DDC78.png
+
+
+[10/31/2023 15:53] nethoxa
+Is that my profile?
+
+
+[10/31/2023 15:53] jvorex
+yessir
+
+
+[10/31/2023 15:53] jvorex
+gib me reward now
+
+
+[10/31/2023 15:53] nethoxa
+HELL YESSSS BOIIIII
+
+
+[10/31/2023 15:53] nethoxa
+Awesome
+
+
+[10/31/2023 15:54] nethoxa
+0$ duplicated high
+
+{Reactions}
+4739_Skeletor (3) 
+
+[10/31/2023 15:54] nethoxa
+XD
+
+
+[10/31/2023 15:54] nethoxa
+It is today aaaaaaaaaaaaaa
+
+
+[10/31/2023 15:54] nethoxa
+https://tenor.com/view/cat-scream-meme-ahhhh-aaaa-gif-17631622129953271148
+
+{Embed}
+https://tenor.com/view/cat-scream-meme-ahhhh-aaaa-gif-17631622129953271148
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/cat-scream-E57DB.png
+
+{Reactions}
+goose (2) 
+
+[10/31/2023 15:55] 0xnirlin
+Lmao 🤣
+
+
+[10/31/2023 15:55] 0xnirlin
+I thought my phone was shaking
+
+{Reactions}
+🤣 
+
+[10/31/2023 15:59] nethoxa
+https://tenor.com/view/godzilla-middle-finger-nope-monster-gif-5277619902500245056
+
+{Embed}
+https://tenor.com/view/godzilla-middle-finger-nope-monster-gif-5277619902500245056
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/godzilla-middle-finger-nope-monster-020F7.png
+
+
+[10/31/2023 16:06] jvorex
+5 solo highs for you on this one fosho 😲
+
+
+[10/31/2023 16:07] nethoxa
+I guess not, I do not even remember what bullshit I did submit
+
+{Reactions}
+thisisfine 
+
+[10/31/2023 16:09] thebrittfactor
+Y'all are so sneaky.
+
+{Reactions}
+legalchicken 
+
+[10/31/2023 16:10] nethoxa
+https://tenor.com/view/rock-one-eyebrow-raised-rock-staring-the-rock-gif-22113367
+
+{Embed}
+https://tenor.com/view/rock-one-eyebrow-raised-rock-staring-the-rock-gif-22113367
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/rock-one-eyebrow-raised-rock-staring-E7801.png
+
+
+[10/31/2023 16:10] thebrittfactor
+https://tenor.com/view/drake-going-sneaky-spy-spying-gif-18106742
+
+{Embed}
+https://tenor.com/view/drake-going-sneaky-spy-spying-gif-18106742
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/drake-going-3D2A5.png
+
+{Reactions}
+🤣 (4) 
+
+[10/31/2023 16:10] 0x11singh99
+Today🤩
+
+
+[10/31/2023 16:12] gumgumzum
+https://tenor.com/view/shhh-shush-silence-nose-gif-17895433
+
+{Embed}
+https://tenor.com/view/shhh-shush-silence-nose-gif-17895433
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/shhh-shush-AB0CB.png
+
+{Reactions}
+🤣 
+
+[10/31/2023 16:13] hunter_w3b
+https://tenor.com/view/we-dont-use-that-word-marianne-jean-baptiste-annette-sands-soundtrack-dont-say-that-gif-16224051
+
+{Embed}
+https://tenor.com/view/we-dont-use-that-word-marianne-jean-baptiste-annette-sands-soundtrack-dont-say-that-gif-16224051
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/we-dont-use-that-word-marianne-jean-baptis-FA35F.png
+
+{Reactions}
+MonkaChrist 🤣 (4) 
+
+[10/31/2023 16:19] nethoxa
+If discord ever lets us send stickers this will go wild
+
+
+[10/31/2023 16:38] jvorex
+got ‘em
+
+
+[10/31/2023 16:41] 0x3b
+https://tenor.com/view/bcfd-monkey-confused-gif-5786043144724365138
+
+{Embed}
+https://tenor.com/view/bcfd-monkey-confused-gif-5786043144724365138
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/bcfd-monkey-D6579.png
+
+
+[10/31/2023 16:41] 0x3b
+Dopex devs reading the chat
+
+
+[10/31/2023 16:46] jvorex
+@nirlin 👀
+
+
+[10/31/2023 16:56] 0xnirlin
+pranked me :clown:
+
+{Reactions}
+😂 (3) 
+
+[10/31/2023 16:58] nethoxa
+lit
+
+{Reactions}
+🥲 
+
+[10/31/2023 16:59] alextheentreprenerd
+:coolpepe:
+
+{Reactions}
+🔥 (4) 🙂 (2) 👀 
+
+[10/31/2023 17:04] nethoxa
+another top 1?
+
+
+[10/31/2023 17:06] 0xnirlin
+he is the judge dude
+
+{Reactions}
+KEKdrive (2) 
+
+[10/31/2023 17:09] nethoxa
+ª
+
+
+[10/31/2023 17:10] _paperparachute
+PaperParachute is typing...
+
+{Reactions}
+😂 (7) goose 👀 
+
+[10/31/2023 17:11] _paperparachute
+Yknow what, _when_ I announce, I'm gunna type it in Notepad first
+
+
+[10/31/2023 17:11] _paperparachute
+so it's a surprise
+
+{Reactions}
+psyduck (3) 
+
+[10/31/2023 17:11] _paperparachute
+https://tenor.com/view/anything-can-happen-anytime-cody-harris-the-cowboy-way-expect-the-unexpected-sky-is-the-limit-gif-18482022
+
+{Embed}
+https://tenor.com/view/anything-can-happen-anytime-cody-harris-the-cowboy-way-expect-the-unexpected-sky-is-the-limit-gif-18482022
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/anything-can-happen-anytime-cody-harris-4D513.png
+
+{Reactions}
+👀 (4) 
+
+[10/31/2023 17:12] _paperparachute
+Might be today, might be in 84 years 🤷
+
+{Reactions}
+😂 (6) TrollDance 
+
+[10/31/2023 17:14] nethoxa
+does anyone have a lil RCE zero-click avaiable? It's for a friend
+
+
+[10/31/2023 17:15] xyzbtchunt
+https://tenor.com/view/shocked-surprised-gasp-what-cat-shock-gif-635629308990545194
+
+{Embed}
+https://tenor.com/view/shocked-surprised-gasp-what-cat-shock-gif-635629308990545194
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/shocked-surprised-72FCB.png
+
+
+[10/31/2023 17:15] gumgumzum
+https://tenor.com/view/dont-matter-care-peaceful-laid-gif-22992945
+
+{Embed}
+https://tenor.com/view/dont-matter-care-peaceful-laid-gif-22992945
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/dont-matter-7295F.png
+
+
+[10/31/2023 17:24] 0k_sec
+Loool😂
+
+
+[10/31/2023 17:26] mert_eren#2527
+Did you start to type notepad 🙃
+
+
+[10/31/2023 17:26] max10afternoon
+checkmate
+
+
+[10/31/2023 17:27] nethoxa
+@PaperParachute | C4 come on, with the tapioca was a lot of fun, type it here instead XD
+
+
+[10/31/2023 17:27] nethoxa
+https://tenor.com/view/excited-dogs-puppy-puppies-gif-15784012
+
+{Embed}
+https://tenor.com/view/excited-dogs-puppy-puppies-gif-15784012
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/excited-dogs-B9CFF.png
+
+
+[10/31/2023 17:28] wahedtalash77#8433
+https://tenor.com/view/seriously-gif-23861497
+
+{Embed}
+https://tenor.com/view/seriously-gif-23861497
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/seriously-99ECB.png
+
+{Reactions}
+👀 
+
+[10/31/2023 17:44] _paperparachute
+https://tenor.com/view/robert-downey-jr-tony-stark-gif-26471287
+
+{Embed}
+https://tenor.com/view/robert-downey-jr-tony-stark-gif-26471287
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/robert-downey-EB816.png
+
+{Reactions}
+👀 (8) hearteyes (2) 
+
+[10/31/2023 17:45] gumgumzum
+The typening intensifies
+
+
+[10/31/2023 17:55] _paperparachute
+Small children are bashing my door down looking for trick or treat sweets. Don't they know I'm trying to announce Dopex?
+
+{Reactions}
+😂 (10) 💀 (4) suicide 
+
+[10/31/2023 17:55] josephdara
+:4739_Skeletor:
+
+
+[10/31/2023 17:56] josephdara
+No treats tonight
+
+
+[10/31/2023 17:56] 0xnirlin
+:suicide:
+
+{Reactions}
+😂 
+
+[10/31/2023 17:57] _paperparachute
+I wondered what this was for a minute. Thought I needed to get the ban hammer out
+
+{Reactions}
+😂 (6) 
+
+[10/31/2023 17:57] nethoxa
+just take their sweets away from them
+
+
+[10/31/2023 17:58] nethoxa
+next year they will think twice
+
+
+[10/31/2023 17:58] _paperparachute
+I'll set the dogs on them, then they won't be here next year.
+
+{Reactions}
+😂 (2) 
+
+[10/31/2023 17:58] 0xnirlin
+lmao. Laurence gave me this sticker in wildcat audit :pepelove:
+
+
+[10/31/2023 17:58] nethoxa
+hahahahahhahahahhahahahahahha
+
+
+[10/31/2023 17:58] _paperparachute
+Potentially too extreme.
+
+
+[10/31/2023 17:59] nethoxa
+"potentially"
+
+
+[10/31/2023 17:59] _paperparachute
+Can less of you participate next time? This is a long one.
+
+{Reactions}
+goose 
+
+[10/31/2023 17:59] thebrittfactor
+https://tenor.com/view/drum-roll-the-office-michael-scott-steve-carell-gif-4484752
+
+{Embed}
+https://tenor.com/view/drum-roll-the-office-michael-scott-steve-carell-gif-4484752
+Michael Scott Drumroll  drum roll
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/drum-roll-the-office-CA6BC.png
+
+{Reactions}
+🔥 (2) 
+
+[10/31/2023 17:59] _paperparachute
+I'm kidding of course, the more the merrier.
+
+{Reactions}
+😂 (4) 
+
+[10/31/2023 18:00] nethoxa
+better go on vacation before the zksync one is finished
+
+{Reactions}
+😂 (2) 
+
+[10/31/2023 18:00] hunter_w3b
+please typing we love when you'r typing😐
+
+
+[10/31/2023 18:00] 0x3b
+isn't there a script that writes this out?
+
+
+[10/31/2023 18:00] _paperparachute
+https://tenor.com/view/vanish-illusionist-magic-up-in-smoke-magician-vanish-gif-17491990
+
+{Embed}
+https://tenor.com/view/vanish-illusionist-magic-up-in-smoke-magician-vanish-gif-17491990
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/vanish-illusionist-04929.png
+
+
+[10/31/2023 18:00] nethoxa
+https://tenor.com/view/homer-simpson-gif-3473869
+
+{Embed}
+https://tenor.com/view/homer-simpson-gif-3473869
+Homer disappearing
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/homer-simpson-907F0.png
+
+
+[10/31/2023 18:01] thebrittfactor
+Dang, even I'm getting anxiety waiting on Paper to type 😅
+
+{Reactions}
+😂 (9) 
+
+[10/31/2023 18:03] 0xnirlin
+Never have seen him tease this much :suicide:
+
+
+[10/31/2023 18:03] nethoxa
+I don't know you, but the Dopex devs must be like this reading this chat
+
+
+[10/31/2023 18:03] nethoxa
+https://tenor.com/view/confused-meme-girl-uhmmm-what-now-gif-12980198104245942867
+
+{Embed}
+https://tenor.com/view/confused-meme-girl-uhmmm-what-now-gif-12980198104245942867
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/confused-meme-11875.png
+
+{Reactions}
+😂 (5) 💯 (2) 
+
+[10/31/2023 18:07] 0x3b
+👀
+
+
+[10/31/2023 18:08] 0x11singh99
+https://tenor.com/view/computer-nerd-typing-meme-gif-23328185
+
+{Embed}
+https://tenor.com/view/computer-nerd-typing-meme-gif-23328185
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/computer-nerd-DE39D.png
+
+{Reactions}
+😂 
+
+[10/31/2023 18:11] t1moh
+Who is the 6th?
+
+
+[10/31/2023 18:11] 0xtendency
+🔥🔥
+
+
+[10/31/2023 18:11] ladboy233
+?
+
+
+[10/31/2023 18:12] 0x3b
+xD
+
+
+[10/31/2023 18:12] c3phas.
+Sorry guys wrong contest
+
+{Reactions}
+😂 
+
+[10/31/2023 18:12] 0x3b
+we know it
+
+
+[10/31/2023 18:12] pep7siup_
+oh no
+
+
+[10/31/2023 18:12] nethoxa
+there is one missing
+
+
+[10/31/2023 18:13] stormreckson
+Is it me?😅
+
+
+[10/31/2023 18:13] 0k_sec
+Where is my name 😦
+
+{Reactions}
+🥲 (4) 
+
+[10/31/2023 18:13] rokinot
+what's happening here
+
+
+[10/31/2023 18:13] block_chomper
+:kewk:
+
+
+[10/31/2023 18:13] klau5_
+😵‍💫
+
+
+[10/31/2023 18:14] block_chomper
+:vitalik_parrot:
+
+
+[10/31/2023 18:14] pep7siup_
+don't play with my heart
+
+
+[10/31/2023 18:15] gumgumzum
+😢
+
+
+[10/31/2023 18:15] unique0x0
+https://tenor.com/view/im-dead-and-im-sorry-gif-19480033
+
+{Embed}
+https://tenor.com/view/im-dead-and-im-sorry-gif-19480033
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/im-dead-and-im-sorry-1CF86.png
+
+
+[10/31/2023 18:15] t1moh
+Why you all wait for dopex results? I mean what is special in this contest
+
+
+[10/31/2023 18:16] c3phas.
+I guess it's dope
+
+
+[10/31/2023 18:16] nethoxa
+just a meme
+
+
+[10/31/2023 18:16] 0k_sec
+It took 2 month thats why 😂
+
+
+[10/31/2023 18:16] unique0x0
+2k+ submissions
+
+
+[10/31/2023 18:16] _paperparachute
+🤑 🎉  Awards for Dopex:
+
+$25,152.37 » @said 
+$10,393.29 » @peakbolt 
+$7,140.86 » @Toshii 
+$3,073.82 » @__141345__ 
+$3,040.20 » @LokiThe5th 
+$2,065.20 » @evokid 
+$1,918.25 » deadrxsezzz
+$1,856.12 » @volodya 
+$1,735.85 » @rvierdiiev 
+$1,730.04 » @0xnev 
+$1,553.08 » @pep7siup 
+$1,482.76 » @juancito  
+$1,423.83 » @kutu 
+$1,293.66 » @QiuhaoLi 
+$1,239.80 » @Yanchuan 
+$1,148.13 » @catellatech 
+$1,067.33 » @glcanvas  
+$1,031.84 » @nirlin 
+$1,030.78 » @T1MOH  
+$1,019.71 » @c3phas 
+$1,002.68 » RED-LOTUS-REACH ( @escrow  @DedOhwale (GMT-7)  @BlockChomper (GMT +4)  @reentrant )
+$954.93 » @HChang26 
+$893.77 » @0xladboy | Sparkware 
+$893.12 » @0xDING99YA 
+$870.77 » @dirk_y 
+$832.85 » @0xSmartContract 
+$791.13 » @HHK  
+$719.15 » @0Kage 
+$666.81 » @Tendency  
+$655.01 » @Brenzee 
+$650.79 » @Nikki 
+$648.94 » @mahdikarimi 
+$638.64 » @LowK 
+$631.62 » @0xMango 
+$571.11 » @tapir 
+$537.51 » @inspecktor 
+$526.37 » @ABA 
+$518.34 » @zzebra83 
+$499.11 » @ak1 
+$491.26 » @ItsNio  
+$482.63 » @gjaldon 
+$445.90 » @carrotsmuggler 
+$403.80 » @bart1e 
+$393.16 » @0x3b 
+$381.46 » wintermute
+$364.42 » @bin2chen 
+$336.13 » @qpzm 
+$301.20 » @josephdara 
+$287.59 » @sces60107 | GimelSec 
+$282.79 » @lsaudit 
+$271.48 » @rokinot 
+$241.30 » @jasonxiale 
+$233.83 » @chaduke 
+$221.94 » @ubermensch 
+$208.46 » Aymen0909
+$206.56 » @0xCiphky 
+$200.62 » @kodyvim 
+$192.67 » @Juntao🐾 
+$192.67 » @Jiamin 
+$192.67 » @circlelooper 
+$192.67 » @crunch  
+$192.66 » @eeshenggoh  
+$191.15 » @Sathish9098 
+$187.04 » @0xvj 
+$186.97 » @udsen_ 
+$181.45 » Inspex ( @Resistor  @jokopoppo  @DeStinE21  @mimic_f  @rugsurely @ErbaZZ  @rxnnxchxi  @doggo )
+$181.37 » @gkrastenov
+
+{Reactions}
+🚀 (7) 
+
+[10/31/2023 18:17] _paperparachute
+$158.31 » @0xWaitress  
+$158.31 » @Nyx 
+$158.23 » @wallstreetvilkas  
+$156.05 » @Bauchibred 
+$142.58 » @niki  
+$142.58 » @Matin 
+$140.48 » @flacko 
+$127.20 » @KrisApostolov 
+$115.50 » @0xTiwa 
+$109.80 » @ArmedGoose 
+$108.90 » @oakcobalt 
+$104.24 » @hals 
+$101.13 » @pontifex 
+$101.05 » LeoS
+$101.05 » @0xgrbr 
+$98.54 » @Viktor_Cortess 
+$98.47 » @nemveer 
+$96.40 » @minhtrng 
+$96.34 » @visualbits 
+$96.33 » @Topmark  
+$96.33 » @Cosine 
+$96.33 » @0xumarkhatab 
+$96.33 » @0xmystery  
+$96.33 » @0xPsuedoPandit  
+$96.33 » @Qeew  
+$90.64 » SBSecurity ( @Blckhv @Slavcheww )
+$90.63 » @ciphermarco 
+$90.63 » @0xmuxyz  
+$90.10 » @K42 Ψ 
+$90.10 » @rjs 
+$90.10 » @hunter_w3b 
+$90.10 » @bitsurfer 
+$90.10 » mark0v 
+$79.49 » @836541 
+$73.26 » @MohammedRizwan 
+$67.53 » @degensec.eth 
+$65.42 » @erebus 
+$64.27 » @mert_eren 
+$60.12 » @0xWagmi 
+$58.68 » @ether_sky 
+$54.16 » @zaevlad 
+$46.33 » @ravikiranweb3 
+$46.26 » GangsOfBrahmin ( @Satyam_Sharma @0xweb3boy )
+$46.25 » @okolicodes 
+$46.25 » @Hama 
+$46.25 » @VanGrim 
+$45.32 » @ginlee  
+$44.00 » @WoolCentaur 
+$42.30 » @iceBear  
+$40.76 » @ayden 
+$36.56 » @0xkazim 
+$32.66 » @KmanOfficial 
+$27.02 » @savi0ur 
+$27.02 » @codegpt 
+$24.83 » @peanuts 
+$24.08 » @catwhiskeys 
+$24.08 » @piyushshukla599 
+$22.66 » @mitko1111 
+$20.70 » @0xTheC0der 
+$19.26 » @asui 
+$19.25 » @dethera 
+$19.19 » @klau5 
+$19.18 » @parsely  
+$19.17 » @minhquanym 
+$17.47 » @max10afternoon 
+$17.47 » @nobody2018
+
+
+[10/31/2023 18:20] _paperparachute
+$17.40 » @Olanrewaju 
+$17.32 » @AkshaySrivastav 
+$17.31 » @Neon2835  
+$16.01 » @Kow 
+$15.94 » @SpicyMeatball 
+$15.94 » @0xbranded 
+$15.93 » @0xHelium 
+$15.93 » @alexfilippov314 
+$15.93 » @joaovwfreire 
+$10.34 » @Vagner  
+$8.66 » @etherhood  
+$7.91 » @ABAIKUNANBAEV 
+$7.91 » @qbs  
+$7.84 » @mrudenko 
+$7.84 » @alexzoid 
+$3.99 » @0xhuy0512 
+$0.19 » 0xrafaelnicolau 
+$0.16 » @Krace  
+$0.15 » @yashar 
+$0.15 » @ElCid  
+$0.15 » @_eperezok 
+$0.15 » koo 
+$0.08 » @chainsnake 
+$0.08 » Baki 
+$0.08 » @0xc0ffEE  
+$0.07 » @Jorgect 
+$0.07 » @gumgumzum 
+$0.07 » @Talfao 
+$0.07 » @MiniGlome (Mlome)  
+$0.07 » gizzy 
+$0.07 » @0xMosh 
+$0.07 » @mussucal 
+$0.07 » halden 
+$0.07 » @dimulski 
+$0.05 » @grearlake  
+$0.05 » LFGSecurity ( @georgits @0xfusion )
+$0.04 » @atrixs6  
+$0.04 » @0x111  
+$0.01 » @0xSurena 
+$0.01 » @sl1  
+$0.01 » @spidy730 
+$0.01 » @auditsea 
+$0.01 » @anirruth 
+$0.01 » @Norah  
+$0.01 » @ke1caM  
+$0.01 » @BugzyVonBuggernaut  
+$0.01 » @snow24  
+$0.01 » @0xklh 
+$0.01 » @blutorque 
+$0.01 » @Mike_Bello 
+$0.01 » @pks_ 
+$0.01 » @DanielArmstrong  
+$0.01 » @Blockian  
+$0.01 » @ge6a 
+$0.01 » @pumpkin 
+
+🏁 Findings summary
+--------------------------------------—
+High risk findings: 9 unique (272 total)
+Med risk findings:  17 unique (194 total)
+Gas reports: 10 total (Best: @c3phas  ) 
+QA reports: 22 total (Best: @juancito  ) 
+Advanced anaylsis reports: 14 total (Best: @catellatech  ) 
+
+Awards will be distributed on Polygon within the next week. Congratulations all!  💸 💸 💸
+
+*Note: If you participated in this audit and don’t see your name on this list, please wait until the report is published and the findings repo is made public to check on your submissions.*
+
+{Reactions}
+❤️ 
+
+[10/31/2023 18:21] nethoxa
+pretty interesing results, indeed
+
+
+[10/31/2023 18:21] gumgumzum
+Aight, 0.07 🔥
+
+{Reactions}
+😂 (3) 
+
+[10/31/2023 18:21] _paperparachute
+Got you guys a bit too excited this time, my bad
+
+{Reactions}
+😂 (4) 
+
+[10/31/2023 18:21] nethoxa
+when are our profiles updated?
+
+
+[10/31/2023 18:21] _paperparachute
+all it did was amplify my mid-post stress
+
+
+[10/31/2023 18:22] nethoxa
+to see what we did find (not the actual subm)
+
+
+[10/31/2023 18:22] 0xnirlin
+ser it should have been $4
+
+{Reactions}
+🤑 
+
+[10/31/2023 18:22] lsaudit
+it usually takes 1-2h
+
+{Reactions}
+thankyou 
+
+[10/31/2023 18:22] lsaudit
+https://code4rena.com/contests/2023-08-dopex this ones should be updated ealier, i guess
+
+
+[10/31/2023 18:23] nethoxa
+I'll keep an eye on that, thanks
+
+
+[10/31/2023 18:24] 0xnirlin
+@0xnev good work
+@peakbolt killing it these days
+
+{Reactions}
+🫡 (3) 
+
+[10/31/2023 18:26] 0xtendency
+Great job @LokiThe5th
+
+{Reactions}
+🙏🏽 
+
+[10/31/2023 18:26] 0xtendency
+@T1MOH congratulations 🎊
+
+
+[10/31/2023 18:27] 0xjuancito
+Lots of findings, congrats to everyone who went the extra mile to uncover those ones! 🫡
+
+{Reactions}
+❤️ (2) 
+
+[10/31/2023 18:28] jvorex
+@erebus @0xnev @nirlin @dirk_y gg! keeping it business as usual
+
+
+[10/31/2023 18:29] t1moh
+Nah bad results
+
+
+[10/31/2023 18:29] t1moh
+@said congrats!
+
+{Reactions}
+❤️ 
+
+[10/31/2023 18:29] nethoxa
+Well, 60$ is BS 🤣🤣
+
+
+[10/31/2023 18:29] nethoxa
+tbh
+
+
+[10/31/2023 18:30] stormreckson
+In the sea of many wardens you got noticed
+
+{Reactions}
+😅 
+
+[10/31/2023 18:30] catellatech
+Congrats everyone, and way to go @juancito 🫡
+
+{Reactions}
+❤️ 
+
+[10/31/2023 18:30] 0k_sec
+I did all these things for 36 dollars only  😂
+
+
+[10/31/2023 18:31] 0k_sec
+Congrats folks ✨
+
+
+[10/31/2023 18:31] holladiewaldfee0706
+Congrats @Tendency 🫡
+
+{Reactions}
+❤️ 
+
+[10/31/2023 18:31] lourenslinde
+Thank you! You too @Tendency 
+
+Best I've done so far so really grateful 🍻
+
+{Reactions}
+🔥 
+
+[10/31/2023 18:32] 0xjuancito
+Nice job on the Analysis and the overall performance! 🏆
+
+{Reactions}
+❤️ 
+
+[10/31/2023 18:32] jvorex
+maybe not entirely 😅 get ‘em next time!
+
+
+[10/31/2023 18:32] auditsea
+finding 1 HIGH can be $0.01?
+
+
+[10/31/2023 18:33] dirk_y
+Thanks man! Although I actually bailed on this audit half way through as something else came up
+
+
+[10/31/2023 18:33] t1moh
+Can be $0.00 literally
+
+{Reactions}
+😅 
+
+[10/31/2023 18:33] woolcentaur
+Yooo my name is right next to yours 🍻 my first time having success tho so I’m happy, even though it equates to like $0.65 an hour 😂😂
+
+
+[10/31/2023 18:33] 0xtendency
+I believe Maia will be even better 🙏
+
+{Reactions}
+🙏 🚀 
+
+[10/31/2023 18:34] klau5_
+huge dups 😵‍💫
+
+
+[10/31/2023 18:34] 0xtendency
+Thank you ser 🙏
+
+
+[10/31/2023 18:34] said017
+Thanks!
+
+
+[10/31/2023 18:34] jvorex
+still the OG of logical bugs 🫡 get ‘em next time!
+
+{Reactions}
+🫡 
+
+[10/31/2023 18:35] said017
+congrats everyone
+
+{Reactions}
+🏆 (10) 
+
+[10/31/2023 18:35] 0k_sec
+Congrats sir, idk i was pretty sure 3-4 of my findings are valid but judges knows better than me 🫡
+
+{Reactions}
+🫡 (2) 
+
+[10/31/2023 18:35] woolcentaur
+Yo you killed it. Congrats!
+
+{Reactions}
+❤️ 
+
+[10/31/2023 18:36] 0xarmedgoose
+finally not 0$ 😆 cant wait to see what I missed
+
+
+[10/31/2023 18:37] chainsnake
+I cannot believe that!! 2 high findings are worth $0.08, and i've waited for 2 months for 8 cents. 😤
+
+
+[10/31/2023 18:37] zzebra83
+I was expecting 0.05 dollars, made 500, I’m not complaining 😂
+
+
+[10/31/2023 18:38] chainsnake
+Is there any way to escalate?
+
+
+[10/31/2023 18:38] 0xarmedgoose
+where do you see the severities? or any other details
+
+
+[10/31/2023 18:38] 0xffchain
+Lmao not on the list even...
+
+{Reactions}
+🥲 (2) 
+
+[10/31/2023 18:39] 0xffchain
+😂
+
+
+[10/31/2023 18:40] gumgumzum
+Congratulations everyone and props to the judges for going through 2k+ findings without loosing their mind
+
+
+[10/31/2023 18:42] chainsnake
+how on earth are duplicates calculated?
+
+
+[10/31/2023 18:43] chainsnake
+how can i see duplicates from the open issues?
+
+
+[10/31/2023 18:45] ladboy233
+@said congrats
+
+{Reactions}
+❤️ 
+
+[10/31/2023 18:46] gumgumzum
+I think like this https://docs.code4rena.com/awarding/incentive-model-and-awards
+
+{Embed}
+https://docs.code4rena.com/awarding/incentive-model-and-awards
+Incentive model and awards
+
+
+[10/31/2023 18:47] chainsnake
+i know that but i don't know how can see duplicated wardens for valid findings.
+
+
+[10/31/2023 18:48] 0xnirlin
+Filter by label
+
+
+[10/31/2023 18:48] 0xnirlin
+Duplicate-69
+
+
+[10/31/2023 18:48] 0xnirlin
+Will give you all dups of issue 69
+
+{Reactions}
+👍 
+
+[10/31/2023 18:48] 0xnirlin
+In closed tab
+
+
+[10/31/2023 18:50] gumgumzum
+Still don't have access to backstage. Try what nirlin shared.
+
+
+[10/31/2023 18:59] banditx0x
+Far less unique findings than I expected from 2000 submissions
+
+
+[10/31/2023 18:59] chainsnake
+supernova, hehe, those 2 findings are worth $0.08. 😂
+
+
+[10/31/2023 19:00] 0k_sec
+I just got 36 dollars for two high 😦
+
+The positive thing is that it’s high so you know !👀
+
+{Reactions}
+🚀 (2) hi5 
+
+[10/31/2023 19:00] 0k_sec
+https://tenor.com/view/seal-dance-seal-dance-animal-animal-dance-gif-16050057957365006732
+
+{Embed}
+https://tenor.com/view/seal-dance-seal-dance-animal-animal-dance-gif-16050057957365006732
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/seal-dance-FEAE8.png
+
+
+[10/31/2023 19:03] viraz4331
+@PaperParachute | C4 can I dm you regarding some clarity on a couple of valid issues we submitted as a team ?
+
+
+[10/31/2023 19:04] _paperparachute
+You're more than qualified for backstage, any reason you've not requested it? 🙂
+
+
+[10/31/2023 19:04] 0k_sec
+GOV problems sir 🥹
+
+
+[10/31/2023 19:04] 0xnirlin
+Lives in wrong country
+
+{Reactions}
+👍🏻 
+
+[10/31/2023 19:04] _paperparachute
+You'll need to wait for the report to come out, and the repo is made public, then you'll be able to see submission feedback
+
+
+[10/31/2023 19:04] _paperparachute
+Ah I see!
+
+{Reactions}
+🫠 
+
+[10/31/2023 19:04] 0k_sec
+My man answered 😂🫡
+
+
+[10/31/2023 19:06] raihan3727
+https://tenor.com/view/bored-bore-boring-boring-day-bored-kid-gif-27532765
+
+{Embed}
+https://tenor.com/view/bored-bore-boring-boring-day-bored-kid-gif-27532765
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/bored-bore-2A73A.png
+
+{Reactions}
+👀 
+
+[10/31/2023 19:09] shealtielanz
+@catellatech is an Analysis god 🔥
+
+{Reactions}
+😂 (2) 🫂 (2) 
+
+[10/31/2023 19:09] shealtielanz
+Congrats @okolicodes 🎉
+
+
+[10/31/2023 19:11] saq_143
+https://tenor.com/view/super-sad-cat-sits-in-corner-gif-26527459
+
+{Embed}
+https://tenor.com/view/super-sad-cat-sits-in-corner-gif-26527459
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/super-sad-cat-sits-in-corner-3E5E1.png
+
+{Reactions}
+😅 
+
+[10/31/2023 19:17] xyzbtchunt
+@said gacor bang
+
+{Reactions}
+😄 
+
+[10/31/2023 19:18] udsen_
+@said Congrats !!!
+
+{Reactions}
+❤️ 
+
+[10/31/2023 19:20] saint6704
+congrats @juancito @catellatech @Tendency
+
+{Reactions}
+🫂 (3) 
+
+[10/31/2023 19:22] olanre_waju
+@Tendency I'm happy for you 😊 congratulations 🎉
+
+{Reactions}
+🫂 
+
+[10/31/2023 19:22] 0xtendency
+Thank you ser 🫡
+
+
+[10/31/2023 19:22] 0k_sec
+Congrats man ✨✨
+
+{Reactions}
+thankyou 
+
+[10/31/2023 19:24] 0xtendency
+You also did great ser.
+There were just too many submissions and duplicate, I am sure the next will be better 🙏
+
+{Reactions}
+🫡 
+
+[10/31/2023 19:25] 0k_sec
+Thanks for that man ✨
+
+{Reactions}
+🫂 
+
+[10/31/2023 19:25] 0xnevi
+Congrats to all watsons :10_10: . I reviewed alot of the backstage findings, and I can say c4 wardens are just impressive. Lots to learn!
+
+Also, thanks for the kind words @nirlin @0xrex , I am itching to go back to auditing, I haven't audited in 3 weeks 😢
+
+
+[10/31/2023 19:28] jvorex
+C4 wardens are elites fosho! @0xnev should balance it. Always a pleasure reading your findings. Killing at at judging killing it at auditing gg!
+
+
+[10/31/2023 19:28] terrancrypt_
+@said wow !!! Congrat 🍻
+
+{Reactions}
+🍻 
+
+[10/31/2023 19:29] jvorex
+we’ll get them next time :hi5:
+
+{Reactions}
+🔥 
+
+[10/31/2023 19:33] 0xhals
+Hi @PaperParachute | C4 ,,
+I have been tagged twice in the results,,
+https://discord.com/channels/810916927919620096/1141863563326128260/1168977183985893427
+
+
+[10/31/2023 19:34] aba1842
+congrats to all! @peakbolt you really doing numbers my man, gg!
+
+
+[10/31/2023 19:34] c145h
+Cool `said`, congrats from the very end!
+
+
+[10/31/2023 19:35] c145h
+@PaperParachute | C4 highly appreciate your support!
+
+
+[10/31/2023 19:52] m_rassska
+what is this?
+
+{Attachments}
+Code4rena - ARCHIVE-Q3-2023 - dopex-aug21 [1141863563326128260].txt_Files/Screenshot_2023-10-31_at_22.51.57-9B568.png
+
+{Reactions}
+🤔 (3) 
+
+[10/31/2023 19:57] 0x1118641
+0.04$, at least my name is there ahah
+
+{Reactions}
+😂 (3) ❤️ 
+
+[10/31/2023 20:12] _paperparachute
+Apologies, the second section is now fixed
+
+
+[10/31/2023 20:23] mike_bello90
+oo man! I cannot get bugs in any audit! have to retire for some months to study more and get back later to see if I can get a valid finding 🥲
+
+
+[10/31/2023 20:28] ayo#6131
+where can we find the audit report for this
+
+
+[10/31/2023 20:41] petrichor0961
+@said   the moor shidi:chefskiss:
+
+
+[10/31/2023 20:44] jvorex
+I wouldn’t say take a month off. Get hard at it and your eyes will be opened to spot the bugs fren
+
+{Reactions}
+👍 
+
+[10/31/2023 20:58] mike_bello90
+Thanks for the advice 🤝
+
+
+[10/31/2023 21:15] codecipher9
+Hi @PaperParachute | C4 
+My name is in results list but i wasn't tagged, is there a reason ?
+I got $208.46
+
+
+[10/31/2023 21:35] _paperparachute
+Our awards had you listed as the username displayed (Aymen0909)?
+
+
+[10/31/2023 21:37] codecipher9
+yeah I know but I mean why wasn't tagged with discord username  like other wardens, just asking?
+
+
+[10/31/2023 21:40] _paperparachute
+I'm no longer at my PC this evening but I'll look into it. When I tried to @ aymen0909 it didn't give me any options.
+
+
+[10/31/2023 23:44] lsaudit
+@Mike_Bello  have you participate in any contest which have the report already published? I'd like to take a look at what you've reported
+
+
+[11/01/2023 04:01] 0xnirlin
+Come back and have a competition in nextgen :chefskiss:
+
+{Reactions}
+chefskiss 
+
+[11/01/2023 04:18] mike_bello90
+yes I have participated like in 12 contests :D,  good entry  is one that has published the report
+
+
+[11/01/2023 04:25] mike_bello90
+I can see in my profile now, that here in dopex I get 1 high validate (1 out of 8), but only pays me 0.01 🥲
+
+
+[11/01/2023 05:26] yashar0x
+It was my first contest, I won $0.15 🤌
+1 valid high bug with more than 1e18 duplicates 😏
+
+{Reactions}
+🎉 
+
+[11/01/2023 05:28] 0xnevi
+Yes coming back soon!! :chefskiss:
+
+
+[11/01/2023 09:56] lourenslinde
+This was a tough one, there were so many duplicates of some high issues that rewards got duplicated away. 
+
+On the bright side, you can get backstage access with your confirmed high. That's going to be worth more than 1 cent!
+
+{Reactions}
+❤️ (4) 👆 (2) chefskiss code4rena 
+
+[11/02/2023 02:41] evokid
+You're there just keep pushing and always balance to improve your scope of auditing 👍
+
+
+[11/02/2023 04:01] 0xnevi
+Your findings and PoCs were amazing, congrats
+
+{Reactions}
+🙏🏽 🍻 
+
+==============================================================
+Exported 1,315 message(s)
+==============================================================
